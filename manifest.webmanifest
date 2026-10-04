@@ -1,33 +1,19 @@
 {
   "id": "/BurnICU/",
-  "name": "BurnICU — Verbrennungsstation",
+  "name": "BurnICU — V1 Schicht- und Übergabeliste",
   "short_name": "BurnICU",
-  "description": "Arbeitshilfe für die Verbrennungsintensivstation, 8 Betten.",
+  "description": "Schicht- und Übergabeliste der Verbrennungs-Intensivstation V1. Daten bleiben lokal auf dem Gerät.",
+  "lang": "de",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#EFF2EE",
-  "theme_color": "#EFF2EE",
-  "lang": "de",
+  "orientation": "any",
+  "background_color": "#f3f6f9",
+  "theme_color": "#f3f6f9",
+  "categories": ["medical", "productivity"],
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
