@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.6.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.7.2 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,30 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.7.2
+
+- Neue Druckvorlage **To-Do-Liste** (Drucken → „To-Do-Liste“): nur die To-Dos, nach Zimmer sortiert, je Patient ein Block mit Zimmer, Name, ITS-Tag, Burn-Tag und Diagnose.
+- Automatisch erzeugte To-Dos (Intervall, SOP, Regel) sind immer mit **AUTO** gekennzeichnet, Erinnerungen aus den Patientendaten mit **ERINN**; gekoppelte Bereiche in [ ], Fälligkeit dahinter. Legende oben auf dem Blatt.
+- Auswahl vor dem Druck: alle oder meine Patienten; Erinnerungen, Intervall-Termine der nächsten 12 h, in dieser Schicht erledigte (durchgestrichen) und zwei Leerzeilen pro Patient jeweils an/aus.
+
+## Neu in 3.7.1
+
+- Devices: nach 7 Tagen Liegedauer entsteht ein To-Do „Indikation und Wechsel evaluieren“ (nicht für PEG und Trachealkanüle). Beim Abhaken: belassen, Wechsel geplant (legt ein To-Do „wechseln“ an) oder entfernt (trägt das Ende ein). Nach „belassen“ folgt die nächste Evaluation 7 Tage später; die letzte Evaluation steht am Device.
+- McMahon-Score nach der Originalpublikation: Hypokalzämie < 1,88 mmol/l (Gesamt-Calcium; ein Wert < 1,4 wird als ionisiert erkannt und nicht gewertet), Phosphat 1,29/1,74 mmol/l. Punkte einzeln aufgeschlüsselt in der Crush-Box.
+- Natrium: Umstellgrenze auf Deltajonin überall einheitlich > 139 mmol/l.
+
+## Neu in 3.7.0
+
+- Infektionsteil auf dem Stand der Infektio-App v4.1: BG Klinik Ludwigshafen, Antibiotika-Leitlinie 10.1 (09/2026), Resistenzlage BG 2025. Die alte Hausleitlinie (Stand 2022) ist entfernt.
+- Fokuswahl wie in Infektio: Schnellwahl nach Region (Verbrennung zuerst) oder Suche; „BG“ markiert Foki mit Kapitel in der Hausleitlinie. VCH-, GCH-, Herzchirurgie- und Gyn/GBH-Foki sind jetzt wirklich ausgeblendet.
+- Fokuskarte: BG-Regime mit Entscheidungshilfe, Dauer, Penicillinallergie-Alternative und Hinweisen; Übernehmen mit einem Tipp (auch „oder …“ / „+ …“-Partner); geplante Dauer und Kapitel werden an der Therapie gespeichert. Leitlinienlage, Diagnostik, Fokussanierung und Fallstricke eingeklappt darunter; Dauer-Sonderregeln (z. B. SAB ab steriler Blutkultur) hervorgehoben.
+- Erreger: alle 78 Erreger aus Infektio in 11 Gruppen mit Suche; „gut wirksam“ aus dem Hausformular, lokale Resistenzrate gegen die laufende Therapie, BG-Erregerkapitel (z. B. MRSA Kap. 19.1). Material „Wundbiopsie“ (Gewebebiopsie statt Oberflächenabstrich), Screening-Nachweise gelten als Kolonisation.
+- Abdeckungsprüfung nach den Infektio-Wirksamkeiten, inkl. Phänotyp aus dem Resistenzfeld (z. B. E. coli + ESBL → Pip/Tazo klinisch untauglich), Antibiogramm-Einträgen und lokaler Resistenz > 20 %.
+- Freigabestatus des Hauses an jeder Substanz (OA, Reserve G-BA) mit Anforderungsweg in den ersten Therapietagen; Auswahl nach frei / Oberarzt / Reserve.
+- Vancomycin nach BG Kap. 22: Loading und Folgedosis nach Gewicht und Nierenfunktion, Zielspiegel, Bewertung des letzten Spiegels; Talspiegel als Intervall-To-Do (vor der 5. Gabe bzw. nach 48 h, danach wöchentlich, bei Instabilität 2–3 × pro Woche).
+- Neue To-Dos: „Antibiose reevaluieren (48 h)“ und „geplante Dauer erreicht — absetzen?“ mit Abfrage (fortführen, deeskalieren, oralisieren, absetzen); „absetzen“ beendet die Therapie. Arztbrief übernimmt das geplante Therapieende.
+- Behoben: altes automatisches Vancomycin-To-Do wurde nach kurzer Zeit wieder entfernt; Status-Vorschlag „keine Antiinfektiva“ trotz laufender Therapie.
 
 ## Neu in 3.6.0
 
