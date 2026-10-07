@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.5.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.6.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,14 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.6.0
+
+- To-Dos sind mit ihrem Bereich gekoppelt (IAP, Labor, PiCCO, Neuro-Scores, Diurese, Stuhlgang, Verbandswechsel, SBT, Befunde). Kopplung wird auch bei frei geschriebenen To-Dos aus dem Text erkannt und als kleines Etikett angezeigt; offene gekoppelte To-Dos stehen zusätzlich im jeweiligen Bereich.
+- Beim Abhaken eines gekoppelten To-Dos erscheint eine kurze, optionale Abfrage; der eingetragene Wert landet direkt im Bereich (z. B. IAP 12 → IAP-Messreihe). „nur abhaken“ und „doch nicht erledigt“ sind möglich.
+- Intervall-To-Dos statt Erinnerungstext: IAP alle 4 h, Retentionswerte täglich (Antikoagulation), Anti-Xa zum berechneten Zeitpunkt, RASS/BPS/CAM-ICU und PiCCO 1 × pro Schicht, Urin-pH alle 6 h unter Alkalisierung, Natrium alle 4 h bei schwerer Dysnatriämie, Diurese nach > 2,5 h ohne Wert, Abführen, Verbandswechsel, SBT. Ein fälliges To-Do verschwindet von selbst, sobald der Wert im Bereich eingetragen ist.
+- Ausdruck: Zeile „Intervalle“ mit den Terminen der nächsten 12 h zum Abhaken.
+- Wissen & SOPs in der Patientenansicht eingeklappt.
 
 ## Neu in 3.5.0
 
@@ -62,7 +70,7 @@ Auf dem iPhone hat die Home-Bildschirm-App einen eigenen Speicher, getrennt von 
 ## Updates
 
 1. Neue `index.html` hochladen.
-2. In `sw.js` `const VERSION = 'burnicu-v3.5.0';` hochzählen (z. B. `burnicu-v3.5.1`).
+2. In `sw.js` `const VERSION = 'burnicu-v3.6.0';` hochzählen (z. B. `burnicu-v3.6.1`).
 3. In `version.json` dieselbe Version eintragen.
 
 Geräte mit Internet melden „Neue Version geladen“; nach dem Neuladen läuft die neue Version.
