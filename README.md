@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.3.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.5.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,17 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.5.0
+
+- Haus-SOPs der V1 eingearbeitet (Volumentherapie, Transfusion, Tranexamsäure, Ernährung/Abführen, Natrium, TEN, Analgesie/Sedierung/Delir, Crush, Inhalationstrauma) und in abgespeckter Form mit Rechnern aufrufbar: Menü ⋯ → „SOPs der V1“ bzw. SOP-Zeile in der Patientenansicht.
+- Volumen: Ringer-Azetat, Rule of 10 aufgerundet + IHT 100 ml/h, Diurese-Ziel > 0,3 ml/kg/h, stündliche Reevaluation (−10 % / +20 %), Albumin/FFP ab h 6, Na > 139 → Deltajonin, IAP alle 4 h, ZVK/PiCCO-Indikation.
+- OP-Vorbereitung bei Nekrektomie: Blutverlust, EK-Bereitstellung, Tranexamsäure (inkl. Niereninsuffizienz), Gerinnungsvoraussetzungen.
+- Ernährung nach Idealgewicht mit Tagesrate, Stuhlgang-Erinnerung; Crush-Box mit McMahon-Score; TEN-Workflow; Analgosedierungs-Hinweise (Propofol > 5 Tage, Schicht-Monitoring).
+
+## Neu in 3.4.0
+
+- Arztbrief für die V1: Vorlagen V-Station (Plastische Chirurgie), extern, Reha, Innere, UCH/NeuroCH. Verbrennungsdiagnose mit Mechanismus, VKOF, Tiefe, Inhalationstrauma (AIS, Ruß), ABSI und rBaux; Operationen aus „Geplante Eingriffe“; Aufnahme aus dem Schockraum; neue Bausteine (Schockphase, Inhalationstrauma, CO/Cyanid, Strom, Escharotomie/IAP, Wundversorgung/Verbandswechsel, metabolisches Bündel, Thromboseprophylaxe) werden aus den App-Daten befüllt; Devices mit Liegetag; verbrennungsspezifische Empfehlungen.
 
 ## Neu in 3.3.0
 
@@ -51,7 +62,7 @@ Auf dem iPhone hat die Home-Bildschirm-App einen eigenen Speicher, getrennt von 
 ## Updates
 
 1. Neue `index.html` hochladen.
-2. In `sw.js` `const VERSION = 'burnicu-v3.3.0';` hochzählen (z. B. `burnicu-v3.3.1`).
+2. In `sw.js` `const VERSION = 'burnicu-v3.5.0';` hochzählen (z. B. `burnicu-v3.5.1`).
 3. In `version.json` dieselbe Version eintragen.
 
 Geräte mit Internet melden „Neue Version geladen“; nach dem Neuladen läuft die neue Version.
@@ -68,4 +79,4 @@ Beide Apps teilen sich den Cache-Speicher der Domain. Der Service Worker der Bes
 
 ## Abkürzungen
 
-ABSI Abbreviated Burn Severity Index · AIS Abbreviated Injury Score · BGA Blutgasanalyse · BMI Body-Mass-Index · CO Kohlenmonoxid · COHb Carboxyhämoglobin · KOF Körperoberfläche · SR Schockraum · ZVK zentraler Venenkatheter · iOS Betriebssystem von iPhone/iPad · ITS Intensivstation · JSON JavaScript Object Notation (Sicherungsdatei) · PWA Progressive Web App · V1 Verbrennungs-Intensivstation · VKOF verbrannte Körperoberfläche
+ABSI Abbreviated Burn Severity Index · AIS Abbreviated Injury Score · BGA Blutgasanalyse · BMI Body-Mass-Index · CO Kohlenmonoxid · COHb Carboxyhämoglobin · KOF Körperoberfläche · SR Schockraum · ZVK zentraler Venenkatheter · iOS Betriebssystem von iPhone/iPad · ITS Intensivstation · JSON JavaScript Object Notation (Sicherungsdatei) · PWA Progressive Web App · V1 Verbrennungs-Intensivstation · VKOF verbrannte Körperoberfläche · IHT Inhalationstrauma · HI Herzindex · EK Erythrozytenkonzentrat · FFP Fresh Frozen Plasma · TXA Tranexamsäure · TEN toxische epidermale Nekrolyse · SJS Stevens-Johnson-Syndrom
