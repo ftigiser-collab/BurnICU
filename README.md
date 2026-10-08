@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.8.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.9.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -15,16 +15,28 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
 
+## Neu in 3.9.0
+
+- **Klinikname**: überall „Rotationsklinik“ statt des Klinik-Namens; Kapitelangaben der Antibiotika-Leitlinie als „LL Kap.“. Bereits gespeicherte Angaben werden beim Öffnen umgestellt.
+- **Raumtemperatur** und **Oxandrolon** entfernt (Metabolisches Bündel, Checkliste 48 h, Wissen).
+- **Ernährung nach SOP der Rotationsklinik**: Produktwahl automatisch — Fresubin HPenergy 1,5 kcal/ml (Verbrennung, Trauma, Dialyse), Fresubin Renal 2 kcal/ml (Niereninsuffizienz ohne Dialyse, Hypernatriämie), sonst Fresubin Original 1 kcal/ml; Rate des Tages danach berechnet. Chips mit den Hausprodukten (inkl. HPfibre, Energy Drink, Pudding, Olimel 5,7 %, SmofKabiven).
+- **Perfusoren gewichtsadaptiert**: Propofol, Midazolam, Esketamin, Lidocain in mg/kg/h; Sufentanil, Clonidin, Dexmedetomidin in µg/kg/h; Noradrenalin, Adrenalin, Dobutamin, Remifentanil in µg/kg/min — ml/h steht automatisch in Klammern. Eingaben in ml/h werden umgerechnet. Konzentrationen unter „Laufende Medikation → Perfusor-Standards“ einstellbar (gilt für das Gerät).
+- **Eingriffe**: Nekrektomie mit OP-Vorbereitung wird nicht mehr zusammengequetscht.
+- **Vertretung**: Ehegatte gewählt → Betreuer ausgeblendet und umgekehrt; der Ausdruck zeigt nur die gewählte Vertretung.
+- **Verlauf** zeigt den Erkrankungsweg: Unfall/Aufnahme, Eingriffe, Schlüsselereignisse (Intubation, Extubation, Tracheotomie, CiCa, Sepsis …) und die Infektion als Diagnose — keine Perfusor- oder Medikamentenstarts mehr.
+- **Übergabedruck**: Verlauf direkt unter der Kopfzeile, Vertretung ganz unten, kein Hinweis „… unter Hämodynamik/Infekt“ mehr bei den Medis. Erinnerungen stehen nur noch drauf, wenn sie im Fokus-Bereich mit ⚑ markiert sind (Schichtliste unverändert).
+- **Intervalle**: kein To-Do mehr für Retentionswerte (gehört zum täglichen Labor). Anti-Xa im Intervall (täglich bis im Ziel, dann alle 3 Tage — oder fest wählbar im Bereich Antikoagulation, Abnahme 4 h nach Gabe). Nach einer Lappen-OP Lappenkontrolle alle 2 h für 5 Tage mit Schnellabfrage (auffälliger Befund → Organsystem „Baustelle“ und To-Do „Plastische Chirurgie informieren“).
+
 ## Neu in 3.8.0
 
 - **Pflichtwerte pro Schicht** oben in der Patientenansicht: P/F, Katecholamine, Diurese, Laktat, Ernährung, AB. Grün = in dieser Schicht eingetragen, gelb = offen; antippen öffnet die Schnelleingabe (inkl. „unverändert“ bzw. „keine“). Offene Pflichtwerte werden nur in der Eingabe markiert (Leiste, Laborchips Laktat/P/F/pO2/FiO2, Ernährung) — es entsteht kein zusätzliches To-Do.
 - **P/F automatisch**, sobald in der Schicht pO2 (BGA) und FiO2 (neu in der BGA-Gruppe oder aus der Beatmung) vorliegen.
-- **Noradrenalin in µg/kg/min** (BG-Standard): Schnelleingabe und Chip „NA“ in µg/kg/min, ml/h wird nach Gewicht und Perfusor (Standard 5 mg/50 ml) dazugerechnet. Werte > 2 werden als ml/h erkannt und umgerechnet.
+- **Noradrenalin in µg/kg/min** (Standard der Rotationsklinik): Schnelleingabe und Chip „NA“ in µg/kg/min, ml/h wird nach Gewicht und Perfusor (Standard 5 mg/50 ml) dazugerechnet. Werte > 2 werden als ml/h erkannt und umgerechnet.
 - **Organsysteme** werden nur noch von Hand abgehakt. Ein einzelner Eintrag (z. B. RASS aus einem To-Do) hakt nicht mehr das ganze System ab.
 - **Succinylcholin** überall entfernt (Hinweise, Checkliste 48 h, Wissen, Schockraum-Übergabe).
 - **Ernährung als eigener Bereich**: aktueller Stand, Hausstandard nach Katecholaminbedarf, SOP-Rate des Tages und „wie bisher“ jeweils mit einem Tipp übernehmen, eigene Chips. Die Einträge stehen weiter beim Abdomen im Ausdruck.
 - **CiCa-Kästchen** (wie PiCCO), sobald „CiCA gestartet“ eingetragen ist: Einstellungen (Blut, Dialysat, Citrat, Calcium, Entzug) mit Startwerten nach Herstellerstandard, Dosis in ml/kg/h, iCa postfilter/systemisch mit Anpassungsvorschlag zum Übernehmen, Ca-Ratio, Säure-Basen-Hinweis, Filterlaufzeit. Kontrollen und Filterwechsel kommen als To-Do.
-- **Infektion**: Empfehlungen je Erreger sind antippbar (übernimmt die Substanz), bei MRE-Kapiteln zusätzlich „Standard BG Kap.“. Bei zwei oder mehr Erregern erscheint „Gemeinsam wirksam“ mit den Substanzen, die alle abdecken (★), und ob die laufende Therapie schon alle abdeckt.
+- **Infektion**: Empfehlungen je Erreger sind antippbar (übernimmt die Substanz), bei MRE-Kapiteln zusätzlich „Standard LL Kap.“ (LL = Antibiotika-Leitlinie der Rotationsklinik). Bei zwei oder mehr Erregern erscheint „Gemeinsam wirksam“ mit den Substanzen, die alle abdecken (★), und ob die laufende Therapie schon alle abdeckt.
 - **Verlauf nach Kontext**: Aufnahme-Optionen verschwinden nach der Aufnahme, Intubation/Extubation/Re-Intubation passend zum Zustand, Tracheotomie nur einmal, Escharotomie nur bei Verbrennung. CiCA-Chips unter Niere ebenso.
 - **Labor**: Favoriten erscheinen zusätzlich in ihrer eigentlichen Gruppe. Neu: FiO2 (BGA), iCa postfilter (Niere, für CiCa).
 - **Basislaufrate**: beim frischen Verbrennungspatienten ohne Rate Vorschlag nach SOP (Rule of 10) zum Übernehmen.
@@ -45,13 +57,13 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
 
 ## Neu in 3.7.0
 
-- Infektionsteil auf dem Stand der Infektio-App v4.1: BG Klinik Ludwigshafen, Antibiotika-Leitlinie 10.1 (09/2026), Resistenzlage BG 2025. Die alte Hausleitlinie (Stand 2022) ist entfernt.
-- Fokuswahl wie in Infektio: Schnellwahl nach Region (Verbrennung zuerst) oder Suche; „BG“ markiert Foki mit Kapitel in der Hausleitlinie. VCH-, GCH-, Herzchirurgie- und Gyn/GBH-Foki sind jetzt wirklich ausgeblendet.
-- Fokuskarte: BG-Regime mit Entscheidungshilfe, Dauer, Penicillinallergie-Alternative und Hinweisen; Übernehmen mit einem Tipp (auch „oder …“ / „+ …“-Partner); geplante Dauer und Kapitel werden an der Therapie gespeichert. Leitlinienlage, Diagnostik, Fokussanierung und Fallstricke eingeklappt darunter; Dauer-Sonderregeln (z. B. SAB ab steriler Blutkultur) hervorgehoben.
-- Erreger: alle 78 Erreger aus Infektio in 11 Gruppen mit Suche; „gut wirksam“ aus dem Hausformular, lokale Resistenzrate gegen die laufende Therapie, BG-Erregerkapitel (z. B. MRSA Kap. 19.1). Material „Wundbiopsie“ (Gewebebiopsie statt Oberflächenabstrich), Screening-Nachweise gelten als Kolonisation.
+- Infektionsteil auf dem Stand der Infektio-App v4.1: Antibiotika-Leitlinie 10.1 der Rotationsklinik (09/2026), Resistenzlage 2025. Die alte Hausleitlinie (Stand 2022) ist entfernt.
+- Fokuswahl wie in Infektio: Schnellwahl nach Region (Verbrennung zuerst) oder Suche; „LL“ markiert Foki mit Kapitel in der Hausleitlinie. VCH-, GCH-, Herzchirurgie- und Gyn/GBH-Foki sind jetzt wirklich ausgeblendet.
+- Fokuskarte: Regime der Leitlinie mit Entscheidungshilfe, Dauer, Penicillinallergie-Alternative und Hinweisen; Übernehmen mit einem Tipp (auch „oder …“ / „+ …“-Partner); geplante Dauer und Kapitel werden an der Therapie gespeichert. Leitlinienlage, Diagnostik, Fokussanierung und Fallstricke eingeklappt darunter; Dauer-Sonderregeln (z. B. SAB ab steriler Blutkultur) hervorgehoben.
+- Erreger: alle 78 Erreger aus Infektio in 11 Gruppen mit Suche; „gut wirksam“ aus dem Hausformular, lokale Resistenzrate gegen die laufende Therapie, Erregerkapitel der Leitlinie (z. B. MRSA Kap. 19.1). Material „Wundbiopsie“ (Gewebebiopsie statt Oberflächenabstrich), Screening-Nachweise gelten als Kolonisation.
 - Abdeckungsprüfung nach den Infektio-Wirksamkeiten, inkl. Phänotyp aus dem Resistenzfeld (z. B. E. coli + ESBL → Pip/Tazo klinisch untauglich), Antibiogramm-Einträgen und lokaler Resistenz > 20 %.
 - Freigabestatus des Hauses an jeder Substanz (OA, Reserve G-BA) mit Anforderungsweg in den ersten Therapietagen; Auswahl nach frei / Oberarzt / Reserve.
-- Vancomycin nach BG Kap. 22: Loading und Folgedosis nach Gewicht und Nierenfunktion, Zielspiegel, Bewertung des letzten Spiegels; Talspiegel als Intervall-To-Do (vor der 5. Gabe bzw. nach 48 h, danach wöchentlich, bei Instabilität 2–3 × pro Woche).
+- Vancomycin nach LL Kap. 22: Loading und Folgedosis nach Gewicht und Nierenfunktion, Zielspiegel, Bewertung des letzten Spiegels; Talspiegel als Intervall-To-Do (vor der 5. Gabe bzw. nach 48 h, danach wöchentlich, bei Instabilität 2–3 × pro Woche).
 - Neue To-Dos: „Antibiose reevaluieren (48 h)“ und „geplante Dauer erreicht — absetzen?“ mit Abfrage (fortführen, deeskalieren, oralisieren, absetzen); „absetzen“ beendet die Therapie. Arztbrief übernimmt das geplante Therapieende.
 - Behoben: altes automatisches Vancomycin-To-Do wurde nach kurzer Zeit wieder entfernt; Status-Vorschlag „keine Antiinfektiva“ trotz laufender Therapie.
 

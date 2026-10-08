@@ -1,6 +1,6 @@
 /* BurnICU Tablet-Test — eigener Service Worker für den Unterordner /tablet/.
    Eigener Cache-Präfix, damit sich Original und Spin-off nicht gegenseitig aufräumen. */
-const VERSION = 'bicu-tablet-v3.8.0-t1';
+const VERSION = 'bicu-tablet-v3.9.0-t1';
 const PREFIX = 'bicu-tablet-';
 const CORE = [
   './',
