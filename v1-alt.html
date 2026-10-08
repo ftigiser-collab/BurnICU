@@ -1,0 +1,2623 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EFF2EE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Verbrennungs-Station · 8 Betten</title>
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/favicon-32.png">
+
+
+<style>
+:root{
+  /* Papier und Tinte */
+  --bg:#EFF2EE; --panel:#FFFFFF; --panel2:#F5F8F3; --line:#D5DCD4; --line2:#E7ECE6;
+  --tx:#16202A; --mut:#5C6A74; --dim:#8B97A0;
+  /* Zwei Akzente aus dem Verbrennungs-OP */
+  --acc:#0E6B63;      /* OP-Abdeckung türkis — alles, was die App berechnet */
+  --steel:#22608F;    /* Kurvenblau — alles, was du einträgst */
+  --ember:#A85B1B;    /* Jod-Amber — verbrennungsspezifisch */
+  --warn:#8A5A00; --dang:#A82219; --ok:#1D7A54;
+  --tint-acc:#E8F2F0; --tint-steel:#E9F0F7; --tint-ember:#F7EEE4;
+  --tint-warn:#FBF3E2; --tint-dang:#FAEBEA;
+  --r:6px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Roboto Mono",monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--tx);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;line-height:1.45;-webkit-text-size-adjust:100%}
+body{padding-bottom:80px}
+/* Messwerte immer in Ziffern gleicher Breite — Kurvenoptik */
+.num,input,.val,.chip b,td.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ---------- Kopf ---------- */
+header{position:sticky;top:0;z-index:40;background:var(--panel);border-bottom:1px solid var(--line);
+  padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0))}
+.hrow{display:flex;align-items:center;gap:10px}
+.mark{border-radius:7px;flex:0 0 30px;display:block}
+@media print{.mark{display:none}}
+.brand{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.brand em{font-style:normal;color:var(--ember)}
+.hsub{font-size:10px;color:var(--dim);margin-top:2px;text-transform:uppercase;letter-spacing:.13em}
+.hbtn{margin-left:auto;display:flex;gap:6px}
+button,select,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.btn{background:var(--panel);border:1px solid var(--line);color:var(--tx);border-radius:var(--r);
+  padding:7px 11px;font-size:13px;cursor:pointer;white-space:nowrap}
+.btn:active{background:var(--panel2)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.btn.d{border-color:#E2C4C1;color:var(--dang)}
+.btn.sm{padding:5px 9px;font-size:12px}
+
+/* ---------- Tabs ---------- */
+nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0)}
+nav button{background:none;border:0;border-top:2px solid transparent;padding:9px 2px 10px;color:var(--dim);
+  font-size:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;
+  text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+nav button .ic{font-size:16px;line-height:1}
+nav button.on{color:var(--acc);border-top-color:var(--acc);background:var(--tint-acc)}
+
+main{padding:12px 12px 20px;max-width:820px;margin:0 auto}
+.view{display:none}.view.on{display:block}
+
+/* ---------- Karten ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:10px}
+.card h3{margin:0 0 8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700}
+details.acc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+details.acc>summary{list-style:none;cursor:pointer;padding:12px;font-size:10.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:9px}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary::after{content:"▾";margin-left:auto;color:var(--dim);font-size:13px;letter-spacing:0}
+details.acc[open]>summary{border-bottom:1px solid var(--line2)}
+details.acc[open]>summary::after{content:"▴"}
+details.acc>summary::before{content:"";width:3px;height:13px;background:var(--acc);border-radius:1px}
+details.acc .body{padding:12px}
+.grid{display:grid;gap:8px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:420px){.g3{grid-template-columns:1fr 1fr}}
+
+/* ---------- Eingaben: alles Blaue ist von dir ---------- */
+label.f{display:block;font-size:10px;color:var(--mut);margin-bottom:4px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+input[type=text],input[type=number],input[type=datetime-local],input[type=date],select,textarea{
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:9px 10px;
+  color:var(--steel);font-weight:700;font-family:var(--mono);font-size:14px}
+input[type=text]{font-family:inherit}
+textarea{color:var(--tx);font-weight:400;font-family:inherit;font-size:14px;min-height:56px;resize:vertical;line-height:1.45}
+input::placeholder,textarea::placeholder{color:#A9B3B9;font-weight:400;font-family:inherit}
+select{-webkit-appearance:none;appearance:none;font-family:inherit;font-weight:600;
+  background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 18px,calc(100% - 10px) 18px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1 1 92px;min-width:92px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:8px 7px;font-size:12.5px;line-height:1.25;color:var(--mut);cursor:pointer;white-space:normal;overflow-wrap:anywhere}
+.seg button.on{background:var(--tint-steel);border-color:var(--steel);color:var(--steel);font-weight:700}
+.seg.em button.on{background:var(--tint-ember);border-color:var(--ember);color:var(--ember)}
+.seg.tight button{flex:1 1 54px;min-width:54px;font-size:13px}
+input.badin{border-color:var(--dang);background:var(--tint-dang)}
+
+/* ---------- Ergebnisse: alles Türkise rechnet die App ---------- */
+.res{background:var(--panel2);border:1px solid var(--line2);border-left:3px solid var(--acc);
+  border-radius:0 var(--r) var(--r) 0;padding:9px 11px}
+.res .lab{font-size:9.5px;color:var(--mut);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.res .val{font-size:22px;font-weight:700;color:var(--acc);line-height:1.1;margin-top:3px;font-family:var(--mono);letter-spacing:-.02em}
+.res .val.sm{font-size:17px}
+.res .sub{font-size:10.5px;color:var(--mut);margin-top:3px;line-height:1.35}
+.res.em{border-left-color:var(--ember)}.res.em .val{color:var(--ember)}
+.res.warn{border-left-color:var(--warn);background:var(--tint-warn)}.res.warn .val{color:var(--warn)}
+.res.dang{border-left-color:var(--dang);background:var(--tint-dang)}.res.dang .val{color:var(--dang)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:11.5px;color:var(--mut)}
+.chip b{color:var(--tx);font-family:var(--mono);font-weight:700}
+.formula{background:var(--panel2);border-top:1px solid var(--line2);border-radius:0;padding:8px 0 0;
+  font-size:10.5px;color:var(--mut);margin-top:10px;font-family:var(--mono);line-height:1.5;background:none}
+
+/* ---------- Hinweise ---------- */
+.note{border-radius:0 var(--r) var(--r) 0;padding:9px 11px;font-size:12.5px;margin-top:8px;border-left:3px solid;line-height:1.42}
+.note.i{background:var(--tint-steel);border-color:var(--steel);color:#1A3A55}
+.note.w{background:var(--tint-warn);border-color:var(--warn);color:#5C3D00}
+.note.e{background:var(--tint-dang);border-color:var(--dang);color:#7A1912}
+.note.o{background:var(--tint-ember);border-color:var(--ember);color:#6E3A0F}
+.note b{font-weight:700}
+
+/* ---------- Bettenraster ---------- */
+.beds{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(min-width:620px){.beds{grid-template-columns:repeat(3,1fr)}}
+.bed{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--line);
+  border-radius:0 0 var(--r) var(--r);padding:11px;cursor:pointer;text-align:left;width:100%;display:block;position:relative}
+.bed.occ{border-top-color:var(--acc)}
+.bed:active{background:var(--panel2)}
+.bed .no{font-size:9.5px;color:var(--dim);letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.bed .lb{font-size:15px;font-weight:700;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bed .lb.free{color:var(--dim);font-weight:400}
+.bed .meta{font-size:11.5px;color:var(--mut);margin-top:6px;font-family:var(--mono)}
+.bed .day{position:absolute;top:10px;right:9px;font-size:10.5px;font-weight:700;color:var(--ember);
+  background:var(--tint-ember);border:1px solid #E3C9AC;border-radius:3px;padding:1px 6px;font-family:var(--mono)}
+.bed .flags{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.fl{font-size:10px;border-radius:3px;padding:2px 6px;border:1px solid;font-weight:600}
+.fl.w{color:var(--warn);border-color:#E0CDA0;background:var(--tint-warn)}
+.fl.e{color:var(--dang);border-color:#E3BDB9;background:var(--tint-dang)}
+.fl.i{color:var(--steel);border-color:#C3D5E5;background:var(--tint-steel)}
+
+/* ---------- Zeitachse als Kurvenlineal ---------- */
+.tl{margin-top:11px}
+.tl .bar{position:relative;height:22px;border:1px solid var(--line);border-radius:3px;overflow:hidden;
+  background:linear-gradient(90deg,var(--tint-ember) 0%,var(--tint-ember) 26%,var(--tint-acc) 40%,var(--tint-acc) 100%)}
+.tl .mk{position:absolute;top:0;bottom:0;width:2px;background:var(--tx)}
+.tl .mk::after{content:"";position:absolute;top:-1px;left:-3px;width:8px;height:8px;background:var(--tx);
+  border-radius:50%;border:2px solid var(--panel)}
+.tl .zl{position:absolute;top:4px;font-size:9px;letter-spacing:.14em;font-weight:700;color:var(--mut)}
+.tl .ax{display:flex;justify-content:space-between;font-size:9px;color:var(--dim);margin-top:4px;
+  letter-spacing:.06em;text-transform:uppercase}
+
+/* ---------- Referenz ---------- */
+.ref{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin-bottom:9px;overflow:hidden}
+.ref>summary{list-style:none;cursor:pointer;padding:11px 12px;font-size:14px;font-weight:600;display:flex;gap:8px;align-items:center}
+.ref>summary::-webkit-details-marker{display:none}
+.ref>summary::after{content:"+";margin-left:auto;color:var(--acc);font-size:17px;font-weight:400}
+.ref[open]>summary{border-bottom:1px solid var(--line2);color:var(--acc)}
+.ref[open]>summary::after{content:"–"}
+.ref .body{padding:11px 12px 13px;font-size:13px}
+.ref .body table{width:100%;border-collapse:collapse;font-size:11.5px;margin:7px 0}
+.ref .body th{text-align:left;background:var(--panel2);color:var(--mut);padding:5px 6px;border:1px solid var(--line);
+  font-weight:700;font-size:10px;letter-spacing:.07em;text-transform:uppercase}
+.ref .body td{padding:5px 6px;border:1px solid var(--line);vertical-align:top}
+.ref .body ul{margin:5px 0;padding-left:17px}
+.ref .body li{margin-bottom:4px}
+.ref .body b{color:var(--tx);font-weight:700}
+.tag{font-size:9px;color:var(--ember);background:var(--tint-ember);border:1px solid #E3C9AC;border-radius:3px;
+  padding:1px 5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.search{position:sticky;top:0;z-index:10;padding:2px 0 9px;background:var(--bg)}
+
+.hr{height:1px;background:var(--line2);margin:12px 0}
+.tiny{font-size:11.5px;color:var(--mut);line-height:1.45}
+.disc{font-size:10.5px;color:var(--dim);text-align:center;padding:16px 6px 4px;line-height:1.6}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--tx);color:#fff;
+  font-weight:600;font-size:13px;padding:9px 16px;border-radius:999px;z-index:99;opacity:0;pointer-events:none;transition:opacity .18s}
+.toast.on{opacity:1}
+
+
+/* ---------- Schnittbilder Verbrennungstiefe ---------- */
+.deplg{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:8px 0 4px}
+.depthgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0 8px}
+.dep{margin:0;border:1px solid var(--line);border-radius:var(--r);padding:7px;background:var(--panel2)}
+.dep svg{width:100%;height:auto;display:block;border-radius:3px}
+.dep figcaption{font-size:10.5px;line-height:1.35;color:var(--mut);margin-top:5px}
+.dep figcaption b{display:block;color:var(--tx);font-size:12px;margin-bottom:1px}
+.photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.photo{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel2)}
+.photo img{width:100%;height:110px;object-fit:cover;display:block}
+.photo span{display:block;font-size:10.5px;padding:4px 7px;color:var(--mut)}
+
+
+
+/* ---------- Übergabefelder mit Vorschlag und Bausteinen ---------- */
+.nf{margin-bottom:11px}
+.nfh{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.autotag{font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--acc);
+  background:var(--tint-acc);border:1px solid #BEDBD6;border-radius:3px;padding:1px 5px}
+.nfr{background:var(--panel);border:1px solid var(--line);border-radius:4px;color:var(--acc);
+  font-size:12px;line-height:1;padding:2px 6px;cursor:pointer;margin-left:auto}
+.nfc{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.nfc button{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 9px;
+  font-size:11px;color:var(--mut);cursor:pointer;line-height:1.3}
+.nfc button:active{background:var(--tint-steel);border-color:var(--steel);color:var(--steel)}
+
+
+/* ---------- Visitenliste (nur im Druck sichtbar) ---------- */
+#visit{display:none}
+.vtab{width:100%;border-collapse:collapse;font-size:8pt}
+.vtab th{background:#eee;color:#000;text-align:left;padding:2pt 3pt;border:.4pt solid #999;font-size:6.5pt;
+  letter-spacing:.05em;text-transform:uppercase}
+.vtab td{padding:2pt 3pt;border:.4pt solid #999;vertical-align:top}
+.vtab tr.vfree td{color:#888;font-style:italic}
+.vtab .vw{font-size:6.5pt;line-height:1.2}
+.vleg{font-size:6.5pt;color:#555;margin-top:3pt}
+@media print{
+  body.printvisit #visit{display:block}
+  body.printvisit main,body.printvisit header,body.printvisit nav{display:none!important}
+}
+
+/* ---------- Dienstcheck ---------- */
+.sgrp{margin-top:10px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.sgt{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--mut);
+  padding:7px 10px;background:var(--panel2);border-bottom:1px solid var(--line2)}
+.sgrp .prow{padding:7px 10px}
+.sgrp .prow:last-child{border-bottom:0}
+.sgrp .prow.over{background:var(--tint-warn)}
+.sgrp .prow.over .txt{font-weight:600}
+.shist{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.sh{font-family:var(--mono);font-size:9.5px;border:1px solid var(--line);border-radius:3px;padding:2px 6px;color:var(--mut)}
+.sh b{margin-left:4px;color:var(--tx)}
+.sh.ok{background:var(--tint-acc);border-color:#BEDBD6}
+.sh.w{background:var(--tint-warn);border-color:#E0CDA0;color:var(--warn)}
+.sh.e{background:var(--tint-dang);border-color:#E3BDB9;color:var(--dang)}
+.res .val small{font-size:11px;font-weight:400;color:var(--mut)}
+
+/* ---------- Griff für die 24-Stunden-Achse ---------- */
+.axh{display:flex;align-items:center;gap:8px;width:100%;margin-top:9px;padding:9px 11px;
+  background:var(--tint-acc);border:1px solid #BEDBD6;border-radius:var(--r);color:var(--acc);
+  font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;cursor:pointer}
+.axh .g{width:26px;height:3px;border-radius:2px;background:var(--acc);opacity:.45;flex:0 0 26px}
+.axh .c{margin-left:auto;font-size:14px;letter-spacing:0}
+.axh:active{background:#DCECE9}
+
+/* ---------- Vollbild 24-Stunden-Achse ---------- */
+.sheet{position:fixed;inset:0;z-index:70;background:var(--bg);overflow-y:auto;
+  transform:translateY(100%);transition:transform .22s ease;visibility:hidden;
+  padding:calc(8px + env(safe-area-inset-top,0)) 12px calc(16px + env(safe-area-inset-bottom,0))}
+.sheet.on{transform:translateY(0);visibility:visible}
+.sh-top{display:flex;align-items:center;gap:8px;padding:4px 0 8px;border-bottom:1px solid var(--line)}
+.sh-ttl{flex:1;min-width:0;text-align:center;font-size:15px;line-height:1.2}
+.sh-ttl b{font-weight:800}
+.sh-ttl span{display:block;font-size:10px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.sh-nav{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);width:34px;height:34px;
+  font-size:20px;line-height:1;color:var(--acc);cursor:pointer;flex:0 0 34px}
+.sh-x{background:none;border:0;font-size:17px;color:var(--mut);cursor:pointer;padding:4px 2px 4px 6px}
+.sh-dots{display:flex;gap:5px;justify-content:center;padding:9px 0 4px}
+.sh-dots span{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.sh-dots span.on{background:var(--acc);width:18px;border-radius:3px}
+.sh-body{padding-top:6px}
+.sh-key{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sh-key .val small{font-size:11px;font-weight:400;color:var(--mut);letter-spacing:0}
+.sh-grp{margin-top:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
+.sh-gt{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;padding:8px 11px;
+  border-bottom:1px solid var(--line2);color:var(--mut)}
+.sh-gt b{font-family:var(--mono);color:var(--tx)}
+.sh-grp.over .sh-gt{background:var(--tint-warn);color:var(--warn)}
+.sh-grp.now .sh-gt{background:var(--tint-steel);color:var(--steel)}
+.sh-grp .prow{padding:8px 11px}
+.sh-grp .prow:last-child{border-bottom:0}
+.sh-hint{text-align:center;font-size:10px;color:var(--dim);letter-spacing:.06em;padding:14px 0 4px}
+.plan.big .lane{height:52px}
+.plan.big .lane.m{height:26px}
+.plan.big .blk b{font-size:19px}
+.plan.big .blk span{font-size:9.5px}
+.plan.big .tick{width:20px;margin-left:-10px}
+.plan.big .tick span{font-size:11px}
+.plan.big .ax{font-size:10px}
+.sheet.sl .sh-body{animation:inl .18s ease}
+.sheet.sr .sh-body{animation:inr .18s ease}
+@keyframes inl{from{opacity:.3;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes inr{from{opacity:.3;transform:translateX(-14px)}to{opacity:1;transform:none}}
+@media print{.sheet,.axh{display:none!important}}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- 24-Stunden-Plan ---------- */
+.plan{margin:2px 0 10px}
+.plan .lane-lab{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700;margin:7px 0 3px}
+.plan .lane{position:relative;height:42px;border:1px solid var(--line);border-radius:3px;background:var(--panel2);overflow:hidden}
+.plan .lane.m{height:22px;overflow:visible}
+.plan .blk{position:absolute;top:0;bottom:0;padding:7px 7px 0;border-right:1px solid var(--panel);overflow:hidden}
+.plan .blk.a{background:var(--tint-ember)}
+.plan .blk.b{background:var(--tint-acc)}
+.plan .blk b{font-family:var(--mono);font-size:14px;line-height:1.1;color:var(--tx)}
+.plan .blk b{display:inline}
+.plan .blk span{display:block;font-size:8.5px;color:var(--mut);letter-spacing:.04em;white-space:nowrap;margin-top:1px}
+.plan .tick{position:absolute;top:2px;bottom:2px;width:16px;margin-left:-8px;display:flex;align-items:center;
+  justify-content:center;background:#DCE4DD;border-radius:3px;z-index:2}
+.plan .tick span{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--tx)}
+.plan .tick.n{background:var(--steel)}.plan .tick.n span{color:#fff}
+.plan .tick.o{background:var(--warn)}.plan .tick.o span{color:#fff}
+.plan .tick.d{background:#BFD6C9}
+.plan .now{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--tx);z-index:3}
+.plan .now::after{content:"";position:absolute;top:-3px;left:-3px;width:8px;height:8px;border-radius:50%;
+  background:var(--tx);border:2px solid var(--panel)}
+.plan .ax{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:3px}
+.plan .axlab{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-align:center;margin-top:1px}
+.plist{margin-top:4px}
+.prow{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line2);cursor:pointer}
+.prow input[type=checkbox]{width:17px;height:17px;flex:0 0 17px;margin:1px 0 0;accent-color:var(--ok)}
+.prow .win{flex:0 0 56px;font-family:var(--mono);font-size:10.5px;color:var(--mut);padding-top:2px;
+  text-transform:none;letter-spacing:0;font-weight:400}
+.prow .txt{font-size:12.5px;line-height:1.35;text-transform:none;letter-spacing:0;font-weight:400}
+.prow.over .win{color:var(--warn);font-weight:700}
+.prow.now .win{color:var(--steel);font-weight:700}
+.prow.done{opacity:.5}
+.prow.done .txt{text-decoration:line-through}
+.prow.fut{opacity:.72}
+
+/* ---------- Druck ---------- */
+.printhdr{display:none}
+@media print{
+  @page{size:A4;margin:10mm}
+  html,body{background:#fff!important;color:#000;font-size:8pt;line-height:1.25;padding:0}
+  header,nav,.disc,.toast,.hbtn,.search,.sheet,.axh{display:none!important}
+  main{max-width:none;padding:0;margin:0}
+  .view{display:none!important}.view.on{display:block!important}
+  .printhdr{display:block;border-bottom:1pt solid #000;padding-bottom:3pt;margin-bottom:5pt}
+  .printhdr .t{font-size:12pt;font-weight:800;line-height:1.1}
+  .printhdr .s{font-size:7pt;color:#333;margin-top:1pt}
+  .btn,.seg,.nfc,.nfr,.autotag,.chips,.formula,.tiny,#bedSel,
+  button[data-lbtoggle],button[data-wtoggle],.sh-nav,.sh-x,.deplg{display:none!important}
+  .card,details.acc{border:0;border-top:.6pt solid #999;border-radius:0;margin:0 0 4pt;padding:0;background:none}
+  details.acc>summary{padding:3pt 0 1pt;font-size:7.5pt;letter-spacing:.08em;color:#000;border:0;background:none}
+  details.acc>summary::before,details.acc>summary::after{display:none}
+  details.acc .body{padding:0}
+  .card h3{margin:2pt 0 1pt;font-size:7.5pt}
+  .hr{margin:3pt 0}
+  .grid.g2,.grid.g3,.sh-key{display:block}
+  .res{display:inline-block;width:48%;vertical-align:top;background:none;border:0;border-left:1.2pt solid #000;
+    border-radius:0;padding:1pt 0 1pt 4pt;margin:0 1% 2pt 0}
+  .res .lab{font-size:6.5pt;letter-spacing:.06em}
+  .res .val{font-size:10pt;color:#000;margin:0}
+  .res .val.sm{font-size:9pt}
+  .res .sub{font-size:6.5pt;margin:0}
+  .note{background:none!important;border-left:1.2pt solid #000;color:#000!important;padding:1.5pt 0 1.5pt 4pt;
+    margin:2pt 0;font-size:7.5pt;border-radius:0}
+  label.f{font-size:6.5pt;margin:0;letter-spacing:.06em}
+  input,select,textarea{border:none!important;background:none!important;padding:0!important;color:#000!important;
+    font-weight:700;font-size:8pt;height:auto;resize:none;line-height:1.25}
+  textarea{min-height:0!important;height:auto;overflow:visible;white-space:pre-wrap;font-weight:400}
+  .nf{margin:0 0 3pt;break-inside:avoid}
+  .nfh{margin:0}
+  .phide{display:none!important}
+  .prow{padding:1.5pt 0;border-bottom:.4pt solid #ddd;gap:5pt}
+  .prow input[type=checkbox]{width:8pt;height:8pt;flex:0 0 8pt}
+  .prow .win{flex:0 0 40pt;font-size:6.5pt}
+  .prow .txt{font-size:7.5pt;line-height:1.2}
+  .sgrp,.sh-grp{border:0;border-top:.4pt solid #999;border-radius:0;margin-top:3pt}
+  .sgt,.sh-gt{background:none!important;padding:2pt 0;font-size:6.5pt;border:0;color:#000}
+  .sgrp .prow,.sh-grp .prow{padding:1.5pt 0}
+  table{font-size:7pt}
+  th,td{padding:1pt 2pt}
+  .plan .lane{height:22pt}.plan .lane.m{height:11pt}
+  .plan .blk b{font-size:9pt}.plan .blk span{font-size:6pt}
+  .plan .blk.a{background:#eee}.plan .blk.b{background:#f6f6f6}
+  .plan .tick{background:#ddd;width:12pt;margin-left:-6pt}
+  .plan .tick.n,.plan .tick.o{background:#666}
+  .plan .tick.n span,.plan .tick.o span{color:#fff}
+  .plan .ax,.plan .axlab{font-size:6pt}
+  .tl{margin-top:4pt}.tl .bar{height:12pt}
+  .depthgrid{gap:4pt}.dep{padding:3pt}
+  .shist{gap:3pt}.sh{font-size:6.5pt;padding:1pt 3pt}
+  .card,details.acc,.res,.note,.plan,.prow,.nf,.dep{break-inside:avoid;page-break-inside:avoid}
+  a[href]::after{content:""}
+}
+
+/* ---------- Schnittbilder Verbrennungstiefe ---------- */
+.deplg{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:8px 0 4px}
+.depthgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0 8px}
+.dep{margin:0;border:1px solid var(--line);border-radius:var(--r);padding:7px;background:var(--panel2)}
+.dep svg{width:100%;height:auto;display:block;border-radius:3px}
+.dep figcaption{font-size:10.5px;line-height:1.35;color:var(--mut);margin-top:5px}
+.dep figcaption b{display:block;color:var(--tx);font-size:12px;margin-bottom:1px}
+.photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.photo{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel2)}
+.photo img{width:100%;height:110px;object-fit:cover;display:block}
+.photo span{display:block;font-size:10.5px;padding:4px 7px;color:var(--mut)}
+
+
+
+/* ---------- Griff für die 24-Stunden-Achse ---------- */
+.axh{display:flex;align-items:center;gap:8px;width:100%;margin-top:9px;padding:9px 11px;
+  background:var(--tint-acc);border:1px solid #BEDBD6;border-radius:var(--r);color:var(--acc);
+  font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;cursor:pointer}
+.axh .g{width:26px;height:3px;border-radius:2px;background:var(--acc);opacity:.45;flex:0 0 26px}
+.axh .c{margin-left:auto;font-size:14px;letter-spacing:0}
+.axh:active{background:#DCECE9}
+
+/* ---------- Vollbild 24-Stunden-Achse ---------- */
+.sheet{position:fixed;inset:0;z-index:70;background:var(--bg);overflow-y:auto;
+  transform:translateY(100%);transition:transform .22s ease;visibility:hidden;
+  padding:calc(8px + env(safe-area-inset-top,0)) 12px calc(16px + env(safe-area-inset-bottom,0))}
+.sheet.on{transform:translateY(0);visibility:visible}
+.sh-top{display:flex;align-items:center;gap:8px;padding:4px 0 8px;border-bottom:1px solid var(--line)}
+.sh-ttl{flex:1;min-width:0;text-align:center;font-size:15px;line-height:1.2}
+.sh-ttl b{font-weight:800}
+.sh-ttl span{display:block;font-size:10px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.sh-nav{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);width:34px;height:34px;
+  font-size:20px;line-height:1;color:var(--acc);cursor:pointer;flex:0 0 34px}
+.sh-x{background:none;border:0;font-size:17px;color:var(--mut);cursor:pointer;padding:4px 2px 4px 6px}
+.sh-dots{display:flex;gap:5px;justify-content:center;padding:9px 0 4px}
+.sh-dots span{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.sh-dots span.on{background:var(--acc);width:18px;border-radius:3px}
+.sh-body{padding-top:6px}
+.sh-key{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sh-key .val small{font-size:11px;font-weight:400;color:var(--mut);letter-spacing:0}
+.sh-grp{margin-top:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
+.sh-gt{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;padding:8px 11px;
+  border-bottom:1px solid var(--line2);color:var(--mut)}
+.sh-gt b{font-family:var(--mono);color:var(--tx)}
+.sh-grp.over .sh-gt{background:var(--tint-warn);color:var(--warn)}
+.sh-grp.now .sh-gt{background:var(--tint-steel);color:var(--steel)}
+.sh-grp .prow{padding:8px 11px}
+.sh-grp .prow:last-child{border-bottom:0}
+.sh-hint{text-align:center;font-size:10px;color:var(--dim);letter-spacing:.06em;padding:14px 0 4px}
+.plan.big .lane{height:52px}
+.plan.big .lane.m{height:26px}
+.plan.big .blk b{font-size:19px}
+.plan.big .blk span{font-size:9.5px}
+.plan.big .tick{width:20px;margin-left:-10px}
+.plan.big .tick span{font-size:11px}
+.plan.big .ax{font-size:10px}
+.sheet.sl .sh-body{animation:inl .18s ease}
+.sheet.sr .sh-body{animation:inr .18s ease}
+@keyframes inl{from{opacity:.3;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes inr{from{opacity:.3;transform:translateX(-14px)}to{opacity:1;transform:none}}
+@media print{.sheet,.axh{display:none!important}}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- 24-Stunden-Plan ---------- */
+.plan{margin:2px 0 10px}
+.plan .lane-lab{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700;margin:7px 0 3px}
+.plan .lane{position:relative;height:42px;border:1px solid var(--line);border-radius:3px;background:var(--panel2);overflow:hidden}
+.plan .lane.m{height:22px;overflow:visible}
+.plan .blk{position:absolute;top:0;bottom:0;padding:7px 7px 0;border-right:1px solid var(--panel);overflow:hidden}
+.plan .blk.a{background:var(--tint-ember)}
+.plan .blk.b{background:var(--tint-acc)}
+.plan .blk b{font-family:var(--mono);font-size:14px;line-height:1.1;color:var(--tx)}
+.plan .blk b{display:inline}
+.plan .blk span{display:block;font-size:8.5px;color:var(--mut);letter-spacing:.04em;white-space:nowrap;margin-top:1px}
+.plan .tick{position:absolute;top:2px;bottom:2px;width:16px;margin-left:-8px;display:flex;align-items:center;
+  justify-content:center;background:#DCE4DD;border-radius:3px;z-index:2}
+.plan .tick span{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--tx)}
+.plan .tick.n{background:var(--steel)}.plan .tick.n span{color:#fff}
+.plan .tick.o{background:var(--warn)}.plan .tick.o span{color:#fff}
+.plan .tick.d{background:#BFD6C9}
+.plan .now{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--tx);z-index:3}
+.plan .now::after{content:"";position:absolute;top:-3px;left:-3px;width:8px;height:8px;border-radius:50%;
+  background:var(--tx);border:2px solid var(--panel)}
+.plan .ax{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:3px}
+.plan .axlab{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-align:center;margin-top:1px}
+.plist{margin-top:4px}
+.prow{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line2);cursor:pointer}
+.prow input[type=checkbox]{width:17px;height:17px;flex:0 0 17px;margin:1px 0 0;accent-color:var(--ok)}
+.prow .win{flex:0 0 56px;font-family:var(--mono);font-size:10.5px;color:var(--mut);padding-top:2px;
+  text-transform:none;letter-spacing:0;font-weight:400}
+.prow .txt{font-size:12.5px;line-height:1.35;text-transform:none;letter-spacing:0;font-weight:400}
+.prow.over .win{color:var(--warn);font-weight:700}
+.prow.now .win{color:var(--steel);font-weight:700}
+.prow.done{opacity:.5}
+.prow.done .txt{text-decoration:line-through}
+.prow.fut{opacity:.72}
+
+/* ---------- Druck ---------- */
+.printhdr{display:none}
+@media print{
+  @page{size:A4;margin:14mm}
+  html,body{background:#fff!important;color:#000;font-size:10pt;padding:0}
+  header,nav,.disc,.toast,.hbtn,.search{display:none!important}
+  main{max-width:none;padding:0;margin:0}
+  .view{display:none!important}.view.on{display:block!important}
+  .printhdr{display:block;border-bottom:1.5pt solid #000;padding-bottom:4pt;margin-bottom:8pt}
+  .printhdr .t{font-size:14pt;font-weight:800}
+  .printhdr .s{font-size:8.5pt;color:#444;margin-top:2pt}
+  .card,details.acc,.res,.note,.bed,.plan,.prow{break-inside:avoid;page-break-inside:avoid}
+  details.acc{border:1px solid #999;margin-bottom:6pt}
+  details.acc>summary{color:#000;border-bottom:1px solid #ccc}
+  details.acc>summary::after{display:none}
+  .btn,button[data-lbtoggle],button[data-wtoggle],.seg,#lb_apply,#uo_add,#tr_add,#uo_undo,#tr_undo,#btnHand,#btnClear,#bedSel{display:none!important}
+  input,select,textarea{border:none!important;background:none!important;padding:0!important;color:#000!important;
+    font-weight:700;height:auto;resize:none}
+  textarea{min-height:0;height:auto;overflow:visible;white-space:pre-wrap}
+  .res{background:none;border-left:2pt solid #000;border-top:none;border-right:none;border-bottom:none}
+  .res .val{color:#000}
+  .note{background:none!important;border-left:2pt solid #000;color:#000!important}
+  .chip{border:1px solid #999}
+  .plan .blk.a{background:#eee}.plan .blk.b{background:#f6f6f6}
+  .plan .tick{background:#ddd}.plan .tick.n,.plan .tick.o{background:#666}.plan .tick.n span,.plan .tick.o span{color:#fff}
+  a[href]::after{content:""}
+}
+
+</style>
+</head>
+<body><div style="background:#fff3cd;color:#5c4400;padding:8px 12px;font:14px system-ui,sans-serif;border-bottom:1px solid #e0c060">Altversion (v1) — nur zum Ansehen und Exportieren alter Daten. Aktuelle App: <a href="./">BurnICU</a></div>
+<header>
+  <div class="hrow">
+    <img class="mark" src="data:image/png;base64,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" alt="" width="30" height="30">
+    <div>
+      <div class="brand">Verbrennungs<em>·</em>Station</div>
+      <div class="hsub" id="hsub">8 Betten · lokal gespeichert</div>
+    </div>
+    <div class="hbtn">
+      <button class="btn sm" id="btnExport">Sichern</button>
+      <button class="btn sm" id="btnImport">Laden</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="view on" id="v-beds"></section>
+  <section class="view" id="v-pat"></section>
+  <section class="view" id="v-calc"></section>
+  <section class="view" id="v-ref"></section>
+  <div class="disc">
+    Lern- und Arbeitshilfe, keine Handlungsanweisung. Alle Werte vor Anwendung gegen Fachinformation und Hausstandard prüfen.<br>
+    Daten liegen ausschließlich im Speicher dieses Browsers. Keine Namen eintragen — Bettnummer und Kürzel genügen.<br>
+    <span id="verline"></span>
+  </div>
+</main>
+
+<nav>
+  <button data-v="beds" class="on"><span class="ic">▦</span>Betten</button>
+  <button data-v="pat"><span class="ic">◉</span>Patient</button>
+  <button data-v="calc"><span class="ic">∑</span>Rechner</button>
+  <button data-v="ref"><span class="ic">☰</span>Nachschlagen</button>
+</nav>
+<div class="sheet" id="sheet"></div>
+<div id="visit"></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+<script>
+"use strict";
+/* ============================================================
+   Verbrennungs-Station · 8-Betten-Nachschlagewerkzeug
+   Einzeldatei, offline, keine externen Abhängigkeiten.
+   Speicher: localStorage["burnstation_v1"]
+   ============================================================ */
+
+const APP_VERSION = "1.0.0";
+const KEY = "burnstation_v1";
+const N_BEDS = 8;
+
+const HAND_FIELDS = [
+  ["injury",    "Injury",      "Unfallhergang, Mechanismus, Besonderheiten"],
+  ["extent",    "Extent",      "% VKOF und Tiefenverteilung, betroffene Regionen"],
+  ["inhal",     "Inhalation",  "ja/nein, Bronchoskopiebefund, AIS-Grad"],
+  ["wounds",    "Wounds",      "welche Areale, aktuelle Deckung, Verbandregime"],
+  ["surgery",   "Surgery",     "letzte OP (Datum, Umfang) / nächste OP geplant"],
+  ["grafts",    "Grafts",      "wo, welcher POD, Restriktionen (Lagerung, Mobilisation)"],
+  ["donor",     "Donor sites", "Lokalisation, Zustand, wann wieder abernten"],
+  ["fluidtxt",  "Fluid",       "kumulativ, aktueller Algorithmus, Diureseverlauf"],
+  ["nutritxt",  "Nutrition",   "Ziel und tatsächlich erreicht, Produkt, Probleme"],
+  ["pain",      "Pain",        "Hintergrund / Prozedur / neuropathisch, Konzept"],
+  ["infect",    "Infection",   "Wundbefund, Kulturen, Antibiotikum Tag X von Y, TDM"],
+  ["mobility",  "Mobility",    "was darf/muss heute bewegt werden, Schienen"]
+];
+
+const FEEDS = [
+  {n:"— Produkt wählen —", k:0, p:0},
+  {n:"Fresubin Intensive",           k:1.22, p:10.0},
+  {n:"Nutrison Protein Intense",     k:1.25, p:10.0},
+  {n:"Peptamen AF (peptid/MCT)",     k:1.50, p:9.4},
+  {n:"Fresubin HP Energy",           k:1.50, p:7.5},
+  {n:"Nutrison Energy Multi Fibre",  k:1.50, p:6.0},
+  {n:"Fresubin Energy Fibre",        k:1.50, p:5.6},
+  {n:"Nutrison Advanced Peptisorb",  k:1.00, p:4.0},
+  {n:"Fresubin Original",            k:1.00, p:3.8},
+  {n:"Eigenes Produkt …",            k:null, p:null}
+];
+
+/* ---------- Körperregionen: gemeinsam für Lund-Browder und Wundkarte ---------- */
+const REGIONS = [
+  {k:"kopf",  n:"Kopf",                p:[19,17,13,11,9,7]},
+  {k:"hals",  n:"Hals",                p:2},
+  {k:"rumpfv",n:"Rumpf vorne",         p:13},
+  {k:"rumpfh",n:"Rumpf hinten",        p:13},
+  {k:"gesr",  n:"Gesäß re",            p:2.5},
+  {k:"gesl",  n:"Gesäß li",            p:2.5},
+  {k:"gen",   n:"Genital",             p:1},
+  {k:"oarmr", n:"Oberarm re",          p:4},
+  {k:"oarml", n:"Oberarm li",          p:4},
+  {k:"uarmr", n:"Unterarm re",         p:3},
+  {k:"uarml", n:"Unterarm li",         p:3},
+  {k:"handr", n:"Hand re",             p:2.5},
+  {k:"handl", n:"Hand li",             p:2.5},
+  {k:"oschr", n:"Oberschenkel re",     p:[5.5,6.5,8,8.5,9,9.5]},
+  {k:"oschl", n:"Oberschenkel li",     p:[5.5,6.5,8,8.5,9,9.5]},
+  {k:"uschr", n:"Unterschenkel re",    p:[5,5,5.5,6,6.5,7]},
+  {k:"uschl", n:"Unterschenkel li",    p:[5,5,5.5,6,6.5,7]},
+  {k:"fussr", n:"Fuß re",              p:3.5},
+  {k:"fussl", n:"Fuß li",              p:3.5}
+];
+// Altersgruppe nach Lund-Browder: 0 / 1 / 5 / 10 / 15 / Erwachsen
+function ageBand(age){
+  const a = num(age);
+  if(a==null) return 5;
+  if(a<1) return 0; if(a<5) return 1; if(a<10) return 2; if(a<15) return 3; if(a<18) return 4;
+  return 5;
+}
+const regPct = (r,band) => Array.isArray(r.p) ? r.p[band] : r.p;
+
+const DEPTHS  = [["2a","2a"],["2b","2b"],["3","3°"]];   // Grad 1 zählt bewusst nicht
+const SHARES  = [25,50,75,100];
+
+const WSTAT = {
+  burn:  {n:"verbrannt",       c:"var(--ember)"},
+  exc:   {n:"nekrektomiert",   c:"var(--warn)"},
+  graft: {n:"transplantiert",  c:"var(--acc)"},
+  donor: {n:"Spenderstelle",   c:"var(--steel)"},
+  heal:  {n:"geheilt",         c:"var(--dim)"}
+};
+const daysSince = d => { if(!d) return null; const t=new Date(d+"T00:00:00").getTime();
+  if(!isFinite(t)) return null; return Math.floor((Date.now()-t)/86400000); };
+const todayISO = () => new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+
+const SHIFTS = [["T","Tagdienst","07:15–20:00"],["N","Nachtdienst","19:15–08:00"]];
+
+/* Dienstzeiten der V1: zwei 12-Stunden-Dienste mit 45 Minuten Überlappung.
+   In der Übergabezeit (19:15–20:00 und 07:15–08:00) wählt die App den
+   einsteigenden Dienst — umschalten geht mit einem Tipp.
+   Ein Nachtdienst über Mitternacht gehört zum Kalendertag seines Beginns. */
+const SHIFT_START_DAY   = 7*60 + 15;
+const SHIFT_START_NIGHT = 19*60 + 15;
+
+function curShift(d){
+  const t = d || new Date();
+  const m = t.getHours()*60 + t.getMinutes();
+  const day = new Date(t);
+  let s;
+  if(m >= SHIFT_START_NIGHT) s = "N";                               // ab 19:15
+  else if(m >= SHIFT_START_DAY) s = "T";                            // 07:15 bis 19:14
+  else { s = "N"; day.setDate(day.getDate()-1); }                   // vor 07:15: Nacht des Vortags
+  return {s, d: new Date(day.getTime()-day.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+}
+const shiftKey = (d,s) => d+"|"+s;
+
+// Objektive Trigger nach ABA-Konsens · Frühzeichen aus dem Verlauf
+const SEPSIS_ITEMS = [
+  ["aba","temp","Temperatur > 39,0 °C oder < 36,5 °C"],
+  ["aba","hf",  "Herzfrequenz > 110/min"],
+  ["aba","af",  "Atemfrequenz erhöht bzw. AMV > 12 l/min"],
+  ["aba","thr", "Thrombozyten < 100/nl (erst ab Tag 3 werten)"],
+  ["aba","glu", "BZ > 200 mg/dl, > 7 IE Insulin/h oder Insulinbedarf +25 % in 24 h"],
+  ["aba","fi",  "Nahrungsintoleranz > 24 h (Distension, Reflux > 2× Laufrate, Diarrhö > 2500 ml/d)"],
+  ["fw","nor",  "Katecholaminbedarf gestiegen ohne andere Erklärung"],
+  ["fw","insr", "Insulinbedarf gestiegen bei unveränderter Ernährung"],
+  ["fw","wnd",  "Wundaspekt verschlechtert, Transplantatverlust, neue Verfärbung"],
+  ["fw","del",  "Neue Verwirrtheit oder Vigilanzminderung"],
+  ["fw","bed",  "Volumen- oder Temperaturbedarf gestiegen"],
+  ["fw","plt",  "Thrombozytenknick nach initialer Erholung"]
+];
+
+const blank = i => ({
+  id:i, label:"", age:"", sex:"m", weight:"", height:"", injury:"",
+  tbsa:"", tbsa3:false, inhal:false, rhabdo:false, strom:false,
+  fluidGiven:"", kcalTarget:"", kcalAct:"", protAct:"",
+  feedIdx:0, feedK:"", feedP:"", propofol:"",
+  hand:{}, notes:"", updated:null,
+  lb:{}, wound:{}, uo:[], curRate:"", trend:[], done:{},
+  shifts:[], hand:{}, handAuto:{}, rout:{}, routAuto:{}
+});
+
+let S = load();
+let trFI = null;   // Nahrungsintoleranz ja/nein für den heutigen Tageswert
+let UIST = {};     // welche Abschnitte offen sind — überlebt jedes Neuzeichnen
+let SHIFT_OVERRIDE = null;  // manuell gewählte Schicht (sonst automatisch nach Uhrzeit)
+const PL_bad = (p,c,k) => plausi(p,c).bad.has(k) ? "badin" : "";
+const accOpen = (k,def) => (UIST[k]===undefined ? def : UIST[k]) ? "open" : "";
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){
+      const d = JSON.parse(raw);
+      if(d && Array.isArray(d.beds) && d.beds.length === N_BEDS){
+        d.beds.forEach(b=>{ b.lb=b.lb||{}; b.wound=b.wound||{}; b.uo=b.uo||[]; b.trend=b.trend||[]; b.done=b.done||{}; if(b.strom===undefined) b.strom=false; b.shifts=b.shifts||[]; b.handAuto=b.handAuto||{}; b.rout=b.rout||{}; b.routAuto=b.routAuto||{}; b.curRate=b.curRate||""; b.hand=b.hand||{}; });
+        return d;
+      }
+    }
+  }catch(e){}
+  return {beds:Array.from({length:N_BEDS},(_,i)=>blank(i+1)), cur:1, lastBackup:null};
+}
+let saveTimer=null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    try{ localStorage.setItem(KEY, JSON.stringify(S)); }
+    catch(e){ toast("Speichern fehlgeschlagen"); }
+  },250);
+}
+const P = () => S.beds[(S.cur||1)-1];
+const hasData = () => S.beds.some(b=>b.label||b.weight||b.tbsa||b.injury);
+function backupAge(){
+  if(!S.lastBackup) return null;
+  return Math.floor((Date.now()-S.lastBackup)/86400000);
+}
+
+/* ---------- Helfer ---------- */
+const $  = s => document.querySelector(s);
+const num = v => { const x = parseFloat(String(v).replace(",",".")); return isFinite(x)?x:null; };
+const r0 = x => x==null?"–":Math.round(x).toLocaleString("de-DE");
+const r1 = x => x==null?"–":x.toLocaleString("de-DE",{minimumFractionDigits:1,maximumFractionDigits:1});
+const r2 = x => x==null?"–":x.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("on"); setTimeout(()=>t.classList.remove("on"),1700); }
+
+/* ---------- Klinische Rechenkerne ---------- */
+// Körperoberfläche nach Mosteller
+const bsa = (kg,cm) => (kg&&cm) ? Math.sqrt(kg*cm/3600) : null;
+
+function hoursSince(iso){
+  if(!iso) return null;
+  const t = new Date(iso).getTime();
+  if(!isFinite(t)) return null;
+  return (Date.now()-t)/3600000;
+}
+
+function calc(p){
+  const kg = num(p.weight), cm = num(p.height), tbsa = num(p.tbsa), age = num(p.age);
+  const h = hoursSince(p.injury);
+  const o = {kg,cm,tbsa,age,h};
+  o.bsa = bsa(kg,cm);
+  o.bmi = (kg&&cm) ? kg/Math.pow(cm/100,2) : null;
+  o.day = h==null ? null : Math.floor(h/24)+1;      // Burn-Tag 1 = Unfalltag
+
+  // Kind über das Alter erkennen; ohne Altersangabe hilfsweise über das Gewicht
+  o.child     = age!=null ? age<16 : (kg!=null && kg<30);
+  o.childBy   = age!=null ? "Alter" : (o.child ? "Gewicht" : null);
+  // Erhaltungsbedarf nach der 4-2-1-Regel (Holliday-Segar), glukosehaltig
+  if(kg) o.maint = kg<=10 ? 4*kg : kg<=20 ? 40+2*(kg-10) : 60+(kg-20);
+
+  if(kg && tbsa){
+    if(o.child){
+      o.burn24  = 3*kg*tbsa;              // Kinderformel: 3 ml × kg × % VKOF
+      o.formel  = "Kinderformel 3 ml";
+      o.brTotal = null;                   // Brooke ist eine Erwachsenenformel
+    } else {
+      o.burn24  = 4*kg*tbsa;              // Parkland
+      o.formel  = "Parkland 4 ml";
+      o.brTotal = 2*kg*tbsa;              // modifizierte Brooke / ABA-Start
+      o.brRate8 = o.brTotal/2/8;
+    }
+    o.maint24   = o.child && o.maint ? o.maint*24 : 0;   // nur Kinder bekommen zusätzlich Erhaltungsbedarf
+    o.pkTotal   = o.burn24;               // Verbrennungsanteil, Bezugsgröße der Formel
+    o.total24   = o.burn24 + o.maint24;   // was in 24 h tatsächlich laufen soll
+    o.pkRate8   = o.burn24/2/8 + (o.child ? o.maint : 0);
+    o.rate16    = o.burn24/2/16 + (o.child ? o.maint : 0);
+    o.ivy       = 250*kg;                 // Ivy-Index: ACS-Risiko
+    o.rescue    = 6*kg*tbsa;              // Colloid-Rescue-Schwelle
+  }
+  if(kg){
+    // Rule of Ten: validiert für Erwachsene 40–80 kg, Zuschlag je 10 kg darüber
+    o.rot     = (tbsa && kg>=40) ? tbsa*10 + (kg>80 ? Math.floor((kg-80)/10)*100 : 0) : null;
+    o.uoLo    = (o.child ? 1.0 : 0.5)*kg; o.uoHi = (o.child ? 1.5 : 1.0)*kg;
+    o.uoRhab  = 2.0*kg;
+    o.kcalLo  = 25*kg;  o.kcalHi = 30*kg;
+    o.protLo  = 1.5*kg; o.protHi = 2.0*kg;
+    o.gluMax  = 5*kg*60*24/1000;          // ESPEN-Obergrenze 5 mg/kg/min → g/d
+  }
+  if(o.bsa && tbsa!=null) o.evap = (25+tbsa)*o.bsa;   // ml/h Verdunstung
+
+  // Soll/Ist der Schockphase
+  const given = num(p.fluidGiven);
+  if(o.pkTotal!=null && h!=null && h>=0){
+    const half = o.burn24/2;
+    const mh   = o.child && o.maint ? o.maint : 0;   // Erhaltungsbedarf läuft gleichmäßig weiter
+    if(h < 8){
+      o.sollPk = half*(h/8) + mh*h;
+      o.sollBr = o.brTotal!=null ? (o.brTotal/2)*(h/8) : null;
+      o.restH  = Math.max(0.25, 8-h);
+      o.restMl = given!=null ? Math.max(0, (half + mh*8) - given) : null;
+      o.phase  = "erste 8 h";
+    } else if(h < 24){
+      o.sollPk = half + half*((h-8)/16) + mh*h;
+      o.sollBr = o.brTotal!=null ? o.brTotal/2 + (o.brTotal/2)*((h-8)/16) : null;
+      o.restH  = Math.max(0.25, 24-h);
+      o.restMl = given!=null ? Math.max(0, o.total24-given) : null;
+      o.phase  = "Stunde 8–24";
+    } else {
+      o.phase = "nach 24 h";
+    }
+    // Restrate nur, wenn eine Istmenge eingetragen ist und noch sinnvoll Zeit bleibt
+    if(o.restH!=null && o.restMl!=null && given!=null){
+      if(o.restH >= 1){
+        o.restRate = o.restMl/o.restH;
+        // Rückstand, der sich rechnerisch nur mit unplausibler Rate aufholen ließe
+        if(o.pkRate8 && o.restRate > 2*o.pkRate8) o.restCatchUp = true;
+      } else {
+        o.restShort = true;   // Phasenende < 1 h: Rate wäre irreführend
+      }
+    }
+    if(given!=null && o.sollPk) o.devPk = (given/o.sollPk-1)*100;
+    if(given!=null && kg) o.mlkgpct = tbsa ? given/(kg*tbsa) : null;
+  }
+
+  // ABSI
+  if(age!=null && tbsa!=null){
+    let a=0;
+    a += (p.sex==="w")?1:0;
+    a += age<=20?1: age<=40?2: age<=60?3: age<=80?4:5;
+    a += p.inhal?1:0;
+    a += p.tbsa3?1:0;
+    a += Math.min(10, Math.max(1, Math.ceil(tbsa/10)));
+    o.absi = a;
+    o.absiTxt = a<=3?"≥99 %": a<=5?"98 %": a<=7?"80–90 %": a<=9?"50–70 %": a<=11?"20–40 %": a<=13?"~10 %":"<10 %";
+    o.rbaux = age + tbsa + (p.inhal?17:0);
+  }
+
+  // Zentrumskriterien (LL 2025)
+  o.center = [];
+  if(tbsa!=null){
+    if(!p.tbsa3 && tbsa>=15) o.center.push("Grad 2 ≥ 15 % VKOF");
+    if(p.tbsa3 && tbsa>=10)  o.center.push("Grad 3 ≥ 10 % VKOF");
+  }
+  if(p.inhal) o.center.push("Inhalationstrauma mit äußeren Verbrennungen");
+  if(p.strom) o.center.push("Stromverletzung inkl. Blitzschlag");
+  if(age!=null && (age<8||age>60)) o.center.push("Alter < 8 oder > 60 Jahre");
+
+  // Ernährung
+  const feed = FEEDS[p.feedIdx]||FEEDS[0];
+  const fk = feed.k===null ? num(p.feedK) : feed.k;
+  const fp = feed.p===null ? num(p.feedP) : feed.p;
+  if(fk && fp && o.protHi){
+    const target = num(p.kcalTarget) || o.kcalHi;
+    o.feedName = feed.k===null ? "eigenes Produkt" : feed.n;
+    o.mlProt   = (o.protHi/fp)*100;          // ml/d für 2,0 g/kg Protein
+    o.mlKcal   = target/fk;                  // ml/d für das Kalorienziel
+    o.kcalAtProt = o.mlProt*fk;
+    o.protAtKcal = o.mlKcal*fp/100;
+    o.gapProt  = Math.max(0, o.protHi - o.protAtKcal);   // fehlendes Protein bei Kaloriensteuerung
+    o.powder   = o.gapProt/0.88;             // g Proteinpulver (88 g/100 g)
+    o.rateProt = o.mlProt/24; o.rateKcal = o.mlKcal/24;
+  }
+  const pr = num(p.propofol);
+  if(pr!=null) o.propKcal = pr*24*1.1;       // Propofol 2 % ≈ 1,1 kcal/ml
+  const ka = num(p.kcalAct), pa = num(p.protAct);
+  if(ka!=null && o.kcalHi) o.kcalPct = ka/((num(p.kcalTarget)||o.kcalHi))*100;
+  if(pa!=null && o.protHi) o.protPct = pa/o.protHi*100;
+
+
+  // --- Lund-Browder aus angetippten Regionen ---
+  const band = ageBand(p.age);
+  let lbAll=0, lbDeep=0, lbCount=0;
+  REGIONS.forEach(r=>{
+    const e=(p.lb||{})[r.k]; if(!e||!e.d) return;
+    const share=(e.f||100)/100, pc=regPct(r,band)*share;
+    lbAll+=pc; lbCount++;
+    if(e.d==="2b"||e.d==="3") lbDeep+=pc;
+  });
+  if(lbCount){ o.lbAll=Math.round(lbAll*10)/10; o.lbDeep=Math.round(lbDeep*10)/10; o.lbCount=lbCount;
+    if(o.tbsa!=null) o.lbDiff = o.lbAll - o.tbsa; }
+  o.band = band;
+
+  // --- Diurese-Titration ---
+  const uo = (p.uo||[]).slice(-24);
+  if(uo.length && kg){
+    const last = uo[uo.length-1];
+    o.uoLast = last.ml;
+    o.uoLastKg = last.ml/kg;
+    // Erwachsene 0,5–1,0 ml/kg/h · Kind < 30 kg 1 ml/kg/h · Rhabdomyolyse/Strom 2 ml/kg/h
+    const kind = o.child;
+    o.uoMode     = p.rhabdo ? "rhabdo" : kind ? "kind" : "erw";
+    o.uoTargetLo = p.rhabdo ? 1.5 : kind ? 1.0 : 0.5;
+    o.uoTargetHi = p.rhabdo ? 2.5 : kind ? 1.5 : 1.0;
+    o.uoSeries = uo.map(x=>({t:x.t, v:x.ml/kg}));
+    const cur = num(p.curRate);
+    if(o.uoLastKg < o.uoTargetLo){
+      o.uoAct="up";   o.uoTxt="unter Ziel — Rate um 20–25 % erhöhen, in 1–2 h reevaluieren";
+      if(cur){ o.uoNew=[cur*1.2, cur*1.25];
+        // Endlose Eskalation verhindern: irgendwann ist Oligurie kein Volumenproblem mehr
+        if(o.pkRate8 && cur*1.2 > 2*o.pkRate8) o.uoEscalate=true; }
+    } else if(o.uoLastKg > o.uoTargetHi){
+      o.uoAct="down"; o.uoTxt="über Ziel — Rate um 20 % senken";
+      if(cur) o.uoNew=[cur*0.8, cur*0.8];
+    } else {
+      o.uoAct="hold"; o.uoTxt="im Zielkorridor — Rate beibehalten und in 1 h erneut prüfen";
+    }
+    // Drei aufeinanderfolgende Stunden über Ziel = Fluid Creep
+    const l3=uo.slice(-3).map(x=>x.ml/kg);
+    if(l3.length===3 && l3.every(v=>v>o.uoTargetHi)) o.uoCreep=true;
+    if(l3.length===3 && l3.every(v=>v<o.uoTargetLo)) o.uoLowRun=true;
+  }
+
+  // --- Sepsis-Trend ---
+  const tr=(p.trend||[]).slice(-14);
+  if(tr.length){
+    const L=tr[tr.length-1], Pv=tr.length>1?tr[tr.length-2]:null;
+    o.trLast=L; o.trPrev=Pv; o.trSeries=tr;
+    const d=(a,b)=>{ const x=num(a),y=num(b); return (x==null||y==null)?null:x-y; };
+    o.trD={nor:d(L.nor,Pv&&Pv.nor), ins:d(L.ins,Pv&&Pv.ins), refl:d(L.refl,Pv&&Pv.refl),
+           thr:d(L.thr,Pv&&Pv.thr), temp:d(L.temp,Pv&&Pv.temp)};
+    // ABA-Trigger aus den erfassten Werten
+    let tg=[], miss=0;
+    const t=num(L.temp), hf=num(L.hf), amv=num(L.amv), thr=num(L.thr), ins=num(L.ins), refl=num(L.refl);
+    if(t!=null){ if(t>39||t<36.5) tg.push("Temperatur"); } else miss++;
+    if(hf!=null){ if(hf>110) tg.push("Herzfrequenz"); } else miss++;
+    if(amv!=null){ if(amv>12) tg.push("Atemminutenvolumen"); } else miss++;
+    if(thr!=null && o.day!=null && o.day>=3){ if(thr<100) tg.push("Thrombozyten"); }
+    else miss++;   // vor Tag 3 bzw. ohne Unfallzeitpunkt laut ABA nicht anwendbar
+    if(ins!=null){ const prev=Pv?num(Pv.ins):null;
+      if(ins>7 || (prev&&prev>0&&(ins-prev)/prev>0.25)) tg.push("Insulinbedarf"); } else miss++;
+    if(L.fi==="1") tg.push("Nahrungsintoleranz"); else if(L.fi==null) miss++;
+    o.abaHits=tg; o.abaMiss=miss;
+    if(Pv && num(L.nor)!=null && num(Pv.nor)!=null && num(Pv.nor)>0 && (num(L.nor)-num(Pv.nor))/num(Pv.nor)>0.25) o.norRise=true;
+  }
+
+  // --- Sepsis-Check je Dienst ---
+  const cs = curShift();
+  if(SHIFT_OVERRIDE) cs.s = SHIFT_OVERRIDE;
+  o.shiftNow = cs;
+  const sh = (p.shifts||[]);
+  o.shiftEntry = sh.find(x=>x.k===shiftKey(cs.d,cs.s)) || null;
+  o.shiftDone  = !!o.shiftEntry;
+  if(o.shiftEntry){
+    const on = o.shiftEntry.on||{};
+    o.shAba = SEPSIS_ITEMS.filter(([g,k])=>g==="aba" && on[k]).map(([,k])=>k);
+    o.shFw  = SEPSIS_ITEMS.filter(([g,k])=>g==="fw"  && on[k]).map(([,k])=>k);
+  } else { o.shAba=[]; o.shFw=[]; }
+  o.shiftHist = sh.slice(-6);
+
+  // --- Wundkarte / Transplantat-POD ---
+  const W=[];
+  REGIONS.forEach(r=>{
+    const e=(p.wound||{})[r.k]; if(!e||!e.st) return;
+    const pod=daysSince(e.dt);
+    const it={k:r.k, n:r.n, st:e.st, dt:e.dt, pod, pct:regPct(r,band)};
+    if(e.st==="graft" && pod!=null){
+      it.note = pod<=4 ? "POD "+pod+" · Ruhigstellung, keine Scherkräfte · erster Verbandwechsel nach Hausstandard (meist Tag 3–5)"
+              : pod<=6 ? "POD "+pod+" · vorsichtige Mobilisation nach chirurgischer Rücksprache"
+              : "POD "+pod+" · Mobilisation und Kompression nach chirurgischer Freigabe";
+      if(pod<=4) it.hold=true;
+    }
+    if(e.st==="donor" && pod!=null){
+      it.note = pod<10 ? "Tag "+pod+" · Abheilung läuft, frühestens ab Tag 10–14 erneut abernten"
+                       : "Tag "+pod+" · abgeheilt, erneute Entnahme möglich";
+      if(pod>=10) it.ready=true;
+    }
+    if(e.st==="exc" && pod!=null) it.note="seit "+pod+" d offen · Deckung planen";
+    W.push(it);
+  });
+  if(W.length){
+    o.wound=W;
+    o.wGraftHold = W.filter(x=>x.hold);
+    o.wDonorReady= W.filter(x=>x.ready);
+    o.wOpen      = W.filter(x=>x.st==="burn"||x.st==="exc");
+    o.wOpenPct   = Math.round(o.wOpen.reduce((s,x)=>s+x.pct,0)*10)/10;
+  }
+
+  return o;
+}
+
+
+
+/* Altersabhängige Grenzwerte nach der International Pediatric Sepsis Consensus
+   Conference (Goldstein 2005). Beim Erwachsenen gelten die ABA-Werte. */
+function sirsLimits(age){
+  const a = num(age);
+  if(a==null || a>=18) return {hrHi:110, rrHi:25, tHi:39.0, tLo:36.5, adult:true, grp:"Erwachsene"};
+  if(a < 1/12)  return {hrHi:180, rrHi:50, tHi:38.5, tLo:36.0, grp:"Neugeborenes"};
+  if(a < 1)     return {hrHi:180, rrHi:34, tHi:38.5, tLo:36.0, grp:"Säugling"};
+  if(a <= 5)    return {hrHi:140, rrHi:22, tHi:38.5, tLo:36.0, grp:"2–5 Jahre"};
+  if(a <= 12)   return {hrHi:130, rrHi:18, tHi:38.5, tLo:36.0, grp:"6–12 Jahre"};
+  return {hrHi:110, rrHi:14, tHi:38.5, tLo:36.0, grp:"13–17 Jahre"};
+}
+const sepText = (k,l) =>
+  k==="temp" ? `Temperatur > ${r1(l.tHi)} °C oder < ${r1(l.tLo)} °C`
+: k==="hf"   ? `Herzfrequenz > ${l.hrHi}/min`
+: k==="af"   ? `Atemfrequenz > ${l.rrHi}/min${l.adult?" bzw. AMV > 12 l/min":""}`
+: null;
+
+/* Trendwerte in die Trigger des laufenden Dienstes übertragen.
+   Von Hand gesetzte Haken bleiben unangetastet. */
+function syncShiftFromTrend(p, c){
+  const L = c.trLast; if(!L) return;
+  const cs = c.shiftNow, k = shiftKey(cs.d, cs.s);
+  p.shifts = p.shifts||[];
+  let e = p.shifts.find(x=>x.k===k);
+  if(!e){ e = {k, d:cs.d, s:cs.s, on:{}, auto:{}, manual:{}, ts:Date.now()}; p.shifts.push(e); }
+  e.auto = e.auto||{}; e.manual = e.manual||{};
+  const lim = sirsLimits(c.age);
+  const set = (key,pos)=>{
+    if(pos===null || e.manual[key]) return;
+    if(pos){ e.on[key]=true; e.auto[key]=true; }
+    else if(e.auto[key]){ delete e.on[key]; delete e.auto[key]; }
+  };
+  const t=num(L.temp), hf=num(L.hf), af=num(L.af), amv=num(L.amv), thr=num(L.thr), ins=num(L.ins);
+  set("temp", t==null   ? null : (t>lim.tHi || t<lim.tLo));
+  set("hf",   hf==null  ? null : hf>lim.hrHi);
+  set("af",   (af==null && amv==null) ? null : ((af!=null && af>lim.rrHi) || (amv!=null && amv>12)));
+  set("thr",  thr==null ? null : (c.day!=null && c.day>=3 ? thr<100 : false));
+  const pi = c.trPrev ? num(c.trPrev.ins) : null;
+  set("glu",  ins==null ? null : (ins>7 || (pi && pi>0 && (ins-pi)/pi > 0.25)));
+  set("fi",   L.fi==null ? null : L.fi==="1");
+  e.ts = Date.now();
+  if(p.shifts.length>24) p.shifts = p.shifts.slice(-24);
+}
+
+/* ---------- Plausibilität der Eingaben ----------
+   Ein Zahlendreher beim Gewicht verzehnfacht das Volumen. Diese Prüfung
+   rechnet nichts anders, sie macht nur laut auf Unsinn aufmerksam. */
+function plausi(p,c){
+  const W=[]; const bad=new Set();
+  const kg=num(p.weight), cm=num(p.height), age=num(p.age), tb=num(p.tbsa), g=num(p.fluidGiven);
+  if(kg!=null && (kg<2 || kg>300)){ W.push(`Gewicht ${r1(kg)} kg ist unplausibel — Zahlendreher?`); bad.add("weight"); }
+  if(cm!=null && (cm<30 || cm>250)){ W.push(`Größe ${r0(cm)} cm ist unplausibel.`); bad.add("height"); }
+  if(age!=null && (age<0 || age>120)){ W.push(`Alter ${r0(age)} Jahre ist unplausibel.`); bad.add("age"); }
+  if(tb!=null && tb>100){ W.push(`VKOF ${r1(tb)} % ist nicht möglich — mehr als 100 % gibt es nicht.`); bad.add("tbsa"); }
+  if(tb!=null && tb<0){ W.push("VKOF kann nicht negativ sein."); bad.add("tbsa"); }
+  if(c.bmi!=null && (c.bmi<8 || c.bmi>90)){ W.push(`Gewicht und Größe ergeben einen BMI von ${r0(c.bmi)} — bitte prüfen.`); bad.add("weight"); bad.add("height"); }
+  if(c.h!=null && c.h<-0.2){ W.push("Der Unfallzeitpunkt liegt in der Zukunft."); bad.add("injury"); }
+  if(c.h!=null && c.h>24*120){ W.push("Der Unfallzeitpunkt liegt über 120 Tage zurück — Jahreszahl prüfen."); bad.add("injury"); }
+  if(g!=null && kg!=null && g > 60*kg && c.h!=null && c.h<24){ W.push(`${r0(g)} ml in ${r1(c.h)} h sind mehr als 60 ml/kg — Eingabe prüfen.`); bad.add("fluidGiven"); }
+  if(g!=null && g>60000){ W.push("Die eingetragene Volumenmenge ist unplausibel hoch."); bad.add("fluidGiven"); }
+  const ka=num(p.kcalAct), pa=num(p.protAct);
+  if(ka!=null && ka>8000){ W.push("Die erreichte Kalorienmenge ist unplausibel hoch."); bad.add("kcalAct"); }
+  if(pa!=null && kg!=null && pa>6*kg){ W.push("Die erreichte Eiweißmenge ist unplausibel hoch."); bad.add("protAct"); }
+  return {list:W, bad};
+}
+
+/* ---------- Warnungen / phasenabhängige Prüfpunkte ---------- */
+function alerts(p,c){
+  const A=[];
+  const add=(lv,t)=>A.push({lv,t});
+  if(!p.injury) add("i","Unfallzeitpunkt fehlt — ohne ihn sind Volumenrechnung und Burn-Tag nicht möglich.");
+  if(c.tbsa!=null && c.tbsa>=15 && c.h!=null && c.h<48) add("o","Ab > 15 % VKOF gezielte Volumensubstitution.");
+  if(c.tbsa!=null && c.tbsa>=30) add("w","IAP mindestens 8-stündlich messen (ACS-Risiko).");
+  const g=num(p.fluidGiven);
+  if(g!=null && c.ivy && g>c.ivy) add("e","Ivy-Index überschritten (> 250 ml/kg): hohes ACS-Risiko. Zufuhr drosseln, IAP prüfen.");
+  else if(g!=null && c.rescue && g>c.rescue) add("w","Über 6 ml/kg/% — Colloid-Rescue erwägen statt weiter Kristalloid.");
+  if(c.devPk!=null && c.h<24){
+    if(c.devPk>25) add("w","Deutlich über Parkland-Soll ("+ (c.devPk>0?"+":"") + r0(c.devPk) +" %) — Rate senken und reevaluieren.");
+    if(c.devPk<-25) add("w","Deutlich unter Parkland-Soll ("+ r0(c.devPk) +" %) — Perfusion und Diurese prüfen.");
+  }
+  if(c.h!=null && c.h>=24) add("o","Succinylcholin ab ca. 24–48 h nach Trauma kontraindiziert (Hyperkaliämie). Nicht-depolarisierende Relaxanzien: höhere Dosis, Relaxometrie.");
+  if(c.h!=null && c.h>=12 && !p.nutritxt && !num(p.kcalAct)) add("w","Enterale Ernährung sollte binnen 12 h begonnen sein.");
+  if(c.protPct!=null && c.protPct<80) add("w","Proteinziel nur zu "+r0(c.protPct)+" % erreicht — Proteinmodul erwägen.");
+  if(c.day!=null && c.day>=3) add("i","Ab Tag 3: Sepsis-Trigger prüfen (Katecholamin-, Insulinbedarf, Nahrungsintoleranz, Thrombozyten).");
+  if(c.day!=null && c.day>=5) add("i","Antiinfektiva bei ARC: Loading Dose, verlängerte Infusion, TDM. Kreatinintrend gegen die Dosis prüfen.");
+  if(c.child) add("o","Kind (" + (c.age!=null?r0(c.age)+" Jahre":"unter 30 kg") + "): Volumen nach Kinderformel 3 ml/kg/% <b>plus Erhaltungsbedarf</b> " + r0(c.maint) + " ml/h, Zieldiurese 1 ml/kg/h. Für Kinder gilt die eigene Leitlinie AWMF 006-128.");
+  if(p.inhal) add("i","Inhalationstrauma: keine Steroide, keine Antibiotikaprophylaxe.");
+  if(p.rhabdo) add("o","Rhabdomyolyse: Zieldiurese 2 ml/kg/h, Kompartment engmaschig, CK/Myoglobin.");
+  if(p.strom && !p.rhabdo) add("o","Stromunfall ohne gesetzten Rhabdo-Schalter: <b>Die Zieldiurese steht weiterhin auf 0,5–1,0 ml/kg/h.</b> CK und Myoglobin bestimmen — bei Myoglobinurie den Rhabdo-Schalter setzen, dann rechnet die App mit 2 ml/kg/h.");
+  if(p.strom) add("o","Stromunfall: EKG-Monitoring ≥ 24 h bei initialem Kreislaufstillstand, Bewusstlosigkeit oder pathologischem EKG. Myoglobin und Herzenzyme, Kompartment engmaschig auch beim Sedierten, Augenkonsil. Die Hautläsion sagt nichts über die Tiefe — Beurteilung intraoperativ.");
+  if(c.uoAct==="up") add("w","Diurese unter Ziel ("+r1(c.uoLastKg)+" ml/kg/h) — Rate erhöhen, in 1–2 h reevaluieren. In der Schockphase kein Furosemid.");
+  if(c.uoEscalate) add("e","Die Rate liegt bereits weit über der Parkland-Kalkulation. Anhaltende Oligurie ist dann selten ein Volumenproblem — an abdominelles Kompartmentsyndrom, Blutung, kardiale Ursache oder Rhabdomyolyse denken, statt weiter zu eskalieren.");
+  if(c.uoCreep) add("w","Drei Stunden in Folge über der Zieldiurese — Rate senken, sonst Fluid Creep.");
+  if(c.uoLowRun) add("e","Drei Stunden in Folge unter der Zieldiurese — Perfusion, Blutung und intraabdominellen Druck prüfen.");
+  if(c.shiftDone===false && c.day!=null && c.day>=2) add("w","Sepsis-Check für den laufenden Dienst ("+SHIFTS.find(x=>x[0]===c.shiftNow.s)[1]+") noch nicht dokumentiert.");
+  if(c.shAba && c.shAba.length>=3) add("e","Dienstcheck: "+c.shAba.length+" von 6 ABA-Triggern auffällig — Fokus suchen. Die Diagnose muss an einen gefundenen Fokus gebunden werden.");
+  else if(c.shAba && c.shAba.length===2) add("w","Dienstcheck: zwei ABA-Trigger auffällig — engmaschig beobachten.");
+  if(c.shFw && c.shFw.length>=2) add("w","Dienstcheck: "+c.shFw.length+" Frühzeichen auffällig. Diese Trends gehen dem Fieber oft voraus.");
+  if(c.abaHits && c.abaHits.length>=3) add("e","ABA-Sepsis-Trigger erfüllt ("+c.abaHits.length+" von 6: "+c.abaHits.join(", ")+") — Fokus suchen, Diagnose an einen Fokus binden.");
+  else if(c.abaHits && c.abaHits.length===2) add("w","Zwei ABA-Trigger positiv ("+c.abaHits.join(", ")+") — engmaschig beobachten.");
+  if(c.norRise) add("w","Noradrenalinbedarf gegenüber dem Vortag um mehr als 25 % gestiegen — oft das erste Sepsiszeichen.");
+  if(c.wGraftHold && c.wGraftHold.length) add("o","Frische Transplantate ("+c.wGraftHold.map(x=>x.n).join(", ")+") — Ruhigstellung, keine Scherkräfte.");
+  if(c.wDonorReady && c.wDonorReady.length) add("i","Spenderareale wieder verfügbar: "+c.wDonorReady.map(x=>x.n).join(", ")+".");
+  if(c.lbDiff!=null && Math.abs(c.lbDiff)>=5) add("w","Lund-Browder ergibt "+r1(c.lbAll)+" % gegenüber eingetragenen "+r0(c.tbsa)+" % — VKOF prüfen und übernehmen.");
+  if(c.center && c.center.length) add("o","Zentrumskriterium erfüllt: "+c.center.join(" · "));
+  return A;
+}
+
+const PHASES = [
+  {to:8,   n:"Schockphase · erste 8 Stunden", li:[
+    "Volumen ab Unfallzeitpunkt rechnen, präklinische Menge abziehen",
+    "Wärmeerhalt aktiv — Kühlung bei > 10 % VKOF ist ein Fehler",
+    "VKOF mit Lund-Browder nachmessen, Grad 1 zählt nicht",
+    "Escharotomie prüfen: > 2/3 Zirkumferenz, Beatmungsdruck, Doppler distal",
+    "COHb und Laktat; bei Laktat > 10 an Zyanid denken",
+    "Blasenkatheter, Stundendiurese als Steuerparameter",
+    "Fotodokumentation und Lund-Browder-Schema anlegen"]},
+  {to:24,  n:"Schockphase · Stunde 8–24", li:[
+    "Rate stündlich nach Diurese titrieren — auch nach unten",
+    "Albumin erwägen bei Instabilität oder übermäßigem Bedarf",
+    "IAP messen ab ~30 % VKOF, mindestens 8-stündlich",
+    "Enterale Ernährung binnen 12 h beginnen",
+    "Augenkonsil bei Gesichtsbeteiligung",
+    "Oberkörper 20–45°, Extremitäten hoch"]},
+  {to:48,  n:"Übergang · Stunde 24–48", li:[
+    "Volumen deeskalieren, kumulative Bilanz gegen Ivy-Index prüfen",
+    "Succinylcholin ab jetzt gesperrt",
+    "Erste Nekrektomie planen — Flächen- und Zeitlimit vorher vereinbaren",
+    "Ernährung steigern, Protein getrennt dokumentieren",
+    "Antikontrakturlagerung und Schienen etabliert"]},
+  {to:168, n:"Flow · Tag 3–7", li:[
+    "Sepsis: Trend von Katecholamin- und Insulinbedarf, Nahrungsintoleranz, Thrombozyten",
+    "Kalorien- und Proteinziel getrennt bilanzieren, Propofol-Fett mitrechnen",
+    "Verdunstungsverlust in die Bilanz einrechnen, Natrium kontrollieren",
+    "Phosphat, Magnesium, Kalium engmaschig",
+    "Anti-Xa der Thromboembolieprophylaxe steuern",
+    "Kompressionsversorgung anmelden — Vorlauf einplanen"]},
+  {to:1e9, n:"Flow · ab Tag 8", li:[
+    "MDR-Erreger und Pilze im Blick, invasive Fadenpilzinfektion ist chirurgisch",
+    "Antiinfektiva: ARC oder schon AKI? Dosis täglich gegen Kreatinin prüfen",
+    "Weaning: Phosphat prüfen, Tracheotomie-Indikation neu bewerten",
+    "Kontrakturen, heterotope Ossifikation, CIP/CIM",
+    "Opioid-Reduktionsplan aufstellen, Delir screenen",
+    "Psychologische Betreuung, Reha und BG-Verfahren klären"]}
+];
+const phaseOf = h => h==null ? null : PHASES.find(p=>h<p.to);
+
+/* ============================================================
+   Ansicht: Betten
+   ============================================================ */
+function renderBeds(){
+  let h = "";
+  {
+    const d = backupAge();
+    if(hasData() && (d===null || d>=7)){
+      h += `<div class="note w"><b>Sicherung fällig.</b> ${d===null?"Es wurde noch nie gesichert.":`Die letzte Sicherung ist ${d} Tage her.`}
+        Die Daten liegen nur im Speicher dieses Browsers und können durch ein Update, das Löschen der Browserdaten oder längere Nichtnutzung verloren gehen.
+        <button class="btn sm" id="btnBackupNow" style="margin-top:6px">Jetzt sichern</button></div>`;
+    }
+  }
+  h += `<div class="card"><h3>Station</h3>
+    <button class="btn sm" id="btnVisit" style="float:right;margin:-2px 0 4px 8px">Visitenliste drucken</button>
+    <div class="tiny">Tippe auf ein Bett, um Daten zu erfassen. In der Patientenansicht wechselst du mit einer Wischgeste nach links oder rechts das Bett; der Griff unter der Zeitachse öffnet die 24-Stunden-Übersicht.</div></div>
+    <div class="beds">`;
+  S.beds.forEach(p=>{
+    const c = calc(p);
+    const occupied = !!(p.label || p.weight || p.tbsa || p.injury);
+    const A = occupied ? alerts(p,c) : [];
+    const worst = A.some(a=>a.lv==="e") ? "e" : A.some(a=>a.lv==="w") ? "w" : null;
+    h += `<button class="bed${occupied?" occ":""}" data-bed="${p.id}">
+      <div class="no">Bett ${p.id}</div>
+      <div class="lb ${occupied?"":"free"}">${occupied ? esc(p.label||"ohne Kürzel") : "frei"}</div>`;
+    if(c.day!=null) h += `<div class="day">Tag ${c.day}</div>`;
+    if(occupied){
+      const bits=[];
+      if(c.tbsa!=null) bits.push(`${r0(c.tbsa)} % VKOF`);
+      if(c.kg!=null)   bits.push(`${r0(c.kg)} kg`);
+      if(c.absi!=null) bits.push(`ABSI ${c.absi}`);
+      h += `<div class="meta">${bits.join(" · ")||"&nbsp;"}</div><div class="flags">`;
+      if(c.uoAct==="up"||c.uoAct==="down") h += `<span class="fl w">Diurese ${c.uoAct==="up"?"↓":"↑"}</span>`;
+      if(c.shAba && c.shAba.length>=3) h += `<span class="fl e">Sepsis ${c.shAba.length}/6</span>`;
+      else if(c.shAba && c.shAba.length===2) h += `<span class="fl w">Sepsis 2/6</span>`;
+      if(c.shFw && c.shFw.length>=2) h += `<span class="fl w">${c.shFw.length} Frühzeichen</span>`;
+      if(!c.shiftDone && c.day!=null && c.day>=2) h += `<span class="fl w">Check offen</span>`;
+      if(c.abaHits && c.abaHits.length>=3) h += `<span class="fl e">Sepsis-Trigger</span>`;
+      if(c.wGraftHold && c.wGraftHold.length) h += `<span class="fl i">Graft POD ${c.wGraftHold[0].pod}</span>`;
+      if(p.inhal)  h += `<span class="fl i">Inhalation</span>`;
+      if(p.rhabdo) h += `<span class="fl i">Rhabdo</span>`;
+      if(p.strom)  h += `<span class="fl i">Strom</span>`;
+      if(worst==="e") h += `<span class="fl e">${A.filter(a=>a.lv==="e").length} kritisch</span>`;
+      else if(worst==="w") h += `<span class="fl w">${A.filter(a=>a.lv==="w").length} prüfen</span>`;
+      h += `</div>`;
+    } else {
+      h += `<div class="meta">&nbsp;</div>`;
+    }
+    h += `</button>`;
+  });
+  h += `</div>`;
+  $("#v-beds").innerHTML = h;
+  const bn=$("#btnBackupNow"); if(bn) bn.onclick=()=>$("#btnExport").click();
+  const bv=$("#btnVisit"); if(bv) bv.onclick=()=>{
+    const box=$("#visit"); box.innerHTML=renderVisit(); document.body.classList.add("printvisit");
+    const back=()=>{ document.body.classList.remove("printvisit"); box.innerHTML="";
+      window.removeEventListener("afterprint",back); };
+    window.addEventListener("afterprint",back);
+    setTimeout(()=>{ window.print(); setTimeout(back,800); },60);
+  };
+  $("#v-beds").querySelectorAll("[data-bed]").forEach(b=>{
+    b.onclick = ()=>{ S.cur = +b.dataset.bed; trFI=null; save(); go("pat"); };
+  });
+}
+
+
+/* ---------- 24-Stunden-Plan: Volumenregime und Pflichtinterventionen ---------- */
+function plan24(p,c){
+  const A=[]; const t=c.tbsa;
+  const add=(k,t0,t1,txt,cond)=>{ if(cond===undefined||cond) A.push({k,t0,t1,txt}); };
+  add("vkof",   0,2,  "VKOF mit Lund-Browder nachmessen — nur Grad 2 und 3 zählen");
+  add("bga",    0,1,  "BGA mit COHb, MetHb und Laktat");
+  add("dk",     0,1,  "Blasenkatheter, stündliche Diurese als Steuerparameter");
+  add("waerme", 0,24, "Wärme: Raum aufheizen, Warmluftdecke, Infusionen wärmen, Temperatur dokumentieren");
+  add("eschar", 0,4,  "Escharotomie prüfen: > 2/3 Zirkumferenz, Beatmungsdruck, Doppler distal");
+  add("analg",  0,2,  "Analgesiekonzept: Hintergrund- und Prozedurschmerz getrennt festlegen");
+  add("lager",  0,2,  "Oberkörper 20–45°, Extremitäten hoch, Antikontrakturlagerung");
+  add("tet",    0,4,  "Tetanusschutz prüfen");
+  add("foto",   0,6,  "Fotodokumentation und Lund-Browder-Schema anlegen");
+  add("broncho",0,6,  "Bronchoskopie: Ruß, Ödem, AIS-Grad dokumentieren — keine Steroide, keine Prophylaxe", p.inhal);
+  add("auge",   0,6,  "Augenkonsil, Hornhautschutz" + (p.strom?" — Katarakt-Risiko":""), p.inhal || p.strom || t>=15);
+  add("ck",     0,6,  "CK und Myoglobin, bei Myoglobinurie Zieldiurese 2 ml/kg/h", p.rhabdo||p.strom);
+  add("ekg",    0,24, "EKG-Monitoring mindestens 24 h", p.rhabdo||p.strom);
+  add("komp",   0,24, "Kompartment engmaschig prüfen, auch beim sedierten Patienten", p.strom||p.rhabdo);
+  add("explor", 0,24, "Tiefenausdehnung nur intraoperativ beurteilbar — Hautläsion täuscht", p.strom);
+  add("ern",    6,12, "Enterale Ernährung beginnen — niedrig starten, dann steigern");
+  add("alb",    8,12, "Albumin erwägen bei Instabilität oder übermäßigem Bedarf");
+  add("iap",    8,24, "IAP messen, mindestens 8-stündlich", t!=null && t>=30);
+  add("bil",   12,12, "Kumulativbilanz gegen Ivy-Index prüfen");
+  add("ulcus",  0,6,  "Ulkus- und Thromboembolieprophylaxe ansetzen");
+  add("deesk", 24,24, "Volumen deeskalieren, VKOF und Tiefe neu bewerten");
+  add("succ",  24,24, "Ab jetzt kein Succinylcholin mehr");
+  add("op",    24,24, "Erste Nekrektomie planen — Flächen- und Zeitlimit vereinbaren");
+  return A;
+}
+
+function renderPlan(p,c){
+  if(c.pkTotal==null || c.h==null) return "";
+  const items = plan24(p,c);
+  const done = p.done||{};
+  const nowPct = Math.min(100, Math.max(0, c.h/24*100));
+  const past = c.h>=24;
+  const pos = x => (x/24*100);
+  // Pflichtpunkte, deren Fenster abgelaufen ist und die nicht abgehakt sind
+  const overdue = items.filter(i=>!done[i.k] && c.h > i.t1);
+  const openNow = items.filter(i=>!done[i.k] && c.h >= i.t0 && c.h <= i.t1);
+
+  let h = `<details class="acc" data-k="plan" ${accOpen("plan", !past)}><summary>24-Stunden-Plan</summary><div class="body">`;
+
+  // Grafik
+  h += `<div class="plan">
+    <div class="lane-lab">Volumen</div>
+    <div class="lane">
+      <div class="blk a" style="left:0;width:${pos(8)}%">
+        <b>${r0(c.pkRate8)}</b> ml/h
+        <span>Hälfte in 8 h</span>
+      </div>
+      <div class="blk b" style="left:${pos(8)}%;width:${pos(16)}%">
+        <b>${r0(c.rate16)}</b> ml/h
+        <span>Rest über 16 h</span>
+      </div>
+      ${!past?`<div class="now" style="left:${nowPct}%"></div>`:""}
+    </div>
+    <div class="lane-lab">Pflichtpunkte</div>
+    <div class="lane m">
+      ${(()=>{ const g={};
+        items.forEach(i=>{ (g[i.t0]=g[i.t0]||[]).push(i); });
+        return Object.keys(g).map(k=>{
+          const t0=+k, grp=g[k];
+          const anyOver = grp.some(i=>!done[i.k] && c.h>i.t1);
+          const anyNow  = grp.some(i=>!done[i.k] && c.h>=i.t0 && c.h<=i.t1);
+          const allDone = grp.every(i=>done[i.k]);
+          const st = anyOver?"o":anyNow?"n":allDone?"d":"";
+          const side = t0===0 ? "left:0;margin-left:0" : t0>=24 ? "right:0;margin-left:0" : `left:${pos(t0)}%`;
+          return `<div class="tick ${st}" style="${side}"><span>${grp.length}</span></div>`;
+        }).join(""); })()}
+      ${!past?`<div class="now" style="left:${nowPct}%"></div>`:""}
+    </div>
+    <div class="ax">${[0,4,8,12,16,20,24].map(x=>`<span>${x}</span>`).join("")}</div>
+    <div class="axlab">Stunden ab Unfallzeitpunkt</div>
+  </div>`;
+
+  if(overdue.length) h += `<div class="note w"><b>${overdue.length} Punkt${overdue.length>1?"e":""} überfällig</b> — Zeitfenster abgelaufen und nicht abgehakt.</div>`;
+  else if(openNow.length) h += `<div class="note i"><b>${openNow.length} Punkt${openNow.length>1?"e":""} jetzt fällig.</b></div>`;
+
+  // Liste
+  h += `<div class="plist">`;
+  items.forEach(i=>{
+    const st = done[i.k] ? "done" : (c.h>i.t1 ? "over" : (c.h>=i.t0 ? "now" : "fut"));
+    const win = i.t0===i.t1 ? `ab ${i.t0} h` : `${i.t0}–${i.t1} h`;
+    h += `<label class="prow ${st}">
+      <input type="checkbox" data-plan="${i.k}" ${done[i.k]?"checked":""}>
+      <span class="win">${win}</span>
+      <span class="txt">${esc(i.txt)}</span>
+    </label>`;
+  });
+  h += `</div>
+  <div class="formula">Fenster orientierend nach Leitlinie und Hausablauf · abgehakte Punkte erscheinen im Übergabetext</div>
+  </div></details>`;
+  return h;
+}
+
+
+/* ---------- Textbausteine zum Antippen ---------- */
+const CHIPS = {
+  injury:  ["Verbrühung","Flamme","Kontakt","Explosion","Stromunfall","Verätzung","geschlossener Raum","Sturz aus Höhe"],
+  extent:  ["Gesicht/Hals","Hände","Füße","Anogenital","zirkulär","über großen Gelenken"],
+  inhal:   ["klinisch kein Anhalt","Ruß enoral","AIS-Grad","Bronchoskopie unauffällig","Bronchialtoilette"],
+  wounds:  ["Polyhexanid","Suprathel","Silberauflage","VAC","Mepitel","Verbandwechsel täglich","Verbandwechsel alle 2 Tage"],
+  surgery: ["Nekrektomie tangential","Nekrektomie epifaszial","enzymatisch (Bromelain)","Spalthaut Mesh 1:1,5","Mesh 1:3","MEEK","Escharotomie","OP geplant"],
+  grafts:  ["angeheilt","Teilverlust","Ruhigstellung","erster Verbandwechsel","Kompression ab Freigabe"],
+  donor:   ["Oberschenkel","Rücken","Kopfhaut","abgeheilt","erneute Entnahme möglich"],
+  fluidtxt:["nach Diurese titriert","Albumin läuft","Noradrenalin","IAP unauffällig","Bilanz ausgeglichen","Rate reduziert"],
+  nutritxt:["Fresubin Intensive","Nutrison Protein Intense","Peptamen AF","Proteinpulver","Prokinetika","postpylorische Sonde","Reflux","perioperativ weiter"],
+  pain:    ["Sufentanil","Hydromorphon","Oxycodon","S-Ketamin","Metamizol","Gabapentin","Pregabalin","Clonidin","Dexmedetomidin","Lidocain i.v.","Regionalverfahren","Bolus vor Verbandwechsel","Juckreiz"],
+  infect:  ["Meropenem","Piperacillin/Tazobactam","Vancomycin","Linezolid","Cefiderocol","Caspofungin","Wundbiopsie","Blutkulturen","TDM","Deeskalation","MRE-Isolierung","kein Fokus"],
+  mobility:["Physiotherapie","Ergotherapie","Schienen","Bettkante","Transfer","Ruhigstellung Transplantat","Antikontrakturlagerung"],
+  // Routinen
+  airway:  ["Tubus","Trachealkanüle","druckkontrolliert","PEEP","FiO₂","Spontanatmung","SBT","Bauchlage","Bronchoskopie","Dekanülierung geplant"],
+  circ:    ["Noradrenalin","Vasopressin","Dobutamin","Hydrocortison","volumenbedürftig","Echo","Vorhofflimmern","katecholaminfrei"],
+  sed:     ["Propofol","Midazolam","Dexmedetomidin","RASS-Ziel","Aufwachversuch","CAM-ICU negativ","Delir","Melatonin"],
+  renal:   ["Diurese ausreichend","Kreatinin stabil","CRRT mit Citrat","Furosemid","Phosphat","Magnesium","Kalium"],
+  devices: ["ZVK","Arterie","PiCCO","PESO","Blasenkatheter","Magensonde","Wechsel geplant","kann entfernt werden"],
+  prophyl: ["Enoxaparin","UFH","prophylaktisch","therapeutisch","Anti-Xa im Ziel","PPI","Ulkusprophylaxe absetzbar","Lagerung"],
+  labs:    ["EW steigend","EW fallend","Hb-Trigger 7","EK transfundiert","ROTEM","Thrombozyten","Gerinnung unauffällig"],
+  goals:   ["Angehörigengespräch geführt","Therapieziel unverändert","Ethikkonsil","Betreuung/Vorsorge","Reha angemeldet"],
+  events:  ["ruhiger Verlauf","OP","Verlegung","Reanimation","Fieberspitze","Blutung"]
+};
+
+/* ---------- Karte 2: Routinen der Intensivmedizin (ohne Dopplung zur Burn-Karte) ---------- */
+const ROUT_FIELDS = [
+  ["airway",  "Atemweg und Beatmung",   "Tubus oder Trachealkanüle, Modus, PEEP, FiO₂, Weaningplan"],
+  ["circ",    "Kreislauf",              "Katecholamine, MAP-Ziel, Rhythmus, Echo"],
+  ["sed",     "Sedierung und Delir",    "RASS-Ziel, Substanzen, Delirscreening, Reduktionsplan"],
+  ["renal",   "Niere, Bilanz, Elektrolyte","Diurese, Kreatinin, CRRT, Phosphat und Magnesium"],
+  ["devices", "Zugänge und Devices",    "welche liegen, seit wann, was kann heute weg"],
+  ["prophyl", "Prophylaxen",            "Thromboembolie mit Anti-Xa, Ulkus, Lagerung"],
+  ["labs",    "Labor, Gerinnung, Transfusion","Hb-Verlauf, Transfusionen, Gerinnung"],
+  ["goals",   "Therapieziel und Angehörige","Gespräche, Ziel, Betreuung, Reha"],
+  ["events",  "Ereignisse der letzten 24 h", "was war los, was ist offen"]
+];
+
+/* ---------- Vorschläge aus den eingegebenen Daten ---------- */
+function autoHand(p,c){
+  const A={}, dt = x => x ? x.split("-").reverse().join(".").slice(0,6)+x.slice(0,4).slice(2) : "";
+  const dmy = x => { if(!x) return ""; const [y,m,d2]=x.split("-"); return `${d2}.${m}.`; };
+
+  if(p.injury){
+    const d = new Date(p.injury);
+    const bits = [`Unfall ${d.toLocaleString("de-DE",{dateStyle:"short",timeStyle:"short"})}`];
+    if(c.day!=null) bits.push(`Burn-Tag ${c.day}`);
+    if(p.strom) bits.push("Stromverletzung");
+    if(p.inhal) bits.push("Inhalationstrauma");
+    if(p.rhabdo) bits.push("Rhabdomyolyse");
+    A.injury = bits.join(", ");
+  }
+  if(c.tbsa!=null){
+    let t = `${r0(c.tbsa)} % VKOF (Grad 2 und 3)`;
+    if(c.lbCount) t += `, nach Lund-Browder ${r1(c.lbAll)} % davon ${r1(c.lbDeep)} % tief (2b/3)`;
+    else if(p.tbsa3) t += ", drittgradige Anteile vorhanden";
+    if(c.center && c.center.length) t += `. Zentrumskriterium: ${c.center.join(", ")}`;
+    A.extent = t;
+  }
+  A.inhal = p.inhal ? "ja — keine Steroide, keine Antibiotikaprophylaxe" : "nein";
+
+  if(c.wound){
+    const off = c.wound.filter(x=>x.st==="burn"||x.st==="exc");
+    if(off.length) A.wounds = off.map(x=>`${x.n}: ${WSTAT[x.st].n}${x.pod!=null?` seit ${x.pod} d`:""}`).join(" · ")
+      + (c.wOpenPct?` — offen ca. ${r1(c.wOpenPct)} % KOF`:"");
+    const ex = c.wound.filter(x=>x.st==="exc"||x.st==="graft").sort((a,b)=>(a.pod??99)-(b.pod??99));
+    if(ex.length) A.surgery = `zuletzt ${ex[0].n}: ${WSTAT[ex[0].st].n} am ${dmy(ex[0].dt)}${ex[0].pod!=null?` (POD ${ex[0].pod})`:""}`;
+    const gr = c.wound.filter(x=>x.st==="graft");
+    if(gr.length) A.grafts = gr.map(x=>`${x.n}: POD ${x.pod}${x.hold?" — Ruhigstellung, keine Scherkräfte":""}`).join(" · ");
+    const dn = c.wound.filter(x=>x.st==="donor");
+    if(dn.length) A.donor = dn.map(x=>`${x.n}: Tag ${x.pod}${x.ready?" — erneute Entnahme möglich":" — Abheilung läuft"}`).join(" · ");
+    if(gr.some(x=>x.hold)) A.mobility = `Ruhigstellung ${gr.filter(x=>x.hold).map(x=>x.n).join(", ")} — keine Scherkräfte. Übrige Areale nach Plan mobilisieren.`;
+  }
+  const giv = num(p.fluidGiven);
+  if(c.pkTotal!=null){
+    const f=[];
+    if(giv!=null) f.push(`bisher ${r0(giv)} ml${c.mlkgpct!=null?` (${r1(c.mlkgpct)} ml/kg/%)`:""}`);
+    if(c.sollPk!=null) f.push(`Parkland-Soll jetzt ${r0(c.sollPk)} ml`);
+    f.push(`Ivy-Grenze ${r0(c.ivy)} ml`);
+    f.push(`Zieldiurese ${p.rhabdo?r0(c.uoRhab):r0(c.uoLo)+"–"+r0(c.uoHi)} ml/h`);
+    if(c.uoLastKg!=null) f.push(`zuletzt ${r1(c.uoLastKg)} ml/kg/h`);
+    A.fluidtxt = f.join(", ");
+  }
+  if(c.kcalHi!=null){
+    const n2=[`Ziel ${r0(num(p.kcalTarget)||c.kcalHi)} kcal und ${r1(c.protLo)}–${r1(c.protHi)} g Eiweiß`];
+    if(num(p.kcalAct)!=null||num(p.protAct)!=null) n2.push(`erreicht ${r0(num(p.kcalAct))} kcal / ${r0(num(p.protAct))} g`);
+    if(c.feedName) n2.push(c.feedName);
+    if(c.propKcal) n2.push(`Propofol ${r0(c.propKcal)} kcal/d`);
+    A.nutritxt = n2.join(", ");
+  }
+  if(c.shiftDone){
+    A.infect = `Dienstcheck ${SHIFTS.find(x=>x[0]===c.shiftNow.s)[1]}: ${c.shAba.length}/6 ABA-Trigger, ${c.shFw.length} Frühzeichen`
+      + (c.shAba.length>=3 ? " — Fokussuche läuft" : "");
+  }
+  return A;
+}
+
+/* ---------- Ein Textfeld mit Vorschlag, Rücksetzer und Bausteinen ---------- */
+function noteField(scope, key, label, ph, autoTxt, p){
+  const store = scope==="hand" ? (p.hand||{}) : (p.rout||{});
+  const flags = scope==="hand" ? (p.handAuto||{}) : (p.routAuto||{});
+  const isAuto = autoTxt!=null && flags[key]!==false && !store[key];
+  const val = isAuto ? autoTxt : (store[key]||"");
+  const chips = CHIPS[key]||[];
+  return `<div class="nf" data-nf="${scope}|${key}">
+    <div class="nfh"><label class="f" style="margin:0">${label}</label>
+      ${isAuto?`<span class="autotag">automatisch</span>`:""}
+      ${autoTxt!=null?`<button class="nfr" data-reset="${scope}|${key}" title="Vorschlag wiederherstellen">↺</button>`:""}
+    </div>
+    <textarea data-fld="${scope}|${key}" placeholder="${esc(ph)}">${esc(val)}</textarea>
+    ${chips.length?`<div class="nfc">${chips.map(t=>`<button type="button" data-chip="${scope}|${key}|${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}
+  </div>`;
+}
+
+
+/* ---------- Visitenliste: alle Betten auf eine Seite ---------- */
+function renderVisit(){
+  const rows = S.beds.map(p=>{
+    const c = calc(p);
+    const occ = !!(p.label||p.weight||p.tbsa||p.injury);
+    if(!occ) return `<tr class="vfree"><td>${p.id}</td><td colspan="7">frei</td></tr>`;
+    const A = alerts(p,c).filter(a=>a.lv==="e"||a.lv==="w").map(a=>a.t.replace(/<[^>]+>/g,""));
+    const vol = c.total24!=null
+      ? `${r0(num(p.fluidGiven))||0} / ${r0(c.total24)} ml${c.devPk!=null?` (${c.devPk>0?"+":""}${r0(c.devPk)} %)`:""}`
+      : "–";
+    const uo = c.uoLastKg!=null ? `${r1(c.uoLastKg)} ml/kg/h` : "–";
+    const chk = c.shiftDone ? `${c.shAba.length}/6 · ${c.shFw.length} FZ` : "offen";
+    const off = c.wOpenPct ? `${r1(c.wOpenPct)} %` : "–";
+    return `<tr>
+      <td><b>${p.id}</b></td>
+      <td>${esc(p.label||"—")}</td>
+      <td>${c.day!=null?"Tag "+c.day:"–"}</td>
+      <td>${c.tbsa!=null?r0(c.tbsa)+" %":"–"}${c.child?" K":""} / ${c.kg!=null?r0(c.kg)+" kg":"–"}</td>
+      <td>${vol}</td>
+      <td>${uo}</td>
+      <td>${chk}</td>
+      <td class="vw">${A.length?A.map(x=>"• "+x).join("<br>"):"—"}</td>
+    </tr>`;
+  }).join("");
+  return `<div class="printhdr">
+      <div class="t">Visitenliste · Verbrennungs-Station</div>
+      <div class="s">Stand ${new Date().toLocaleString("de-DE",{dateStyle:"short",timeStyle:"short"})} · ${SHIFTS.find(x=>x[0]===curShift().s)[1]} · Arbeitshilfe, keine Handlungsanweisung</div>
+    </div>
+    <table class="vtab"><tr>
+      <th>Bett</th><th>Kürzel</th><th>Tag</th><th>VKOF / kg</th>
+      <th>Volumen Ist/Soll 24 h</th><th>Diurese</th><th>Check</th><th>Offene Punkte</th></tr>
+      ${rows}</table>
+    <div class="vleg">K = Kind (Kinderformel) · Check = ABA-Trigger von 6 und Zahl der Frühzeichen des laufenden Dienstes</div>`;
+}
+
+/* ============================================================
+   Ansicht: Patient
+   ============================================================ */
+function tl(h){
+  if(h==null) return "";
+  const span = 168;                      // 7 Tage Achse
+  const pos = Math.min(100, Math.max(0, h/span*100));
+  return `<div class="tl"><div class="bar">
+      <span class="zl" style="left:6px">SCHOCK</span>
+      <span class="zl" style="left:32%">FLOW</span>
+      <div class="mk" style="left:${pos}%"></div>
+    </div><div class="ax"><span>Unfall</span><span>24 h</span><span>Tag 3</span><span>Tag 5</span><span>Tag 7+</span></div></div>`;
+}
+
+function renderPat(){
+  const p = P(), c = calc(p), A = alerts(p,c), ph = phaseOf(c.h);
+  const on = (b)=>b?"on":"";
+  const iv = v => v===null||v===undefined?"":v;
+
+  let h = `<div class="card">
+    <div class="printhdr">
+      <div class="t">Bett ${p.id}${p.label?" · "+esc(p.label):""}</div>
+      <div class="s">${c.day!=null?"Burn-Tag "+c.day+" · ":""}${c.tbsa!=null?r0(c.tbsa)+" % VKOF · ":""}${c.kg!=null?r0(c.kg)+" kg · ":""}gedruckt am ${new Date().toLocaleString("de-DE",{dateStyle:"short",timeStyle:"short"})} · Arbeitshilfe, keine Handlungsanweisung</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:9px">
+      <div style="font-size:17px;font-weight:800">Bett ${p.id}</div>
+      <select id="bedSel" style="width:auto;padding:5px 26px 5px 9px;font-size:12px">
+        ${S.beds.map(b=>`<option value="${b.id}" ${b.id===p.id?"selected":""}>Bett ${b.id}${b.label?" · "+esc(b.label):""}</option>`).join("")}
+      </select>
+      <button class="btn sm" id="btnPrint" style="margin-left:auto">Drucken</button>
+      <button class="btn d sm" id="btnClear">Bett leeren</button>
+    </div>
+    <div class="grid g2">
+      <div><label class="f">Kürzel (kein Name)</label><input type="text" id="f_label" value="${esc(p.label)}" placeholder="z. B. M.K. / Fall 12"></div>
+      <div><label class="f">Unfallzeitpunkt</label><input type="datetime-local" id="f_injury" value="${esc(p.injury)}" class="${PL_bad(p,c,"injury")}"></div>
+    </div>
+    <div class="grid g3" style="margin-top:8px">
+      <div><label class="f">Alter (J)</label><input type="number" inputmode="numeric" id="f_age" value="${iv(p.age)}" class="${PL_bad(p,c,"age")}"></div>
+      <div><label class="f">Gewicht (kg)</label><input type="number" inputmode="decimal" id="f_weight" value="${iv(p.weight)}" class="${PL_bad(p,c,"weight")}"></div>
+      <div><label class="f">Größe (cm)</label><input type="number" inputmode="numeric" id="f_height" value="${iv(p.height)}" class="${PL_bad(p,c,"height")}"></div>
+    </div>
+    <div class="grid g2" style="margin-top:8px">
+      <div><label class="f">VKOF (%) — nur Grad 2 und 3</label><input type="number" inputmode="decimal" id="f_tbsa" value="${iv(p.tbsa)}" class="${PL_bad(p,c,"tbsa")}"></div>
+      <div><label class="f">Geschlecht</label>
+        <div class="seg tight"><button data-sex="m" class="${on(p.sex==="m")}">männlich</button><button data-sex="w" class="${on(p.sex==="w")}">weiblich</button></div>
+      </div>
+    </div>
+    <div class="seg em" style="margin-top:8px">
+      <button data-tg="tbsa3" class="${on(p.tbsa3)}">3.-gradig</button>
+      <button data-tg="inhal" class="${on(p.inhal)}">Inhalation</button>
+      <button data-tg="rhabdo" class="${on(p.rhabdo)}">Rhabdo</button>
+      <button data-tg="strom" class="${on(p.strom)}">Strom</button>
+    </div>`;
+
+  const PL = plausi(p,c);
+  if(PL.list.length){
+    h += `<div class="note e" style="margin-top:9px"><b>Eingabe prüfen</b><ul style="margin:4px 0 0;padding-left:16px">${
+      PL.list.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+  }
+  if(c.h!=null){
+    h += tl(c.h) + `<div class="chips">
+      <span class="chip">Burn-Tag <b>${c.day}</b></span>
+      <span class="chip">seit Unfall <b>${r1(c.h)} h</b></span>
+      ${ph?`<span class="chip">${ph.n}</span>`:""}
+    </div>`;
+  }
+  if(c.h!=null && c.pkTotal!=null){
+    h += `<button class="axh" id="axHandle"><span class="g"></span>24-Stunden-Achse<span class="c">↑</span></button>`;
+  }
+  h += `</div>`;
+
+  // Warnungen
+  if(A.length){
+    h += `<div class="card"><h3>Jetzt beachten</h3>`;
+    ["e","w","o","i"].forEach(lv=>A.filter(a=>a.lv===lv).forEach(a=>{
+      h += `<div class="note ${lv}">${a.t}</div>`;
+    }));
+    h += `</div>`;
+  }
+
+  // Phasen-Checkliste
+  if(ph){
+    h += `<details class="acc" data-k="pruef" ${accOpen("pruef",true)}><summary>Prüfpunkte · ${ph.n}</summary><div class="body">
+      <ul style="margin:0;padding-left:18px;font-size:13px">${ph.li.map(x=>`<li style="margin-bottom:4px">${x}</li>`).join("")}</ul>
+    </div></details>`;
+  }
+
+  // 24-Stunden-Plan
+  h += renderPlan(p,c);
+
+  // Kennzahlen
+  h += `<details class="acc" data-k="kenn" ${accOpen("kenn",true)}><summary>Kennzahlen</summary><div class="body"><div class="grid g2">
+    <div class="res"><div class="lab">Körperoberfläche</div><div class="val sm num">${r2(c.bsa)} m²</div><div class="sub">Mosteller</div></div>
+    <div class="res"><div class="lab">BMI</div><div class="val sm num">${r1(c.bmi)}</div><div class="sub">kg/m²</div></div>
+    <div class="res ${c.absi>=10?"dang":c.absi>=8?"warn":""}"><div class="lab">ABSI</div><div class="val sm num">${c.absi??"–"}</div><div class="sub">Überleben ${c.absiTxt||"–"}</div></div>
+    <div class="res"><div class="lab">Revised Baux</div><div class="val sm num">${r0(c.rbaux)}</div><div class="sub">Alter + %VKOF + 17 bei Inhalation</div></div>
+    <div class="res em"><div class="lab">Verdunstung</div><div class="val sm num">${r0(c.evap)} ml/h</div><div class="sub">≈ ${r1(c.evap?c.evap*24/1000:null)} l/Tag, steht in keiner Bilanz</div></div>
+    <div class="res"><div class="lab">Zieldiurese</div><div class="val sm num">${p.rhabdo?r0(c.uoRhab):r0(c.uoLo)+"–"+r0(c.uoHi)} ml/h</div><div class="sub">${p.rhabdo?"2 ml/kg/h bei Rhabdomyolyse":(c.kg<30?"1 ml/kg/h (Kind < 30 kg)":"0,5–1,0 ml/kg/h")}${p.strom&&!p.rhabdo?" · bei Myoglobinurie auf 2 ml/kg/h anheben":""}</div></div>
+  </div>
+  <div class="formula">KOF = √(kg × cm / 3600) · Verdunstung = (25 + %VKOF) × KOF · ABSI aus Geschlecht, Alter, VKOF, Inhalation, Grad 3</div>
+  </div></details>`;
+
+  // Volumen
+  h += `<details class="acc" data-k="vol" ${accOpen("vol", c.h!=null&&c.h<48)}><summary>Volumen · Schockphase</summary><div class="body">
+    <div class="grid g2">
+      <div class="res ${c.child?"em":""}"><div class="lab">${c.child?"Verbrennungsanteil 24 h":"Parkland 24 h"}</div><div class="val num">${r0(c.burn24)} ml</div>
+        <div class="sub">${c.child?"3 ml × kg × % (Kinderformel) · Hälfte in 8 h":"4 ml × kg × % · Hälfte in 8 h"}</div></div>
+      ${c.child
+        ? `<div class="res em"><div class="lab">Erhaltungsbedarf</div><div class="val num">${r0(c.maint)} ml/h</div>
+             <div class="sub">4-2-1-Regel, glukosehaltig · ${r0(c.maint24)} ml/24 h — <b>zusätzlich</b> zum Verbrennungsanteil</div></div>`
+        : `<div class="res"><div class="lab">Brooke / ABA-Start</div><div class="val num">${r0(c.brTotal)} ml</div><div class="sub">2 ml × kg × %</div></div>`}
+    </div>
+    ${c.child?`<div class="res em" style="margin-top:8px"><div class="lab">Gesamt in 24 h</div><div class="val num">${r0(c.total24)} ml</div>
+      <div class="sub">Verbrennungsanteil ${r0(c.burn24)} ml + Erhaltungsbedarf ${r0(c.maint24)} ml</div></div>`:""}
+    ${c.child?`<div class="note o"><b>Kind erkannt${c.childBy?" über das "+c.childBy:""}.</b> Gerechnet wird mit <b>3 ml × kg × % VKOF</b> und <b>zusätzlichem Erhaltungsbedarf</b> nach der 4-2-1-Regel — Erwachsene bekommen keinen Erhaltungsbedarf, Kinder schon. Zieldiurese 1 ml/kg/h. Eigene Leitlinie: AWMF 006-128 für das Kindesalter. Ab dem Kriterium Alter &lt; 8 Jahre gehört das Kind in ein Kinderverbrennungszentrum.</div>`:`<div class="note i"><b>Welche Formel?</b> Beide sind zulässig — sie legen nur den <b>Startwert</b> fest, gesteuert wird über die Diurese.
+      <b>Parkland (4 ml)</b> ist der eingeführte deutsche Standard und die sichere Wahl, wenn engmaschig nach unten titriert wird.
+      <b>Brooke (2 ml)</b> empfiehlt die ABA seit 2024 als Einstieg, um Fluid Creep zu vermeiden — sinnvoll bei großer Fläche, Adipositas, Herz- oder Niereninsuffizienz und immer dann, wenn stündliches Nachsteuern gesichert ist.
+      Praktisch: <b>mit Brooke starten und nach oben titrieren ist sicherer als mit Parkland zu starten und nicht nach unten zu titrieren.</b> Bei Inhalationstrauma und Elektrotrauma liegt der tatsächliche Bedarf regelhaft höher als jede Formel.</div>`}
+    <div class="chips">
+      <span class="chip">erste 8 h <b>${r0(c.pkRate8)} ml/h</b></span>
+      <span class="chip">Stunde 8–24 <b>${r0(c.rate16)} ml/h</b></span>
+      ${c.brTotal!=null?`<span class="chip">Brooke erste 8 h <b>${r0(c.brRate8)} ml/h</b></span>`:""}
+      <span class="chip">Rule of Ten <b>${c.rot!=null?r0(c.rot)+" ml/h":"n. a."}</b></span>
+    </div>
+    <div class="hr"></div>
+    <div class="grid g2">
+      <div><label class="f">Bisher gegeben seit Unfall (ml)</label><input type="number" inputmode="numeric" id="f_fluidGiven" value="${iv(p.fluidGiven)}" placeholder="inkl. Präklinik" class="${PL_bad(p,c,"fluidGiven")}"></div>
+      <div class="res ${c.devPk!=null&&Math.abs(c.devPk)>25?"warn":""}"><div class="lab">Soll nach Parkland jetzt</div><div class="val sm num">${r0(c.sollPk)} ml</div>
+        <div class="sub">${c.devPk!=null?(c.devPk>0?"+":"")+r0(c.devPk)+" % Abweichung":"Brooke-Soll "+r0(c.sollBr)+" ml"}</div></div>
+    </div>`;
+  if(c.restRate!=null){
+    h += `<div class="res ${c.restCatchUp?"warn":""}" style="margin-top:8px"><div class="lab">Restrate bis Ende ${esc(c.phase)}</div>
+      <div class="val num">${r0(c.restRate)} ml/h</div>
+      <div class="sub">${r0(c.restMl)} ml über ${r1(c.restH)} h · anschließend neu titrieren</div></div>`;
+    if(c.restCatchUp) h += `<div class="note w">Der Rückstand ließe sich rechnerisch nur mit einer unplausiblen Rate aufholen. <b>Nicht bolusartig nachholen</b> — nach Perfusion und Diurese titrieren und die Ursache des Rückstands klären.</div>`;
+  } else if(c.restShort){
+    h += `<div class="res" style="margin-top:8px"><div class="lab">Bis Ende ${esc(c.phase)}</div>
+      <div class="val sm num">${r0(c.restMl)} ml</div>
+      <div class="sub">weniger als 1 h Restzeit — Rate wäre irreführend, jetzt für die Folgephase neu planen</div></div>`;
+  }
+  h += `<div class="chips">
+      <span class="chip">Ivy-Index <b>${r0(c.ivy)} ml</b></span>
+      <span class="chip">Colloid-Rescue ab <b>${r0(c.rescue)} ml</b></span>
+      ${c.mlkgpct!=null?`<span class="chip">aktuell <b>${r1(c.mlkgpct)} ml/kg/%</b></span>`:""}
+    </div>
+    <div class="formula">Uhr läuft ab Unfallzeitpunkt · Formel = Startwert, Steuerung über Diurese und Perfusion</div>
+    </div></details>`;
+
+  // Ernährung
+  const feed = FEEDS[p.feedIdx]||FEEDS[0];
+  h += `<details class="acc" data-k="ern" ${accOpen("ern",false)}><summary>Ernährung</summary><div class="body">
+    <div class="grid g2">
+      <div class="res"><div class="lab">Energieziel</div><div class="val sm num">${r0(c.kcalLo)}–${r0(c.kcalHi)} kcal/d</div><div class="sub">25–30 kcal/kg, besser Kalorimetrie</div></div>
+      <div class="res"><div class="lab">Proteinziel</div><div class="val sm num">${r1(c.protLo)}–${r1(c.protHi)} g/d</div><div class="sub">1,5–2,0 g/kg</div></div>
+    </div>
+    <div class="grid g3" style="margin-top:8px">
+      <div><label class="f">Ziel kcal (Kalorimetrie)</label><input type="number" inputmode="numeric" id="f_kcalTarget" value="${iv(p.kcalTarget)}" placeholder="${r0(c.kcalHi)}"></div>
+      <div><label class="f">Erreicht kcal</label><input type="number" inputmode="numeric" id="f_kcalAct" value="${iv(p.kcalAct)}"></div>
+      <div><label class="f">Erreicht Protein g</label><input type="number" inputmode="numeric" id="f_protAct" value="${iv(p.protAct)}"></div>
+    </div>`;
+  if(c.kcalPct!=null||c.protPct!=null){
+    h += `<div class="grid g2" style="margin-top:8px">
+      <div class="res ${c.kcalPct<80?"warn":""}"><div class="lab">Energie erreicht</div><div class="val sm num">${r0(c.kcalPct)} %</div></div>
+      <div class="res ${c.protPct<80?"warn":""}"><div class="lab">Protein erreicht</div><div class="val sm num">${r0(c.protPct)} %</div><div class="sub">der häufigste Fehler</div></div>
+    </div>`;
+  }
+  h += `<div class="hr"></div>
+    <label class="f">Sondenkost</label>
+    <select id="f_feedIdx">${FEEDS.map((f,i)=>`<option value="${i}" ${i===p.feedIdx?"selected":""}>${esc(f.n)}${f.k?` · ${r2(f.k)} kcal/ml · ${r1(f.p)} g/100 ml`:""}</option>`).join("")}</select>`;
+  if(feed.k===null){
+    h += `<div class="grid g2" style="margin-top:8px">
+      <div><label class="f">kcal/ml</label><input type="number" inputmode="decimal" id="f_feedK" value="${iv(p.feedK)}"></div>
+      <div><label class="f">Protein g/100 ml</label><input type="number" inputmode="decimal" id="f_feedP" value="${iv(p.feedP)}"></div>
+    </div>`;
+  }
+  if(c.mlProt!=null){
+    h += `<div class="grid g2" style="margin-top:8px">
+      <div class="res"><div class="lab">Für Proteinziel 2,0 g/kg</div><div class="val sm num">${r0(c.mlProt)} ml/d</div><div class="sub">= ${r0(c.rateProt)} ml/h · bringt ${r0(c.kcalAtProt)} kcal</div></div>
+      <div class="res"><div class="lab">Für Kalorienziel</div><div class="val sm num">${r0(c.mlKcal)} ml/d</div><div class="sub">= ${r0(c.rateKcal)} ml/h · bringt ${r0(c.protAtKcal)} g Protein</div></div>
+    </div>`;
+    if(c.gapProt>1) h += `<div class="note w">Bei Steuerung nach Kalorien fehlen <b>${r0(c.gapProt)} g Protein</b> — entspricht etwa <b>${r0(c.powder)} g Proteinpulver</b> (88 g/100 g). Pulver zusetzen statt Laufrate erhöhen.</div>`;
+  }
+  h += `<div class="hr"></div>
+    <div class="grid g2">
+      <div><label class="f">Propofol 2 % (ml/h)</label><input type="number" inputmode="decimal" id="f_propofol" value="${iv(p.propofol)}"></div>
+      <div class="res"><div class="lab">Propofol-Kalorien</div><div class="val sm num">${r0(c.propKcal)} kcal/d</div><div class="sub">≈ 1,1 kcal/ml — mitbilanzieren</div></div>
+    </div>
+    <div class="chips"><span class="chip">Glukose-Obergrenze <b>${r0(c.gluMax)} g/d</b> (5 mg/kg/min)</span><span class="chip">Fett <b>&lt; 35 % E</b></span></div>
+    </div></details>`;
+
+  // ---------- Diurese-Titration ----------
+  h += `<details class="acc" data-k="uo" ${accOpen("uo", c.h!=null&&c.h<72)}><summary>Diurese · Titration</summary><div class="body">
+    <div class="grid g3">
+      <div><label class="f">Urin letzte Stunde (ml)</label><input type="number" inputmode="numeric" id="uo_ml" placeholder="z. B. 55"></div>
+      <div><label class="f">Aktuelle Laufrate (ml/h)</label><input type="number" inputmode="numeric" id="f_curRate" value="${iv(p.curRate)}"></div>
+      <div style="display:flex;align-items:flex-end"><button class="btn p" id="uo_add" style="width:100%">Eintragen</button></div>
+    </div>`;
+  if(c.uoLastKg!=null){
+    const cls = c.uoAct==="hold" ? "" : c.uoAct==="down" ? "warn" : "dang";
+    h += `<div class="res ${cls}" style="margin-top:9px">
+      <div class="lab">Letzte Stunde</div>
+      <div class="val num">${r1(c.uoLastKg)} ml/kg/h</div>
+      <div class="sub">${r0(c.uoLast)} ml · ${c.uoMode==="rhabdo"?"Ziel 2 ml/kg/h (Rhabdomyolyse)":c.uoMode==="kind"?"Ziel 1 ml/kg/h (Kind < 30 kg)":"Ziel 0,5–1,0 ml/kg/h"}</div></div>
+      <div class="note ${c.uoAct==="hold"?"i":"w"}"><b>${c.uoAct==="hold"?"Beibehalten":c.uoAct==="up"?"Erhöhen":"Senken"}</b> — ${esc(c.uoTxt)}${
+        c.uoNew?` <b>${r0(c.uoNew[0])}${c.uoNew[0]!==c.uoNew[1]?"–"+r0(c.uoNew[1]):""} ml/h</b>`:""}</div>`;
+    // Verlaufsbalken der letzten Stunden
+    const S8=c.uoSeries.slice(-12), mx=Math.max(c.uoTargetHi*1.6, ...S8.map(x=>x.v));
+    h += `<div style="display:flex;align-items:flex-end;gap:3px;height:52px;margin-top:9px;position:relative;
+      border-bottom:1px solid var(--line);padding-bottom:1px">
+      <div style="position:absolute;left:0;right:0;bottom:${c.uoTargetLo/mx*100}%;border-top:1px dashed #9FC0BA"></div>
+      <div style="position:absolute;left:0;right:0;bottom:${c.uoTargetHi/mx*100}%;border-top:1px dashed #9FC0BA"></div>
+      ${S8.map(x=>{const inb=x.v>=c.uoTargetLo&&x.v<=c.uoTargetHi;
+        return `<div title="${r1(x.v)}" style="flex:1;height:${Math.max(3,Math.min(100,x.v/mx*100))}%;border-radius:2px 2px 0 0;
+        background:${inb?"var(--acc)":x.v<c.uoTargetLo?"var(--dang)":"var(--warn)"};opacity:.85"></div>`;}).join("")}
+    </div><div class="tiny" style="margin-top:3px">letzte ${S8.length} Einträge · gestrichelt = Zielkorridor</div>
+    <button class="btn sm" id="uo_undo" style="margin-top:8px">Letzten Eintrag löschen</button>`;
+  } else {
+    h += `<div class="note i">Noch kein Wert erfasst. Stündlich den Urin eintragen — die App vergleicht mit dem Zielkorridor und schlägt die Ratenanpassung vor.</div>`;
+  }
+  h += `${p.strom&&!p.rhabdo?`<div class="note o">Stromunfall hinterlegt: Das höhere Ziel von 2 ml/kg/h gilt <b>bei Myoglobinurie</b>, nicht bei jeder Stromverletzung. CK und Myoglobin prüfen, dann gegebenenfalls Rhabdo setzen.</div>`:""}<div class="formula">Ziel ${c.uoModede==="rhabdo"?"2 ml/kg/h (Rhabdomyolyse)":c.uoMode==="kind"?"1 ml/kg/h (Kind < 30 kg)":"0,5–1,0 ml/kg/h (Erwachsene)"} · Anpassung in Schritten von 20–25 % · Reevaluation nach 1–2 h<br>Höhere Ziele gelten nur bei Rhabdomyolyse und im Kindesalter — die ABA steuert Erwachsene inzwischen auf 0,5 ml/kg/h.</div>
+    </div></details>`;
+
+
+  // ---------- Sepsis-Check je Dienst ----------
+  {
+    const cs = c.shiftNow, e = c.shiftEntry, on = (e&&e.on)||{};
+    const aba = SEPSIS_ITEMS.filter(x=>x[0]==="aba"), fw = SEPSIS_ITEMS.filter(x=>x[0]==="fw");
+    const nA = c.shAba.length, nF = c.shFw.length;
+    h += `<details class="acc" data-k="shift" ${accOpen("shift", !c.shiftDone && c.day!=null && c.day>=2)}>
+      <summary>Sepsis-Check je Dienst${c.shiftDone?"":" · offen"}</summary><div class="body">
+      <div class="tiny">Einmal pro Dienst durchgehen. Nicht der Einzelwert zählt, sondern dass der Beginn nicht übersehen wird. In der Übergabezeit wählt die App den einsteigenden Dienst.</div>
+      <div class="seg tight" style="margin-top:8px">${SHIFTS.map(([k,n2,z])=>
+        `<button data-shift="${k}" class="${cs.s===k?"on":""}">${n2}<br><span style="font-size:9px;opacity:.7">${z}</span></button>`).join("")}</div>
+      <div class="tiny" style="margin-top:5px">Dokumentiert für <b>${cs.d.split("-").reverse().join(".")}</b>, Schicht <b>${SHIFTS.find(x=>x[0]===cs.s)[1]}</b>${e?` · zuletzt ${new Date(e.ts).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})} Uhr`:" · noch nicht dokumentiert"}</div>`;
+
+    const lim = sirsLimits(c.age), au = (e&&e.auto)||{};
+    const grp = (title, arr, cls) => `<div class="sgrp"><div class="sgt">${title}</div>${arr.map(([g,k,t])=>
+      `<label class="prow ${on[k]?"over":""}"><input type="checkbox" data-sep="${k}" ${on[k]?"checked":""}>
+       <span class="txt">${sepText(k,lim)||t}${au[k]?` <span class="autotag">aus Trendwerten</span>`:""}</span></label>`).join("")}</div>`;
+    h += grp(`Objektive Trigger · ab 3 von 6 Fokus suchen · Grenzwerte für ${lim.grp}`, aba)
+       + grp("Frühzeichen aus dem Verlauf", fw);
+    if(!lim.adult) h += `<div class="note o">Kind: Herzfrequenz, Atemfrequenz und Temperatur werden nach den altersabhängigen Grenzwerten der International Pediatric Sepsis Consensus Conference gewertet, nicht nach den Erwachsenenwerten der ABA.</div>`;
+
+    if(c.shiftDone){
+      const cls = nA>=3 ? "dang" : nA===2||nF>=2 ? "warn" : "";
+      h += `<div class="grid g2" style="margin-top:9px">
+        <div class="res ${nA>=3?"dang":nA===2?"warn":""}"><div class="lab">ABA-Trigger</div><div class="val">${nA}<small> von 6</small></div></div>
+        <div class="res ${nF>=2?"warn":""}"><div class="lab">Frühzeichen</div><div class="val">${nF}<small> von 6</small></div></div></div>`;
+      if(nA>=3) h += `<div class="note e"><b>Fokus suchen.</b> Wunde, Pneumonie, Katheter, Sinusitis, Harnwege, akalkulöse Cholezystitis. Kulturen abnehmen, Wundbiopsie erwägen. Trigger allein sind keine Sepsis — die Diagnose braucht einen Fokus.</div>`;
+      else if(nF>=2) h += `<div class="note w">Frühzeichen ohne erfüllte Triggerzahl: engmaschiger beobachten, nächsten Dienst erneut prüfen.</div>`;
+    }
+    if(c.shiftHist.length){
+      h += `<div class="shist">${c.shiftHist.map(x=>{
+        const a2=SEPSIS_ITEMS.filter(([g,k2])=>g==="aba"&&x.on[k2]).length;
+        const f2=SEPSIS_ITEMS.filter(([g,k2])=>g==="fw"&&x.on[k2]).length;
+        const st=a2>=3?"e":(a2===2||f2>=2)?"w":"ok";
+        return `<span class="sh ${st}" title="${x.d}">${x.d.slice(8)}.${x.d.slice(5,7)} ${x.s}<b>${a2}/${f2}</b></span>`;}).join("")}</div>
+      <div class="tiny">Verlauf der letzten Dienste · ABA-Trigger / Frühzeichen</div>`;
+    }
+    h += `</div></details>`;
+  }
+
+  // ---------- Lund-Browder ----------
+  const bandName = ["0 J.","1–4 J.","5–9 J.","10–14 J.","15–17 J.","Erwachsen"][c.band];
+  h += `<details class="acc" data-k="lb" ${accOpen("lb",false)}><summary>VKOF · Lund-Browder</summary><div class="body">
+    <div class="tiny">Altersgruppe <b>${bandName}</b> nach eingetragenem Alter. Region antippen, dann Anteil und Tiefe wählen. <b>Grad 1 ist bewusst nicht wählbar</b> — er zählt nicht zur VKOF.</div>`;
+  if(c.lbCount){
+    h += `<div class="grid g2" style="margin-top:9px">
+      <div class="res"><div class="lab">Summe Grad 2 + 3</div><div class="val num">${r1(c.lbAll)} %</div><div class="sub">${c.lbCount} Region${c.lbCount>1?"en":""} markiert</div></div>
+      <div class="res em"><div class="lab">davon tief (2b/3)</div><div class="val num">${r1(c.lbDeep)} %</div><div class="sub">operationspflichtiger Anteil</div></div>
+    </div>
+    <button class="btn p" id="lb_apply" style="width:100%;margin-top:8px">Als VKOF übernehmen (${r1(c.lbAll)} %)</button>`;
+    if(c.lbDiff!=null && Math.abs(c.lbDiff)>=1)
+      h += `<div class="note w">Eingetragen sind ${r0(c.tbsa)} % — Lund-Browder ergibt ${r1(c.lbAll)} % (${c.lbDiff>0?"+":""}${r1(c.lbDiff)}).</div>`;
+  }
+  h += `<div style="margin-top:9px">`;
+  REGIONS.forEach(r=>{
+    const e=(p.lb||{})[r.k], act=!!(e&&e.d), pc=regPct(r,c.band);
+    const contrib = act ? pc*((e.f||100)/100) : null;
+    h += `<div style="border-bottom:1px solid var(--line);padding:6px 0">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn sm" data-lbtoggle="${r.k}" style="min-width:132px;text-align:left;${act?"border-color:var(--ember);color:var(--ember)":""}">${r.n}</button>
+        <span class="tiny num">max ${r1(pc)} %</span>
+        ${act?`<span class="chip" style="margin-left:auto"><b>${r1(contrib)} %</b></span>`:""}
+      </div>`;
+    if(act){
+      h += `<div class="seg tight" style="margin-top:6px">${SHARES.map(f=>`<button data-lbf="${r.k}|${f}" class="${(e.f||100)===f?"on":""}">${f} %</button>`).join("")}</div>
+        <div class="seg em tight" style="margin-top:5px">${DEPTHS.map(([v,lab])=>`<button data-lbd="${r.k}|${v}" class="${e.d===v?"on":""}">${lab}</button>`).join("")}</div>`;
+    }
+    h += `</div>`;
+  });
+  h += `</div></div></details>`;
+
+  // ---------- Sepsis-Trend ----------
+  h += `<details class="acc" data-k="sep" ${accOpen("sep", c.day!=null&&c.day>=3)}><summary>Sepsis-Trend · ab Tag 3</summary><div class="body">
+    <div class="tiny">Einmal täglich eintragen. Die Richtung zählt mehr als der Einzelwert.</div>
+    ${(()=>{ const td=(p.trend||[]).find(x=>x.d===todayISO());
+      const v=k=>td&&td[k]!=null?esc(td[k]):"";
+      if(td && td.fi!=null) trFI=td.fi;
+      return `<div class="grid g3" style="margin-top:9px">
+      <div><label class="f">Noradrenalin µg/kg/min</label><input type="number" step="0.01" inputmode="decimal" id="tr_nor" value="${v("nor")}"></div>
+      <div><label class="f">Insulin IE/h</label><input type="number" step="0.5" inputmode="decimal" id="tr_ins" value="${v("ins")}"></div>
+      <div><label class="f">Reflux ml/24 h (Trend)</label><input type="number" inputmode="numeric" id="tr_refl" value="${v("refl")}"></div>
+      <div><label class="f">Thrombozyten /nl</label><input type="number" inputmode="numeric" id="tr_thr" value="${v("thr")}"></div>
+      <div><label class="f">Temperatur °C</label><input type="number" step="0.1" inputmode="decimal" id="tr_temp" value="${v("temp")}"></div>
+      <div><label class="f">Herzfrequenz /min</label><input type="number" inputmode="numeric" id="tr_hf" value="${v("hf")}"></div>
+      <div><label class="f">AMV l/min</label><input type="number" step="0.5" inputmode="decimal" id="tr_amv" value="${v("amv")}"></div>
+      <div><label class="f">Atemfrequenz /min</label><input type="number" inputmode="numeric" id="tr_af" value="${v("af")}"></div>`; })()}
+      <div style="grid-column:span 3"><label class="f">Nahrungsintoleranz &gt; 24 h (Distension, Reflux &gt; 2× Laufrate oder Diarrhö &gt; 2500 ml/d)</label>
+        <div class="seg tight"><button data-fi="1" id="fi1" class="${trFI==="1"?"on":""}">ja</button><button data-fi="0" id="fi0" class="${trFI==="0"?"on":""}">nein</button></div></div>
+      <div style="display:flex;align-items:flex-end;grid-column:span 3"><button class="btn p" id="tr_add" style="width:100%">Tageswert speichern</button></div>
+    </div>`;
+  if(c.trLast){
+    const arrow=(d,goodDown)=>{ if(d==null||d===0) return `<span style="color:var(--dim)">→</span>`;
+      const bad = goodDown ? d>0 : d<0;
+      return `<span style="color:${bad?"var(--warn)":"var(--acc)"}">${d>0?"↑":"↓"}</span>`; };
+    const L=c.trLast;
+    h += `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px">
+      <tr><td style="padding:4px 0;color:var(--mut)">Noradrenalin</td><td class="num" style="text-align:right">${L.nor??"–"} ${arrow(c.trD.nor,true)}</td>
+          <td style="padding-left:12px;color:var(--mut)">Insulin</td><td class="num" style="text-align:right">${L.ins??"–"} ${arrow(c.trD.ins,true)}</td></tr>
+      <tr><td style="padding:4px 0;color:var(--mut)">Reflux</td><td class="num" style="text-align:right">${L.refl??"–"} ${arrow(c.trD.refl,true)}</td>
+          <td style="padding-left:12px;color:var(--mut)">Thrombozyten</td><td class="num" style="text-align:right">${L.thr??"–"} ${arrow(c.trD.thr,false)}</td></tr>
+      <tr><td style="padding:4px 0;color:var(--mut)">Temperatur</td><td class="num" style="text-align:right">${L.temp??"–"} ${arrow(c.trD.temp,true)}</td>
+          <td style="padding-left:12px;color:var(--mut)">Einträge</td><td class="num" style="text-align:right">${c.trSeries.length}</td></tr>
+    </table>`;
+    const cls = c.abaHits.length>=3?"dang":c.abaHits.length===2?"warn":"";
+    h += `<div class="res ${cls}" style="margin-top:9px"><div class="lab">ABA-Trigger</div>
+      <div class="val num">${c.abaHits.length} von 6</div>
+      <div class="sub">${c.abaHits.length?esc(c.abaHits.join(" · ")):"keiner positiv"}${c.abaMiss?" · "+c.abaMiss+" Wert(e) nicht erfasst":""}</div></div>`;
+    if(c.abaHits.length>=3) h += `<div class="note e">Ab drei Triggern Fokus suchen. <b>Die Diagnose muss an einen gefundenen Fokus gebunden werden</b> — Trigger allein sind keine Sepsis.</div>`;
+    h += `<button class="btn sm" id="tr_undo" style="margin-top:8px">Letzten Tageswert löschen</button>`;
+  }
+  h += `</div></details>`;
+
+  // ---------- Wundkarte ----------
+  h += `<details class="acc" data-k="wund" ${accOpen("wund",false)}><summary>Wundkarte · Transplantate und Spenderstellen</summary><div class="body">
+    <div class="tiny">Status je Region mit Datum. Die App rechnet POD und Freigaben mit.</div>`;
+  if(c.wound){
+    if(c.wOpenPct) h += `<div class="res em" style="margin-top:9px"><div class="lab">Noch offen</div><div class="val num">${r1(c.wOpenPct)} % KOF</div>
+      <div class="sub">${c.wOpen.map(x=>x.n).join(", ")}</div></div>`;
+    const notes=c.wound.filter(x=>x.note);
+    if(notes.length) h += `<div style="margin-top:8px">${notes.map(x=>
+      `<div class="note ${x.hold?"o":x.ready?"i":"i"}" style="margin-top:5px"><b>${x.n}</b> — ${esc(x.note)}</div>`).join("")}</div>`;
+  }
+  h += `<div style="margin-top:9px">`;
+  REGIONS.forEach(r=>{
+    const e=(p.wound||{})[r.k], act=!!(e&&e.st);
+    h += `<div style="border-bottom:1px solid var(--line);padding:6px 0">
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn sm" data-wtoggle="${r.k}" style="min-width:132px;text-align:left;${act?"border-color:"+WSTAT[e.st].c+";color:"+WSTAT[e.st].c:""}">${r.n}</button>
+        ${act?`<span class="tiny">${WSTAT[e.st].n}${e.dt?" · "+e.dt.split("-").reverse().join(".").slice(0,5):""}</span>`:`<span class="tiny">–</span>`}
+        ${act&&e.pod!=null?"":""}
+      </div>`;
+    if(act){
+      h += `<div class="seg" style="margin-top:6px">${Object.entries(WSTAT).map(([k2,v])=>
+        `<button data-wst="${r.k}|${k2}" class="${e.st===k2?"on":""}" style="min-width:88px">${v.n}</button>`).join("")}</div>
+        <div style="margin-top:5px"><input type="date" data-wdt="${r.k}" value="${esc(e.dt||"")}"></div>`;
+    }
+    h += `</div>`;
+  });
+  h += `</div></div></details>`;
+
+  // Burn-spezifische Übergabe
+  const AH = autoHand(p,c);
+  h += `<details class="acc" data-k="ueb" ${accOpen("ueb",false)}><summary>Übergabe · burn-spezifisch</summary><div class="body">
+    <div class="tiny">Was sich aus den Eingaben ableiten lässt, ist vorbelegt und mit <span class="autotag">automatisch</span> markiert. Sobald du schreibst, gilt dein Text; mit ↺ holst du den Vorschlag zurück.</div>`;
+  HAND_FIELDS.forEach(([k,lab,ph2])=>{ h += noteField("hand", k, lab, ph2, AH[k]!==undefined?AH[k]:null, p); });
+  h += `<button class="btn p" id="btnHand" style="width:100%;margin-top:6px">Übergabetext erzeugen und kopieren</button>
+    <div id="handOut"></div></div></details>`;
+
+  // Routinen der Intensivmedizin
+  h += `<details class="acc" data-k="rout" ${accOpen("rout",false)}><summary>Übergabe · Routinen der Intensivmedizin</summary><div class="body">
+    <div class="tiny">Ergänzt die burn-spezifische Karte, ohne sie zu wiederholen. Wunde, Volumen, Ernährung, Schmerz und Infektion stehen dort.</div>`;
+  ROUT_FIELDS.forEach(([k,lab,ph2])=>{ h += noteField("rout", k, lab, ph2, null, p); });
+  h += `<div style="margin-bottom:9px"><label class="f">Freie Notizen</label><textarea id="f_notes">${esc(p.notes)}</textarea></div>
+    </div></details>`;
+
+  // Scrollposition über das Neuzeichnen retten
+  const _sy = window.scrollY;
+  $("#v-pat").innerHTML = h;
+  document.querySelectorAll("details.acc[data-k]").forEach(d=>{
+    d.addEventListener("toggle", ()=>{ UIST[d.dataset.k] = d.open; });
+  });
+  bindPat();
+  window.scrollTo(0,_sy);
+}
+
+function bindPat(){
+  const p = P();
+  const txt = (id,key)=>{ const el=$("#"+id); if(!el) return;
+    el.oninput = ()=>{ p[key]=el.value; p.updated=Date.now(); save(); };
+    el.onblur  = ()=>renderPat(); };
+  const live = (id,key)=>{ const el=$("#"+id); if(!el) return;
+    el.oninput = ()=>{ p[key]=el.value; p.updated=Date.now(); save(); softUpdate(); }; };
+
+  ["label","injury"].forEach(k=>txt("f_"+k,k));
+  ["age","weight","height","tbsa","fluidGiven","kcalTarget","kcalAct","protAct","feedK","feedP","propofol"].forEach(k=>live("f_"+k,k));
+  ["age","weight","height","tbsa","fluidGiven","kcalTarget","kcalAct","protAct","feedK","feedP","propofol"].forEach(k=>{
+    const el=$("#f_"+k); if(el) el.onblur=()=>renderPat();
+  });
+  const nt=$("#f_notes"); if(nt) nt.oninput=()=>{p.notes=nt.value;p.updated=Date.now();save();};
+
+  const bag = sc => { if(sc==="hand"){ p.hand=p.hand||{}; return [p.hand, (p.handAuto=p.handAuto||{})]; }
+                      p.rout=p.rout||{}; return [p.rout, (p.routAuto=p.routAuto||{})]; };
+  document.querySelectorAll("[data-fld]").forEach(el=>{
+    const [sc,k]=el.dataset.fld.split("|");
+    el.oninput = ()=>{ const [st,fl]=bag(sc); st[k]=el.value; fl[k]=false; p.updated=Date.now(); save();
+      const tag=el.closest(".nf").querySelector(".autotag"); if(tag) tag.remove(); };
+  });
+  document.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>{
+    const [sc,k]=b.dataset.reset.split("|"); const [st,fl]=bag(sc);
+    delete st[k]; fl[k]=true; p.updated=Date.now(); save(); renderPat();
+  });
+  document.querySelectorAll("[data-chip]").forEach(b=>b.onclick=()=>{
+    const [sc,k,txt]=b.dataset.chip.split("|"); const [st,fl]=bag(sc);
+    const ta=document.querySelector(`[data-fld="${sc}|${k}"]`);
+    const cur=(ta.value||"").trim();
+    ta.value = cur ? (cur.replace(/[,;]\s*$/,"") + ", " + txt) : txt;
+    st[k]=ta.value; fl[k]=false; p.updated=Date.now(); save();
+    ta.dispatchEvent(new Event("input",{bubbles:true}));
+    const hd=ta.closest(".nf").querySelector(".autotag"); if(hd) hd.remove();
+  });
+
+  const fs=$("#f_feedIdx"); if(fs) fs.onchange=()=>{ p.feedIdx=+fs.value; save(); renderPat(); };
+  document.querySelectorAll("[data-sex]").forEach(b=>b.onclick=()=>{ p.sex=b.dataset.sex; save(); renderPat(); });
+  document.querySelectorAll("[data-tg]").forEach(b=>b.onclick=()=>{ p[b.dataset.tg]=!p[b.dataset.tg]; save(); renderPat(); });
+  const bs=$("#bedSel"); if(bs) bs.onchange=()=>{ S.cur=+bs.value; trFI=null; save(); renderPat(); };
+  const bc=$("#btnClear"); if(bc) bc.onclick=()=>{
+    if(confirm("Bett "+p.id+" vollständig leeren? Das lässt sich nicht rückgängig machen.")){
+      S.beds[p.id-1]=blank(p.id); save(); renderPat(); renderBeds(); toast("Bett "+p.id+" geleert");
+    }};
+  // --- 24-Stunden-Plan ---
+  document.querySelectorAll("[data-plan]").forEach(cb=>cb.onchange=()=>{
+    p.done=p.done||{};
+    if(cb.checked) p.done[cb.dataset.plan]=Date.now(); else delete p.done[cb.dataset.plan];
+    p.updated=Date.now(); save(); renderPat(); renderBeds();
+  });
+
+  // --- Sepsis-Check je Dienst ---
+  document.querySelectorAll("[data-shift]").forEach(b=>b.onclick=()=>{
+    SHIFT_OVERRIDE = b.dataset.shift; save(); renderPat();
+  });
+  document.querySelectorAll("[data-sep]").forEach(cb=>cb.onchange=()=>{
+    const cs = calc(p).shiftNow, k = shiftKey(cs.d, cs.s);
+    p.shifts = p.shifts||[];
+    let e = p.shifts.find(x=>x.k===k);
+    if(!e){ e = {k, d:cs.d, s:cs.s, on:{}, auto:{}, manual:{}, ts:Date.now()}; p.shifts.push(e); }
+    const key = cb.dataset.sep;
+    e.manual = e.manual||{}; e.auto = e.auto||{};
+    e.manual[key] = true; delete e.auto[key];      // Handeingabe schlägt die Automatik
+    if(cb.checked) e.on[key]=true; else delete e.on[key];
+    e.ts = Date.now();
+    if(p.shifts.length>24) p.shifts = p.shifts.slice(-24);
+    p.updated=Date.now(); save(); renderPat(); renderBeds();
+  });
+
+  // --- Diurese ---
+  const cr=$("#f_curRate"); if(cr) cr.oninput=()=>{ p.curRate=cr.value; save(); };
+  const ua=$("#uo_add"); if(ua) ua.onclick=()=>{
+    const v=num($("#uo_ml").value);
+    if(v==null){ toast("Bitte Urinmenge eintragen"); return; }
+    p.uo=p.uo||[]; p.uo.push({t:Date.now(), ml:v});
+    if(p.uo.length>48) p.uo=p.uo.slice(-48);
+    p.updated=Date.now(); save(); renderPat(); renderBeds();
+  };
+  const uu=$("#uo_undo"); if(uu) uu.onclick=()=>{ p.uo.pop(); save(); renderPat(); };
+
+  // --- Lund-Browder ---
+  document.querySelectorAll("[data-lbtoggle]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.lbtoggle; p.lb=p.lb||{};
+    if(p.lb[k]&&p.lb[k].d) delete p.lb[k]; else p.lb[k]={f:100,d:"2b"};
+    save(); renderPat();
+  });
+  document.querySelectorAll("[data-lbf]").forEach(b=>b.onclick=()=>{
+    const [k,f]=b.dataset.lbf.split("|"); p.lb[k].f=+f; save(); renderPat();
+  });
+  document.querySelectorAll("[data-lbd]").forEach(b=>b.onclick=()=>{
+    const [k,d]=b.dataset.lbd.split("|"); p.lb[k].d=d; save(); renderPat();
+  });
+  const la=$("#lb_apply"); if(la) la.onclick=()=>{
+    const cc=calc(p);
+    p.tbsa=Math.round(cc.lbAll*10)/10;
+    p.tbsa3=cc.lbDeep>0;
+    p.updated=Date.now(); save(); renderPat(); renderBeds();
+    toast("VKOF auf "+r1(cc.lbAll)+" % gesetzt");
+  };
+
+  // --- Sepsis-Trend ---
+  document.querySelectorAll("[data-fi]").forEach(b=>b.onclick=()=>{
+    trFI=b.dataset.fi;
+    document.querySelectorAll("[data-fi]").forEach(x=>x.classList.toggle("on", x.dataset.fi===trFI));
+  });
+  const ta=$("#tr_add"); if(ta) ta.onclick=()=>{
+    const g=id=>{ const el=$("#tr_"+id); const v=el?el.value.trim():""; return v===""?null:v; };
+    const e={d:todayISO(), nor:g("nor"), ins:g("ins"), refl:g("refl"), thr:g("thr"), temp:g("temp"), hf:g("hf"), amv:g("amv"), af:g("af"), fi:trFI};
+    if(Object.keys(e).slice(1).every(k=>e[k]===null)){ toast("Mindestens einen Wert eintragen"); return; }
+    p.trend=p.trend||[];
+    const i=p.trend.findIndex(x=>x.d===e.d);
+    if(i>=0){
+      // Zusammenführen: leere Felder überschreiben keinen bereits gespeicherten Wert
+      const alt=p.trend[i];
+      Object.keys(e).forEach(k=>{ if(e[k]==null && alt[k]!=null) e[k]=alt[k]; });
+      p.trend[i]=e;
+    } else p.trend.push(e);
+    if(p.trend.length>30) p.trend=p.trend.slice(-30);
+    syncShiftFromTrend(p, calc(p));
+    p.updated=Date.now(); save(); renderPat(); renderBeds(); toast("Tageswert gespeichert · Trigger übernommen");
+  };
+  const tu=$("#tr_undo"); if(tu) tu.onclick=()=>{ p.trend.pop(); save(); renderPat(); };
+
+  // --- Wundkarte ---
+  document.querySelectorAll("[data-wtoggle]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.wtoggle; p.wound=p.wound||{};
+    if(p.wound[k]&&p.wound[k].st) delete p.wound[k]; else p.wound[k]={st:"burn", dt:todayISO()};
+    save(); renderPat();
+  });
+  document.querySelectorAll("[data-wst]").forEach(b=>b.onclick=()=>{
+    const [k,st]=b.dataset.wst.split("|");
+    p.wound[k].st=st; if(!p.wound[k].dt) p.wound[k].dt=todayISO();
+    save(); renderPat(); renderBeds();
+  });
+  document.querySelectorAll("[data-wdt]").forEach(el=>el.onchange=()=>{
+    p.wound[el.dataset.wdt].dt=el.value; save(); renderPat();
+  });
+
+  const ax=$("#axHandle");
+  if(ax){
+    ax.onclick = sheetOpen;
+    let sy=null;
+    ax.addEventListener("touchstart", e=>{ sy = e.touches[0].clientY; }, {passive:true});
+    ax.addEventListener("touchend",  e=>{
+      if(sy!=null && e.changedTouches[0] && sy - e.changedTouches[0].clientY > 40){ sheetOpen(); }
+      sy=null;
+    }, {passive:true});
+  }
+  const bp=$("#btnPrint"); if(bp) bp.onclick=()=>{
+    // Zum Drucken alles aufklappen, danach den vorherigen Zustand wiederherstellen
+    const acc=[...document.querySelectorAll("#v-pat details")];
+    const before=acc.map(d=>d.open);
+    acc.forEach(d=>d.open=true);
+    // Leere Textfelder kosten auf Papier nur Platz
+    const hidden=[];
+    document.querySelectorAll("#v-pat .nf").forEach(nf=>{
+      const ta=nf.querySelector("textarea");
+      if(ta && !ta.value.trim()){ nf.classList.add("phide"); hidden.push(nf); }
+      else if(ta){ ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; }
+    });
+    const back=()=>{ acc.forEach((d,i)=>d.open=before[i]);
+      hidden.forEach(n=>n.classList.remove("phide"));
+      document.querySelectorAll("#v-pat textarea").forEach(t=>t.style.height="");
+      window.removeEventListener("afterprint",back); };
+    window.addEventListener("afterprint",back);
+    setTimeout(()=>{ window.print(); setTimeout(back,800); },60);
+  };
+  const bh=$("#btnHand"); if(bh) bh.onclick=handover;
+
+  // Nur die abgeleiteten Werte neu zeichnen, ohne Fokus zu verlieren
+  function softUpdate(){ renderBeds(); }
+}
+
+function handover(){
+  const p=P(), c=calc(p);
+  const L=[];
+  L.push(`BETT ${p.id}${p.label?" · "+p.label:""}`);
+  if(c.day!=null) L.push(`Burn-Tag ${c.day} (${r1(c.h)} h seit Unfall)`);
+  const st=[]; if(c.age!=null)st.push(`${r0(c.age)} J.`); st.push(p.sex==="w"?"weiblich":"männlich");
+  if(c.kg!=null)st.push(`${r0(c.kg)} kg`); if(c.cm!=null)st.push(`${r0(c.cm)} cm`);
+  if(c.bsa!=null)st.push(`KOF ${r2(c.bsa)} m²`);
+  L.push(st.join(", "));
+  if(c.tbsa!=null) L.push(`VKOF ${r0(c.tbsa)} %${p.tbsa3?", drittgradige Anteile":""}${p.inhal?", Inhalationstrauma":""}${p.rhabdo?", Rhabdomyolyse":""}`);
+  if(c.absi!=null) L.push(`ABSI ${c.absi} (Überleben ${c.absiTxt}), rBaux ${r0(c.rbaux)}`);
+  L.push("");
+  L.push(`ZIELWERTE`);
+  if(c.uoLo) L.push(`  Diurese ${p.rhabdo?r0(c.uoRhab):r0(c.uoLo)+"–"+r0(c.uoHi)} ml/h${p.strom&&!p.rhabdo?" (Strom: bei Myoglobinurie auf "+r0(c.uoRhab)+" ml/h anheben)":""}`);
+  if(c.kcalLo) L.push(`  Energie ${r0(num(p.kcalTarget)||c.kcalHi)} kcal/d, Protein ${r1(c.protLo)}–${r1(c.protHi)} g/d`);
+  if(c.evap) L.push(`  Verdunstung ca. ${r0(c.evap)} ml/h (${r1(c.evap*24/1000)} l/d)`);
+  if(c.pkTotal) L.push(`  Parkland 24 h ${r0(c.pkTotal)} ml, Ivy-Grenze ${r0(c.ivy)} ml`);
+  if(num(p.fluidGiven)!=null) L.push(`  bisher gegeben ${r0(num(p.fluidGiven))} ml${c.mlkgpct!=null?` (${r1(c.mlkgpct)} ml/kg/%)`:""}`);
+  if(num(p.kcalAct)!=null||num(p.protAct)!=null) L.push(`  erreicht ${r0(num(p.kcalAct))} kcal / ${r0(num(p.protAct))} g Protein`);
+  L.push("");
+  if(c.wound){
+    L.push("WUNDKARTE");
+    c.wound.forEach(x=>L.push(`  ${x.n}: ${WSTAT[x.st].n}${x.pod!=null?` (Tag ${x.pod})`:""}${x.note?" — "+x.note:""}`));
+    if(c.wOpenPct) L.push(`  noch offen: ${r1(c.wOpenPct)} % KOF`);
+    L.push("");
+  }
+  if(c.lbCount) L.push(`LUND-BROWDER: ${r1(c.lbAll)} % gesamt, davon ${r1(c.lbDeep)} % tief (2b/3)`);
+  if(c.uoLastKg!=null) L.push(`DIURESE zuletzt: ${r1(c.uoLastKg)} ml/kg/h (${r0(c.uoLast)} ml) — ${c.uoTxt}`);
+  if(c.abaHits) L.push(`ABA-TRIGGER: ${c.abaHits.length} von 6${c.abaHits.length?" ("+c.abaHits.join(", ")+")":""}`);
+  if(c.lbCount||c.uoLastKg!=null||c.abaHits) L.push("");
+  const AH2 = autoHand(p,c);
+  const eff = (sc,k) => { const st = sc==="hand"?(p.hand||{}):(p.rout||{});
+    const fl = sc==="hand"?(p.handAuto||{}):(p.routAuto||{});
+    if(st[k] && st[k].trim()) return st[k].trim();
+    if(sc==="hand" && fl[k]!==false && AH2[k]) return AH2[k];
+    return ""; };
+  HAND_FIELDS.forEach(([k,lab])=>{ const v=eff("hand",k); if(v) L.push(`${lab.toUpperCase()}: ${v}`); });
+  const rl = ROUT_FIELDS.map(([k,lab])=>[lab,eff("rout",k)]).filter(x=>x[1]);
+  if(rl.length){ L.push(""); L.push("ROUTINEN"); rl.forEach(([lab,v])=>L.push(`${lab.toUpperCase()}: ${v}`)); }
+  if(p.notes && p.notes.trim()){ L.push(""); L.push(`NOTIZEN: ${p.notes.trim()}`); }
+  const A=alerts(p,c).filter(a=>a.lv==="e"||a.lv==="w");
+  if(A.length){ L.push(""); L.push("OFFENE PUNKTE"); A.forEach(a=>L.push("  - "+a.t.replace(/<[^>]+>/g,""))); }
+  const out=L.join("\n");
+  const box=$("#handOut");
+  box.innerHTML=`<textarea style="margin-top:9px;min-height:220px;font-size:12px" readonly>${esc(out)}</textarea>`;
+  const ta=box.querySelector("textarea");
+  const done=()=>toast("Übergabetext kopiert");
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(out).then(done).catch(()=>{ta.select();toast("Text markiert — bitte kopieren");});
+  } else { ta.select(); try{document.execCommand("copy");done();}catch(e){toast("Text markiert — bitte kopieren");} }
+}
+
+/* ============================================================
+   Ansicht: Rechner (ohne Patient, z. B. Schockraum)
+   ============================================================ */
+const QC = {kg:80, tbsa:40, h:0, area:10, age:45};
+function renderCalc(){
+  const {kg,tbsa,h,area,age}=QC;
+  const pk=4*kg*tbsa, br=2*kg*tbsa, half=pk/2;
+  const rate8=half/8, rot=tbsa*10+(kg>80?Math.floor((kg-80)/10)*100:0);
+  const soll = h<8 ? half*(h/8) : h<24 ? half+half*((h-8)/16) : pk;
+  const restH = h<8?Math.max(.25,8-h):h<24?Math.max(.25,24-h):null;
+  const restMl= h<8?half-soll:h<24?pk-soll:null;
+  const bl = area*100, bh = area*150;
+  let html = `<div class="card"><h3>Schnellrechner</h3>
+    <div class="tiny">Für den Schockraum, ohne Patient anzulegen. Ändert keine Bettdaten.</div>
+    <div class="grid g3" style="margin-top:9px">
+      <div><label class="f">Gewicht (kg)</label><input type="number" inputmode="decimal" id="q_kg" value="${kg}"></div>
+      <div><label class="f">VKOF (%)</label><input type="number" inputmode="decimal" id="q_tbsa" value="${tbsa}"></div>
+      <div><label class="f">Stunden seit Unfall</label><input type="number" inputmode="decimal" id="q_h" value="${h}"></div>
+    </div>
+    <div class="grid g2" style="margin-top:9px">
+      <div class="res"><div class="lab">Parkland 24 h</div><div class="val num">${r0(pk)} ml</div><div class="sub">erste 8 h: ${r0(rate8)} ml/h</div></div>
+      <div class="res"><div class="lab">Brooke / ABA 24 h</div><div class="val num">${r0(br)} ml</div><div class="sub">erste 8 h: ${r0(rate8/2)} ml/h</div></div>
+    </div>
+    <div class="chips">
+      <span class="chip">Rule of Ten <b>${r0(rot)} ml/h</b></span>
+      <span class="chip">Soll bis Stunde ${r1(h)} <b>${r0(soll)} ml</b></span>
+      ${restH?`<span class="chip">Restrate <b>${r0(restMl/restH)} ml/h</b></span>`:""}
+      <span class="chip">Zieldiurese <b>${r0(.5*kg)}–${r0(kg)} ml/h</b></span>
+      <span class="chip">Ivy-Grenze <b>${r0(250*kg)} ml</b></span>
+      <span class="chip">Colloid-Rescue <b>${r0(6*kg*tbsa)} ml</b></span>
+    </div>
+  </div>
+
+  <div class="card"><h3>Blutverlust Nekrektomie</h3>
+    <div><label class="f">Geplante Exzisionsfläche (% KOF)</label><input type="number" inputmode="decimal" id="q_area" value="${area}"></div>
+    <div class="res" style="margin-top:8px"><div class="lab">Erwarteter Verlust</div><div class="val num">${r0(bl)}–${r0(bh)} ml</div>
+      <div class="sub">≈ 100–150 ml pro % exzidierter KOF · 0,5–1 ml/cm²</div></div>
+    <div class="note i">Vor Schnitt festlegen: maximale Fläche, maximale Zeit, Temperatur- und Transfusionsgrenze. TXA 15 mg/kg. Transfusionstrigger Hb 7 g/dl.</div>
+  </div>
+
+  <div class="card"><h3>Neuner-Regel</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+      <tr><td style="padding:4px 0">Kopf/Hals</td><td class="num" style="text-align:right">9 %</td><td style="padding-left:14px">Rumpf vorne</td><td class="num" style="text-align:right">18 %</td></tr>
+      <tr><td style="padding:4px 0">Arm je</td><td class="num" style="text-align:right">9 %</td><td style="padding-left:14px">Rumpf hinten</td><td class="num" style="text-align:right">18 %</td></tr>
+      <tr><td style="padding:4px 0">Bein je</td><td class="num" style="text-align:right">18 %</td><td style="padding-left:14px">Perineum</td><td class="num" style="text-align:right">1 %</td></tr>
+    </table>
+    <div class="note o">Handfläche des <b>Patienten</b> inklusive Finger ≈ 1 %. In der Klinik mit Lund-Browder nachmessen. <b>Grad 1 zählt nicht mit.</b></div>
+  </div>`;
+  $("#v-calc").innerHTML = html;
+  const bind=(id,k)=>{const el=$("#"+id); el.oninput=()=>{const v=num(el.value); if(v!=null){QC[k]=v; const pos=el.selectionStart; renderCalc(); const n=$("#"+id); n.focus(); try{n.setSelectionRange(pos,pos);}catch(e){}}};};
+  bind("q_kg","kg"); bind("q_tbsa","tbsa"); bind("q_h","h"); bind("q_area","area");
+}
+
+/* ============================================================
+   Ansicht: Nachschlagen
+   ============================================================ */
+const REF = [
+["Verlegung ins Brandverletztenzentrum","verlegung zentrum kriterien hamburg transfer", `
+<ul><li><b>Grad 2 ≥ 15 %</b> VKOF · <b>Grad 3 ≥ 10 %</b> VKOF <span class="tag">neu 2025</span></li>
+<li>Gesicht/Hals, Hände, Füße, Anogenital, Axilla, über großen Gelenken</li>
+<li>Zirkuläre Verletzungen · Verätzungen · Strom inkl. Blitzschlag</li>
+<li><b>Inhalationstrauma in Verbindung mit äußeren Verbrennungen</b></li>
+<li>Relevante Begleiterkrankungen oder -verletzungen</li>
+<li>Bedarf an psychiatrischer/psychotherapeutischer Mitbehandlung</li>
+<li>Alter <b>&lt; 8</b> oder <b>&gt; 60</b> Jahre</li></ul>
+<p>Vermittlung über die Zentrale Anlaufstelle, <b>Feuerwehr Hamburg</b>. Instabile Patienten werden zuerst stabilisiert, nicht zuerst transportiert.</p>`],
+
+["Volumentherapie · Formeln und Steuerung","volumen parkland brooke fluid resuscitation ivy diurese albumin", `
+<table><tr><th>Formel</th><th>Rechnung</th></tr>
+<tr><td>Parkland</td><td>4 ml × kg × % · Hälfte in 8 h <b>ab Unfall</b></td></tr>
+<tr><td>Mod. Brooke / ABA-Start</td><td>2 ml × kg × %</td></tr>
+<tr><td>Rule of Ten</td><td>% × 10 = ml/h (40–80 kg)</td></tr>
+<tr><td>Kinder</td><td>3 ml × kg × % <b>plus</b> Erhaltungsbedarf</td></tr></table>
+<ul><li>Substitution ab <b>&gt; 15 % VKOF</b>. Inhalationstrauma geht in die Initialkalkulation <b>nicht</b> ein.</li>
+<li>Balancierte Kristalloide (Ringeracetat). <b>Kein HES, keine Gelatine.</b></li>
+<li><b>Albumin</b> erwägen bei Instabilität trotz adäquater Kristalloide oder übermäßigem Bedarf (meist ab 8–12 h).</li>
+<li>Zieldiurese <b>0,5–1,0 ml/kg/h</b>, bei Rhabdomyolyse <b>2 ml/kg/h</b>.</li>
+<li>Warnschwellen: <b>Ivy-Index 250 ml/kg/24 h</b> (ACS) · <b>Colloid-Rescue &gt; 6 ml/kg/%</b>.</li>
+<li>Titrieren heißt auch <b>nach unten</b> titrieren. Zu viel ist heute gefährlicher als zu wenig.</li></ul>`],
+
+["Kompartmentsyndrome","iap acs abdomen orbital extremität kanthotomie", `
+<table><tr><th>Ort</th><th>Schwelle</th><th>Maßnahme</th></tr>
+<tr><td><b>Abdominell</b></td><td>IAH &gt; 12 mmHg · ACS &gt; 20 mmHg + Organdysfunktion</td><td>Sedierung/Relaxierung → Magen-/Rektumdrainage, Prokinetika → Zufuhr drosseln → Aszitesdrainage → Escharotomie → dekompressive Laparotomie</td></tr>
+<tr><td><b>Extremität</b></td><td>Doppler weg, Δp &lt; 30 mmHg</td><td>Escharotomie; bei Muskelbeteiligung Fasziotomie</td></tr>
+<tr><td><b>Orbital</b></td><td>IOP &gt; 30–40 mmHg</td><td>Laterale Kanthotomie/Kantholyse</td></tr></table>
+<p><b>IAP mindestens 8-stündlich ab ~30 % VKOF</b> und bei hohem Volumenbedarf messen.</p>`],
+
+["Escharotomie","escharotomie fasziotomie zirkulär nexobrid", `
+<ul><li>Indikation: zirkuläre Verbrennung Grad 2b/3 über <b>mehr als 2/3 der Zirkumferenz</b>.</li>
+<li>Auslöser: steigender Beatmungsdruck (Thorax), Verlust des Dopplersignals distal, steigender IAP.</li>
+<li>Längsinzision bis ins Fettgewebe, <b>keine</b> Fasziotomie. Thorax „Westen"-Muster.</li>
+<li><b>Enzymatische Escharektomie</b> (Bromelain) als Alternative erwägen.</li>
+<li>Fasziotomie bei echtem Kompartmentsyndrom, typisch nach Hochspannungstrauma.</li></ul>
+<p><b>Steigender Beatmungsdruck bei zirkulärem Thorax = Escharotomie, nicht mehr PEEP.</b></p>`],
+
+["Verbrennungstiefe","tiefe grad 2a 2b dermis ldi bild schema abbildung", `
+<p class="tiny">Schnittbild durch die Haut. Die orange Zone zeigt, wie tief die Schädigung reicht — daran hängt die Entscheidung konservativ oder operativ.</p>
+<div class="deplg">Schichten von oben nach unten: Epidermis · Dermis · Subkutis</div><div class="depthgrid"><figure class="dep"><svg viewBox="0 0 130 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grad 1">
+<rect x="6" y="14" width="118" height="8" fill="#F0E3D4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="22" width="118" height="34" fill="#E6C9B4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="56" width="118" height="30" fill="#F7F2E9" stroke="#C9BCAE" stroke-width=".8"/>
+<circle cx="26" cy="70" r="6" fill="#EFE7D8"/><circle cx="52" cy="72" r="7" fill="#EFE7D8"/>
+<circle cx="80" cy="69" r="6" fill="#EFE7D8"/><circle cx="104" cy="72" r="7" fill="#EFE7D8"/>
+<path d="M44 16 v32 q0 5 5 5" stroke="#8A7565" stroke-width="1.6" fill="none"/>
+<path d="M94 16 v34 q0 5 -5 5" stroke="#8A7565" stroke-width="1.6" fill="none"/>
+<rect x="6" y="14" width="118" height="8" fill="var(--ember)" opacity=".26"/><line x1="6" y1="22" x2="124" y2="22" stroke="var(--ember)" stroke-width="1.4" stroke-dasharray="3 2"/>
+
+</svg><figcaption><b>Grad 1</b>Nur Epidermis · Rötung, keine Blase, sehr schmerzhaft</figcaption></figure><figure class="dep"><svg viewBox="0 0 130 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grad 2a">
+<rect x="6" y="14" width="118" height="8" fill="#F0E3D4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="22" width="118" height="34" fill="#E6C9B4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="56" width="118" height="30" fill="#F7F2E9" stroke="#C9BCAE" stroke-width=".8"/>
+<circle cx="26" cy="70" r="6" fill="#EFE7D8"/><circle cx="52" cy="72" r="7" fill="#EFE7D8"/>
+<circle cx="80" cy="69" r="6" fill="#EFE7D8"/><circle cx="104" cy="72" r="7" fill="#EFE7D8"/>
+<path d="M44 16 v32 q0 5 5 5" stroke="#8A7565" stroke-width="1.6" fill="none"/>
+<path d="M94 16 v34 q0 5 -5 5" stroke="#8A7565" stroke-width="1.6" fill="none"/>
+<rect x="6" y="14" width="118" height="20" fill="var(--ember)" opacity=".26"/><line x1="6" y1="34" x2="124" y2="34" stroke="var(--ember)" stroke-width="1.4" stroke-dasharray="3 2"/><path d="M34 14 q14 -11 28 0 z" fill="#fff" stroke="#B9C4BC" stroke-width="1"/>
+
+</svg><figcaption><b>Grad 2a</b>Obere Dermis · Blase, Grund rosig, Haare fest verankert</figcaption></figure><figure class="dep"><svg viewBox="0 0 130 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grad 2b">
+<rect x="6" y="14" width="118" height="8" fill="#F0E3D4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="22" width="118" height="34" fill="#E6C9B4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="56" width="118" height="30" fill="#F7F2E9" stroke="#C9BCAE" stroke-width=".8"/>
+<circle cx="26" cy="70" r="6" fill="#EFE7D8"/><circle cx="52" cy="72" r="7" fill="#EFE7D8"/>
+<circle cx="80" cy="69" r="6" fill="#EFE7D8"/><circle cx="104" cy="72" r="7" fill="#EFE7D8"/>
+<path d="M44 16 v32 q0 5 5 5" stroke="#C9B7A6" stroke-width="1.6" fill="none"/>
+<path d="M94 16 v34 q0 5 -5 5" stroke="#C9B7A6" stroke-width="1.6" fill="none"/>
+<rect x="6" y="14" width="118" height="38" fill="var(--ember)" opacity=".26"/><line x1="6" y1="52" x2="124" y2="52" stroke="var(--ember)" stroke-width="1.4" stroke-dasharray="3 2"/><path d="M34 14 q14 -11 28 0 z" fill="#fff" stroke="#B9C4BC" stroke-width="1"/>
+
+</svg><figcaption><b>Grad 2b</b>Tiefe Dermis · Grund blass, Schmerz reduziert, Haare epilierbar</figcaption></figure><figure class="dep"><svg viewBox="0 0 130 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grad 3">
+<rect x="6" y="14" width="118" height="8" fill="#F0E3D4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="22" width="118" height="34" fill="#E6C9B4" stroke="#C9BCAE" stroke-width=".8"/>
+<rect x="6" y="56" width="118" height="30" fill="#F7F2E9" stroke="#C9BCAE" stroke-width=".8"/>
+<circle cx="26" cy="70" r="6" fill="#EFE7D8"/><circle cx="52" cy="72" r="7" fill="#EFE7D8"/>
+<circle cx="80" cy="69" r="6" fill="#EFE7D8"/><circle cx="104" cy="72" r="7" fill="#EFE7D8"/>
+<path d="M44 16 v32 q0 5 5 5" stroke="#C9B7A6" stroke-width="1.6" fill="none"/>
+<path d="M94 16 v34 q0 5 -5 5" stroke="#C9B7A6" stroke-width="1.6" fill="none"/>
+<rect x="6" y="14" width="118" height="43" fill="var(--ember)" opacity=".26"/><line x1="6" y1="57" x2="124" y2="57" stroke="var(--ember)" stroke-width="1.4" stroke-dasharray="3 2"/>
+
+</svg><figcaption><b>Grad 3</b>Ganze Dermis · trocken, lederartig, schmerzlos, keine Haare</figcaption></figure></div>
+<table style="margin-top:9px"><tr><th>Grad</th><th>Heilung</th><th>Therapie</th></tr>
+<tr><td>1</td><td>5–7 Tage, narbenfrei</td><td>konservativ · <b>zählt nicht zur VKOF</b></td></tr>
+<tr><td>2a</td><td>10–14 Tage, meist narbenfrei</td><td>konservativ, feuchte Wundbehandlung</td></tr>
+<tr><td>2b</td><td>&gt; 3 Wochen, hypertrophe Narbe</td><td><b>operativ</b> — Grenzfall, hier hilft LDI</td></tr>
+<tr><td>3</td><td>keine Spontanheilung</td><td>obligat operativ</td></tr>
+<tr><td>4</td><td>—</td><td>radikale Nekrektomie, ggf. Amputation</td></tr></table>
+<p class="tiny"><b>Der verlässlichste Bedside-Test</b> ist der Haarzug: bei 2a sitzen die Haare fest, bei 2b lassen sie sich schmerzlos epilieren, bei 3 sind sie weg. Rekapillarisierung und Schmerzhaftigkeit nehmen mit der Tiefe ab.</p>
+<div class="photos">
+  <div class="photo"><img src="bilder/grad-1.jpg" alt="Grad 1" onerror="this.parentNode.remove()"><span>Grad 1</span></div>
+  <div class="photo"><img src="bilder/grad-2a.jpg" alt="Grad 2a" onerror="this.parentNode.remove()"><span>Grad 2a</span></div>
+  <div class="photo"><img src="bilder/grad-2b.jpg" alt="Grad 2b" onerror="this.parentNode.remove()"><span>Grad 2b</span></div>
+  <div class="photo"><img src="bilder/grad-3.jpg" alt="Grad 3" onerror="this.parentNode.remove()"><span>Grad 3</span></div>
+</div>
+<p class="tiny"><b>Eigene Fotos einbinden:</b> Lege einen Ordner <code>bilder</code> neben diese Datei mit <code>grad-1.jpg</code>, <code>grad-2a.jpg</code>, <code>grad-2b.jpg</code>, <code>grad-3.jpg</code>. Sie erscheinen dann automatisch hier. Ohne diesen Ordner bleibt der Bereich leer.</p>`],
+
+["Lund-Browder","lund browder kof kinder tabelle vkof", `
+<table><tr><th>Region</th><th>0 J</th><th>1 J</th><th>5 J</th><th>10 J</th><th>15 J</th><th>Erw.</th></tr>
+<tr><td>Kopf</td><td>19</td><td>17</td><td>13</td><td>11</td><td>9</td><td>7</td></tr>
+<tr><td>Hals</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td>Rumpf v./h.</td><td colspan="6">je 13</td></tr>
+<tr><td>Gesäß je</td><td colspan="6">2,5</td></tr>
+<tr><td>Genital</td><td colspan="6">1</td></tr>
+<tr><td>Oberarm je</td><td colspan="6">4</td></tr>
+<tr><td>Unterarm je</td><td colspan="6">3</td></tr>
+<tr><td>Hand je</td><td colspan="6">2,5</td></tr>
+<tr><td><b>Oberschenkel je</b></td><td>5,5</td><td>6,5</td><td>8</td><td>8,5</td><td>9</td><td>9,5</td></tr>
+<tr><td><b>Unterschenkel je</b></td><td>5</td><td>5</td><td>5,5</td><td>6</td><td>6,5</td><td>7</td></tr>
+<tr><td>Fuß je</td><td colspan="6">3,5</td></tr></table>
+<p>Merkprinzip: beim Kind Kopf groß, Beine klein. Pro Lebensjahr grob Kopf −1 %, Beine +0,5 % je Seite.</p>`],
+
+["CO und Zyanid","co hcn rauchgas hydroxocobalamin cohb hbo", `
+<table><tr><th></th><th>CO</th><th>Zyanid</th></tr>
+<tr><td>Verdacht</td><td>geschlossener Raum, Bewusstlosigkeit, Kopfschmerz</td><td><b>Laktat &gt; 8–10</b>, refraktäre Hypotonie, hohe zentralvenöse Sättigung trotz Schock</td></tr>
+<tr><td>Diagnostik</td><td>COHb in der BGA · <b>SpO₂ falsch normal</b></td><td>keine Schnelldiagnostik, klinisch</td></tr>
+<tr><td>Therapie</td><td>FiO₂ 1,0 (HWZ 4–5 h → 60–90 min → 20–30 min hyperbar). HBO nur bei schweren Symptomen</td><td>Hydroxocobalamin 70 mg/kg (5 g) — <b>nur bei schwerer Vergiftung, nicht prophylaktisch</b></td></tr></table>
+<p>Hydroxocobalamin färbt Urin und Plasma rot, verfälscht photometrische Laborwerte, kann Blutleckdetektoren auslösen.</p>`],
+
+["Inhalationstrauma","inhalation beatmung bronchoskopie heparin ais tubus", `
+<ul><li>Tubus <b>ID ≥ 8,0 mm</b> (Bronchoskopien, zähe Rußsekrete). Fixierung nähen, nicht kleben.</li>
+<li>Lungenprotektiv nach S3. HFOV/HFPV <b>nicht</b> empfohlen.</li>
+<li><b>Keine Steroide. Keine Antibiotikaprophylaxe.</b></li>
+<li>Vernebeltes Heparin 5.000–10.000 IE ± NAC 20 %: erwägen, Evidenz uneinheitlich.</li>
+<li>Videolaryngoskopie ist laut LL auch ein <b>Diagnostikum</b>.</li>
+<li>Überwachung mindestens 24 h. Diagnose bleibt primär klinisch.</li></ul>
+<table><tr><th>AIS</th><th>Befund</th></tr>
+<tr><td>0</td><td>kein Ruß, kein Erythem, kein Ödem</td></tr>
+<tr><td>1</td><td>fleckiges Erythem, Ruß proximal oder distal</td></tr>
+<tr><td>2</td><td>mäßiges Erythem, Ruß, Bronchorrhoe, Obstruktion</td></tr>
+<tr><td>3</td><td>ausgeprägte Entzündung, Vulnerabilität, massiv Ruß</td></tr>
+<tr><td>4</td><td>Schleimhautablösung, Nekrose, endoluminale Obliteration</td></tr></table>`],
+
+["Stromunfall","strom elektro rhabdomyolyse ekg myoglobin", `
+<ul><li>12-Kanal-EKG; <b>≥ 24 h Monitoring</b> bei initialem Kreislaufstillstand, Bewusstlosigkeit oder pathologischem EKG.</li>
+<li>Myoglobin und Herzenzyme, CK-Verlauf.</li>
+<li>Bei Myoglobinurie <b>Zieldiurese 2 ml/kg/h</b>.</li>
+<li>Die Hautläsion sagt nichts über die Tiefe — Beurteilung durch <b>intraoperative Exploration</b>, MRT/Angiographie erwägen.</li>
+<li>Kompartment engmaschig, beim Sedierten protokolliert. Bei Kompartmentsyndrom sofortige Dekompression.</li>
+<li>Ophthalmologische Untersuchung (Katarakt), Ganzkörperinspektion.</li></ul>`],
+
+["Verätzungen","verätzung chemie flusssäure phosphor zement teer", `
+<table><tr><th>Substanz</th><th>Maßnahme</th></tr>
+<tr><td><b>Flusssäure</b></td><td>≥ 20 min spülen, Calciumgluconat-Gel und Unterspritzung, ggf. intraarteriell. <b>Systemisch ab &gt; 4 % KOF</b>, kardiales Monitoring, Elektrolyte</td></tr>
+<tr><td>Calciumoxid/Zement</td><td><b>kein Wasser</b> — trocken abbürsten, dann spülen</td></tr>
+<tr><td>Weißer Phosphor</td><td>kaltes Wasser <b>und</b> chirurgisches Debridement</td></tr>
+<tr><td>Phenol</td><td>Polyethylenglykol</td></tr>
+<tr><td>Teer/Bitumen</td><td>Polysorbat (Tween 80), nicht abreißen</td></tr>
+<tr><td>Chromsäure</td><td>Wasser und schnelle chirurgische Behandlung</td></tr></table>
+<p><b>Keine frühe Spalthauttransplantation</b> bei chemischen Verletzungen.</p>`],
+
+["Ernährung · Ziele und Produkte","ernährung kcal protein sondenkost fresubin nutrison peptamen mikronährstoffe", `
+<ul><li>Enteral <b>binnen 12 h</b> beginnen.</li>
+<li>Energie 25–30 kcal/kg, besser indirekte Kalorimetrie. Protein <b>1,5–2,0 g/kg/d</b>.</li>
+<li>Glukose max. <b>5 mg/kg/min</b> und ≤ 55 % der Energie. Fett <b>&lt; 35 %</b> — Propofol mitrechnen (≈ 1,1 kcal/ml).</li>
+<li>Blutzucker ≤ 8 mmol/l (~145 mg/dl).</li>
+<li><b>Zink, Kupfer, Selen</b> und Vitamine substituieren — starke Empfehlung, Verluste über die Wundfläche.</li>
+<li>Glutamin nach RE-ENERGIZE nicht mehr empfohlen.</li></ul>
+<table><tr><th>Kategorie</th><th>Beispiele (Richtwerte)</th></tr>
+<tr><td>Hochprotein</td><td>Fresubin Intensive ~1,2 kcal/ml, 10 g/100 ml · Nutrison Protein Intense ~1,25 / 10 · Fresubin HP Energy 1,5 / 7,5</td></tr>
+<tr><td>Peptidbasiert</td><td>Peptamen AF 1,5 / 9,4 · Nutrison Advanced Peptisorb 1,0 / 4,0</td></tr>
+<tr><td>Hochkalorisch</td><td>Fresubin Energy Fibre 1,5 / 5,6 · Nutrison Energy Multi Fibre</td></tr>
+<tr><td>Proteinmodul</td><td>Fresubin Protein Powder, Protifar (~85–90 g Protein/100 g)</td></tr>
+<tr><td>Mikronährstoffe</td><td>Addaven, Tracutil, Cernevit, Soluvit N, Selenase, Vitamin D, Thiamin</td></tr></table>
+<p class="tiny">Angaben orientierend — Herstellerangabe und Hausliste prüfen.</p>`],
+
+["Hypermetabolismus","propranolol oxandrolon katabolie ree", `
+<ul><li>REE 150–200 %, hält <b>Monate</b> an.</li>
+<li>Stärkster Hebel: <b>früher Wundverschluss</b>, thermoneutrale Umgebung, frühe Mobilisation, adäquate Ernährung.</li>
+<li><b>Propranolol</b> ~0,2 mg/kg, titriert auf Herzfrequenz −15 bis −20 %.</li>
+<li><b>Oxandrolon</b> 2 × 10 mg/d: weniger Eingriffe und kürzere Liegedauer, aber kein Mortalitätsvorteil und <b>mehr Transaminasenanstieg</b> (19 % vs. 5 %). Leberwerte wöchentlich.</li></ul>`],
+
+["Sepsis beim Brandverletzten","sepsis aba trigger infektion erreger pseudomonas pilz", `
+<p><b>Jeder Schwerbrandverletzte erfüllt dauerhaft SIRS-Kriterien.</b> Die LL fordert die prospektive klinische Diagnose durch ein erfahrenes Team.</p>
+<table><tr><th>ABA-Trigger (≥ 3 von 6 → Fokussuche)</th></tr>
+<tr><td>Temp &gt; 39,0 °C oder &lt; 36,5 °C</td></tr>
+<tr><td>Herzfrequenz &gt; 110/min</td></tr>
+<tr><td>Atemfrequenz &gt; 25/min bzw. AMV &gt; 12 l/min</td></tr>
+<tr><td>Thrombozyten &lt; 100.000/µl (erst ab Tag 3)</td></tr>
+<tr><td>Hyperglykämie: &gt; 200 mg/dl, &gt; 7 IE/h oder +25 % Insulinbedarf in 24 h</td></tr>
+<tr><td>Nahrungsintoleranz &gt; 24 h</td></tr></table>
+<p><b>Trendsignale sind im Alltag wertvoller:</b> steigender Katecholamin- oder Insulinbedarf, neue Nahrungsintoleranz, Thrombozytenknick, Verschlechterung des Wundaspekts, neue Verwirrtheit.</p>
+<table><tr><th>Zeit</th><th>Erreger</th></tr>
+<tr><td>Tag 0–5</td><td>grampositiv, <i>S. aureus</i> inkl. MRSA</td></tr>
+<tr><td>ab Woche 1–2</td><td><i>Pseudomonas</i>, <i>Acinetobacter</i>, <i>Klebsiella</i>, häufig MDR</td></tr>
+<tr><td>ab Woche 3–4</td><td>Candida; bei langem Verlauf Aspergillus/Mucorales — <b>chirurgische Notfalldiagnose</b></td></tr></table>
+<p><b>Keine Antibiotikaprophylaxe.</b> Quantitative Gewebebiopsie schlägt Oberflächenabstrich. PCT nur im Trend.</p>`],
+
+["Antiinfektiva bei ARC","antibiotika arc dosierung meropenem piperacillin vancomycin tdm", `
+<ul><li>Hyperdynamer Kreislauf → CrCl oft 150–300 ml/min bei normalem Kreatinin.</li>
+<li><b>Loading Dose immer</b>, Erhaltungsdosis nach Clearance.</li>
+<li><b>Verlängerte oder kontinuierliche Infusion ist beim Betalaktam der Regelfall.</b></li>
+<li>Piperacillin/Tazobactam: Loading 4,5 g, dann kontinuierlich.</li>
+<li>Meropenem: Loading 2 g, dann 2 g q8h über 3–6 h oder kontinuierlich.</li>
+<li>Vancomycin: Loading 25–30 mg/kg, AUC/MIC 400–600.</li>
+<li><b>Kreatininverlauf täglich gegen die Dosis prüfen</b> — der Wechsel von ARC zu AKI kann binnen 48 h passieren, dann droht Neurotoxizität.</li></ul>`],
+
+["Medikamente · was beim Brandverletzten anders ist","medikamente pitfalls arzneimittel succinylcholin metamizol propofol nsar silbersulfadiazin mafenid dosierung", `
+<p class="tiny">Substanzen, die auf jeder anderen Intensivstation unauffällig laufen und hier eine eigene Fallhöhe haben.</p>
+<table><tr><th style="width:30%">Substanz</th><th>Was zu beachten ist</th></tr>
+<tr><td><b>Succinylcholin</b></td><td><b>Ab ca. 24–48 h nach dem Trauma bis Monate danach kontraindiziert</b> — Hochregulation extrajunktionaler ACh-Rezeptoren, letale Hyperkaliämie. Gleichzeitig <b>Resistenz gegen nicht-depolarisierende Relaxanzien</b>: höhere Dosis, Relaxometrie.</td></tr>
+<tr><td><b>Betalaktame</b><br><span class="small">Meropenem, Pip/Tazo, Cefepim</span></td><td>Durch augmented renal clearance und Verlust über die Wundfläche regelhaft <b>unterdosiert</b>. Loading Dose immer, verlängerte oder kontinuierliche Infusion, TDM. Kippt die Niere, droht umgekehrt <b>Neurotoxizität</b> (Cefepim, Imipenem) — Kreatinin täglich gegen die Dosis prüfen.</td></tr>
+<tr><td><b>Opioide und Sedativa</b></td><td>Toleranz binnen weniger Tage, Bedarf ein Vielfaches der Norm. Das ist Pharmakologie, kein Fehlverhalten. Ohne Rotations- und Ausstiegskonzept entsteht der Entzug später auf Normalstation.</td></tr>
+<tr><td><b>Propofol</b></td><td><b>Fettlast bilanzieren</b>: 2 % entspricht ca. 1,1 kcal/ml, bei 15 ml/h rund 400 kcal und 36 g Fett pro Tag — bei einer Obergrenze von 35 % der Energie ist das relevant. Bei hoher Dosis über lange Zeit an PRIS denken (CK, Laktat, Triglyzeride).</td></tr>
+<tr><td><b>Metamizol</b></td><td>Agranulozytoserisiko bei einem ohnehin infektgefährdeten Patienten mit häufiger Leukopenie aus anderen Gründen. Nutzen und Risiko bewusst abwägen, Differentialblutbild im Blick behalten.</td></tr>
+<tr><td><b>NSAR</b></td><td>Beim hypovolämen, katecholaminpflichtigen Patienten mit drohendem AKI und Curling-Ulkus die denkbar ungünstigste Substanzklasse. In der Akutphase meiden.</td></tr>
+<tr><td><b>Paracetamol</b></td><td>Bei Katabolie, Mangelernährung und Leberbelastung enge Tagesobergrenze. Als Fiebersenker beim Brandverletzten ohnehin fragwürdig — die erhöhte Solltemperatur ist Teil der Flow-Phase.</td></tr>
+<tr><td><b>Morphin</b></td><td>Aktive Metaboliten kumulieren bei Niereninsuffizienz. Hydromorphon ist beim Nierenkranken die sauberere Wahl.</td></tr>
+<tr><td><b>Etomidat</b></td><td>Adrenale Suppression nach Einmalgabe — beim septischen oder katecholaminpflichtigen Brandverletzten kritisch abwägen. Ketamin ist hier meist die bessere Einleitung.</td></tr>
+<tr><td><b>Vancomycin + Pip/Tazo</b></td><td>Kombination erhöht das AKI-Risiko messbar. Beim Brandverletzten mit ohnehin gefährdeter Niere Alternativen prüfen und Spiegel steuern.</td></tr>
+<tr><td><b>Aminoglykoside</b></td><td>Erhöhtes Verteilungsvolumen verlangt eine höhere Loading Dose, die Nephrotoxizität begrenzt die Dauer. Nur spiegelgesteuert.</td></tr>
+<tr><td><b>HES und Gelatine</b></td><td><b>Kontraindiziert</b> — explizites Verbot in der Leitlinie.</td></tr>
+<tr><td><b>Hochdosis-Vitamin C</b></td><td><b>Obsolet</b> seit VICTORY 2026 (erhöhte Mortalität). Nebenbei: unter Ascorbinsäure ist die <b>POC-Blutzuckermessung falsch hoch</b> — wer darauf Insulin titriert, produziert Hypoglykämien.</td></tr>
+<tr><td><b>Glukokortikoide</b></td><td>Beim Inhalationstrauma <b>nicht empfohlen</b>. Ausnahme bleibt die begründete Substitution bei katecholaminrefraktärem Schock.</td></tr>
+<tr><td><b>Antibiotikaprophylaxe</b></td><td><b>Nicht indiziert</b> — weder systemisch noch beim Inhalationstrauma. Selektiert nur Problemkeime.</td></tr>
+<tr><td><b>Erythropoetin</b></td><td>Bei der Anämie des Brandverletzten <b>nicht empfohlen</b>.</td></tr>
+<tr><td><b>Glutamin</b></td><td>Nach RE-ENERGIZE ohne nachweisbaren Nutzen — in vielen Zentren verlassen.</td></tr>
+<tr><td><b>Silbersulfadiazin</b><br><span class="small">topisch</span></td><td>Transiente <b>Leukopenie und Neutropenie</b> bei 5–15 % innerhalb weniger Tage — wird leicht als Sepsiszeichen fehlgedeutet. Dazu Hämolyse bei G6PD-Mangel und, über das Lösungsmittel Propylenglykol, <b>Laktatazidose mit osmotischer Lücke</b> bei großflächiger Daueranwendung. Behindert zudem die Beurteilung der Wunde und gilt heute als weitgehend verlassen.</td></tr>
+<tr><td><b>Mafenid</b><br><span class="small">topisch</span></td><td>Hemmt die Carboanhydrase und erzeugt bei großflächiger, längerer Anwendung eine <b>metabolische Azidose</b> mit kompensatorischer Hyperventilation — beim beatmeten Patienten leicht als respiratorisches Problem missdeutet.</td></tr>
+<tr><td><b>Lidocain topisch, Adrenalin-Tumeszenz</b></td><td>Über großflächig eröffnete Wundflächen <b>systemische Resorption</b>. Plötzliche Tachykardie und Hypertonie im OP sind oft Adrenalin und nicht Analgesiemangel; bei Lidocain an Toxizität denken.</td></tr>
+<tr><td><b>Hydroxocobalamin</b></td><td>Färbt Plasma und Urin rot und <b>verfälscht photometrische Laborwerte</b> (Bilirubin, Kreatinin, Hb, Methämoglobin); kann Blutleckdetektoren der Dialyse auslösen. Beschriebene Oxalat-Nephropathie.</td></tr>
+<tr><td><b>Enoxaparin in Standarddosis</b></td><td>Erreicht bei einem großen Teil der Brandverletzten <b>keine prophylaktischen Spiegel</b>. Anti-Xa 4 h nach der 3. Dosis, Ziel 0,2–0,4 IE/ml, wöchentlich nachsteuern.</td></tr>
+<tr><td><b>Protonenpumpenhemmer</b></td><td>In der Akutphase indiziert. Bei etablierter enteraler Ernährung die Indikation regelmäßig überprüfen — VAP- und <i>C.-difficile</i>-Risiko. Absetzen ist eine Entscheidung, kein Vergessen.</td></tr>
+</table>
+<p class="tiny"><b>Merksatz:</b> Beim Brandverletzten sind Antiinfektiva meist unterdosiert, Sedativa unterschätzt, topische Substanzen systemisch wirksam — und ein neuer Laborausschlag hat oft eine pharmakologische Erklärung, bevor er eine infektiologische bekommt.</p>`],
+
+["Analgesie und Sedierung","schmerz analgesie ketamin gabapentin dexmedetomidin delir", `
+<ul><li><b>Hintergrundschmerz und Prozedurschmerz getrennt planen.</b></li>
+<li>Schmerz standardisiert ca. 8-stündlich erfassen; beim Beatmeten BPS/CPOT.</li>
+<li>Koanalgetika laut LL: Gabapentinoide, Amitriptylin/SSNRI, α2-Agonisten (Clonidin, Dexmedetomidin).</li>
+<li><b>Ketamin</b> und <b>Lidocain i.v.</b> erwägen; <b>Regionalverfahren</b> besonders für Spenderareale.</li>
+<li>Toleranz binnen Tagen ist Pharmakologie, kein Fehlverhalten — Rotation statt Rationierung.</li>
+<li>Methadon als Ausstiegswerkzeug nach wochenlanger Therapie.</li>
+<li>Gabapentin wirkt auch gegen den fast universellen <b>Juckreiz</b> — früh beginnen.</li></ul>`],
+
+["Nekrektomie · Anästhesie","op nekrektomie blutverlust txa succinylcholin wärme meek", `
+<ul><li>Blutverlust <b>0,5–1 ml/cm²</b>, ca. <b>100–150 ml pro % exzidierter KOF</b>. Meist max. 15–20 % KOF pro Sitzung.</li>
+<li><b>TXA</b> 15 mg/kg vor Schnitt. Transfusionstrigger <b>Hb 7 g/dl</b>, kein Erythropoetin.</li>
+<li>Tumeszenz mit verdünntem Adrenalin — Tachykardie/Hypertonie ansagen, nicht als Analgesiemangel deuten.</li>
+<li><b>Kein Succinylcholin</b> ab ca. 24–48 h nach Trauma. Resistenz gegen nicht-depolarisierende Relaxanzien.</li>
+<li>OP-Saal aufheizen, alle Infusionen wärmen — Kerntemperatur ist ein <b>Abbruchkriterium</b>.</li>
+<li>Vor Schnitt vereinbaren: maximale Fläche, maximale Zeit, Temperatur- und Transfusionsgrenze.</li>
+<li>Tangential blutet mehr als epifaszial. MEEK verlängert die OP durch Präparation.</li></ul>`],
+
+["Verlegung auf Normalstation","verlegung normalstation kompression nachsorge übergabe", `
+<ul><li>Wunden weitgehend geschlossen, Verbandwechsel ohne Narkose möglich.</li>
+<li>Keine i.v.-Katecholamine, respiratorisch stabil, Trachealkanüle sicher pflegbar.</li>
+<li>Ernährung bedarfsdeckend, Analgesie oralisiert mit <b>Ausschleichplan</b>.</li></ul>
+<p><b>Was zwingend mitwandert:</b></p>
+<ul><li><b>Kompression 15–25 mmHg, 23 h/Tag, 12–24 Monate</b> — Anmeldung schon auf der ITS, Maßanfertigung braucht Vorlauf.</li>
+<li>Silikon, Narbenmassage, Schienen, tägliche Physio/Ergo.</li>
+<li>Kalorien- und Proteinziel bleiben Monate erhöht.</li>
+<li>Juckreiz (Gabapentin), neuropathischer Schmerz, Sonnenschutz ≥ 12 Monate.</li>
+<li>MRE-Status und Isolationsbedarf kommunizieren, Transplantatlandkarte übergeben.</li>
+<li>Psychologische Anbindung, Reha und BG-Verfahren.</li></ul>`],
+
+["Vitamin C · VICTORY 2026","vitamin c victory ascorbinsäure obsolet", `
+<p><b>Hochdosis-Vitamin C ist bei Schwerbrandverletzten obsolet.</b></p>
+<ul><li>VICTORY (JAMA, 10.06.2026): 50 mg/kg alle 6 h über 96 h vs. Placebo bei ≥ 20 % VKOF, 24 Zentren, n = 238.</li>
+<li>Abbruch nach Interimsanalyse wegen Schadens. <b>28-Tage-Mortalität 15,0 % vs. 7,6 %</b> (aRR 1,96; p = 0,001).</li>
+<li>Krankenhausmortalität 23,3 % vs. 16,1 %. Dialysebedarf numerisch häufiger.</li>
+<li><b>Physiologische Substitution bleibt richtig</b> — nicht mit Hochdosis verwechseln.</li>
+<li>Praktisch: unter Ascorbinsäure ist die <b>POC-Blutzuckermessung falsch hoch</b>. Laborglukose verwenden.</li></ul>`],
+
+["Merksätze","merksätze pitfalls fehler zusammenfassung", `
+<ul>
+<li>Die Uhr läuft <b>ab Unfallzeitpunkt</b>.</li>
+<li>Nur Grad 2 und 3 zählen zur VKOF. Überschätzung ist der häufigste Fehler.</li>
+<li>Die Formel ist ein Startwert, kein Auftrag — auch nach unten titrieren.</li>
+<li>Zu viel Volumen ist heute gefährlicher als zu wenig.</li>
+<li>IAP messen ab ~30 % VKOF.</li>
+<li>Hypothermie tötet. Kühlen bei &gt; 10 % VKOF ist ein Fehler.</li>
+<li>Bewusstlos + geschlossener Raum = CO und/oder HCN, bis widerlegt.</li>
+<li>Zirkulär + steigender Beatmungsdruck = Escharotomie, nicht mehr PEEP.</li>
+<li>Enterale Ernährung binnen 12 h. Protein getrennt bilanzieren.</li>
+<li>Die Wunde ist der Motor — jeder Tag ohne Nekrektomie ist ein Tag mehr Entzündung.</li>
+<li>Steigender Katecholamin- oder Insulinbedarf ist oft das erste Sepsiszeichen.</li>
+<li>Keine Antibiotikaprophylaxe, keine Steroide.</li>
+<li>Betalaktame sind regelhaft unterdosiert.</li>
+<li>Succinylcholin ab 24–48 h: nein.</li>
+<li>Die Verdunstung steht in keinem Bilanzbogen.</li>
+<li>Bei prolongiertem Weaning immer das Phosphat prüfen.</li>
+<li>Die Verlegung auf Normalstation beendet die Therapie nicht.</li></ul>`]
+];
+
+function renderRef(){
+  let h = `<div class="search"><input type="text" id="refQ" placeholder="Suchen: Volumen, Sepsis, Ernährung, Escharotomie …"></div><div id="refList"></div>`;
+  $("#v-ref").innerHTML = h;
+  const list = $("#refList");
+  const draw = q=>{
+    const s = (q||"").trim().toLowerCase();
+    const items = REF.filter(([t,tags,body]) => !s || (t+" "+tags+" "+body).toLowerCase().includes(s));
+    list.innerHTML = items.length
+      ? items.map(([t,,b])=>`<details class="ref"><summary>${t}</summary><div class="body">${b}</div></details>`).join("")
+      : `<div class="card"><div class="tiny">Kein Treffer für „${esc(q)}". Versuche einen Oberbegriff wie Volumen, Wunde, Infektion oder Ernährung.</div></div>`;
+    if(s && items.length<=3) list.querySelectorAll("details").forEach(d=>d.open=true);
+  };
+  draw("");
+  $("#refQ").oninput = e=>draw(e.target.value);
+}
+
+
+/* ============================================================
+   Wischgesten: Betten durchblättern und 24-Stunden-Achse
+   ============================================================ */
+let SHEET = false;
+
+function bedOrder(){
+  // Belegte Betten zuerst in Bettreihenfolge; leere bleiben erreichbar
+  const occ = S.beds.filter(b=>b.label||b.weight||b.tbsa||b.injury).map(b=>b.id);
+  return occ.length ? occ : S.beds.map(b=>b.id);
+}
+function stepBed(dir){
+  const o = bedOrder();
+  let i = o.indexOf(S.cur);
+  if(i<0){ i = 0; } else { i = (i + dir + o.length) % o.length; }
+  S.cur = o[i]; trFI = null; save();
+  const p = P();
+  if(SHEET) renderSheet(dir); else { window.scrollTo(0,0); renderPat(); }
+  toast(`Bett ${p.id}${p.label?" · "+p.label:""}`);
+}
+
+/* ---------- Vollbild: 24-Stunden-Achse ---------- */
+function sheetOpen(){ SHEET = true; $("#sheet").classList.add("on"); document.body.style.overflow="hidden"; renderSheet(0); }
+function sheetClose(){ SHEET = false; $("#sheet").classList.remove("on"); document.body.style.overflow=""; renderPat(); }
+
+function renderSheet(dir){
+  const p = P(), c = calc(p);
+  const box = $("#sheet");
+  const o = bedOrder();
+  let h = `<div class="sh-top">
+      <button class="sh-nav" id="shPrev" aria-label="vorheriges Bett">‹</button>
+      <div class="sh-ttl"><b>Bett ${p.id}</b>${p.label?" · "+esc(p.label):""}
+        <span>${c.day!=null?`Burn-Tag ${c.day} · ${r1(c.h)} h seit Unfall`:"kein Unfallzeitpunkt hinterlegt"}</span></div>
+      <button class="sh-nav" id="shNext" aria-label="nächstes Bett">›</button>
+      <button class="sh-x" id="shClose" aria-label="schließen">✕</button>
+    </div>
+    <div class="sh-dots">${o.map(id=>`<span class="${id===p.id?"on":""}"></span>`).join("")}</div>
+    <div class="sh-body" id="shBody">`;
+
+  if(c.pkTotal==null || c.h==null){
+    h += `<div class="note i">Für die 24-Stunden-Achse fehlen Gewicht, VKOF oder Unfallzeitpunkt. Trage sie in der Patientenansicht ein.</div>`;
+  } else {
+    const pos = x => x/24*100;
+    const nowPct = Math.min(100, Math.max(0, c.h/24*100));
+    const past = c.h>=24;
+    const items = plan24(p,c), done = p.done||{};
+    const rateNow = c.h<8 ? c.pkRate8 : c.h<24 ? c.rate16 : null;
+    const over = items.filter(i=>!done[i.k] && c.h>i.t1);
+    const now  = items.filter(i=>!done[i.k] && c.h>=i.t0 && c.h<=i.t1);
+    const soon = items.filter(i=>!done[i.k] && c.h<i.t0);
+
+    h += `<div class="sh-key">
+      <div class="res"><div class="lab">Laufrate jetzt</div><div class="val">${rateNow!=null?r0(rateNow)+" ml/h":"nach Bedarf"}</div>
+        <div class="sub">${c.h<8?"Parkland, erste Hälfte":c.h<24?"Parkland, zweite Hälfte":"Schockphase beendet — deeskalieren"}</div></div>
+      <div class="res em"><div class="lab">Zieldiurese</div><div class="val">${p.rhabdo?r0(c.uoRhab):r0(c.uoLo)+"–"+r0(c.uoHi)}<small> ml/h</small></div>
+        <div class="sub">${c.uoMode==="rhabdo"?"2 ml/kg/h · Rhabdomyolyse":c.uoMode==="kind"?"1 ml/kg/h · Kind < 30 kg":"0,5–1,0 ml/kg/h"}</div></div>
+    </div>
+
+    <div class="plan big">
+      <div class="lane-lab">Volumenregime</div>
+      <div class="lane">
+        <div class="blk a" style="left:0;width:${pos(8)}%"><b>${r0(c.pkRate8)}</b> ml/h<span>Hälfte in 8 h</span></div>
+        <div class="blk b" style="left:${pos(8)}%;width:${pos(16)}%"><b>${r0(c.rate16)}</b> ml/h<span>Rest über 16 h</span></div>
+        ${!past?`<div class="now" style="left:${nowPct}%"></div>`:""}
+      </div>
+      <div class="lane-lab">Pflichtpunkte</div>
+      <div class="lane m">
+        ${(()=>{ const g={}; items.forEach(i=>{ (g[i.t0]=g[i.t0]||[]).push(i); });
+          return Object.keys(g).map(k=>{ const t0=+k, grp=g[k];
+            const st = grp.some(i=>!done[i.k]&&c.h>i.t1) ? "o"
+                     : grp.some(i=>!done[i.k]&&c.h>=i.t0&&c.h<=i.t1) ? "n"
+                     : grp.every(i=>done[i.k]) ? "d" : "";
+            const side = t0===0 ? "left:0;margin-left:0" : t0>=24 ? "right:0;margin-left:0" : `left:${pos(t0)}%`;
+            return `<div class="tick ${st}" style="${side}"><span>${grp.length}</span></div>`; }).join(""); })()}
+        ${!past?`<div class="now" style="left:${nowPct}%"></div>`:""}
+      </div>
+      <div class="ax">${[0,4,8,12,16,20,24].map(x=>`<span>${x}</span>`).join("")}</div>
+      <div class="axlab">Stunden ab Unfallzeitpunkt${past?" · Fenster abgelaufen":""}</div>
+    </div>`;
+
+    const grp = (t,cls,arr)=> arr.length ? `<div class="sh-grp ${cls}"><div class="sh-gt">${t} <b>${arr.length}</b></div>${
+      arr.map(i=>`<label class="prow ${cls==="over"?"over":cls==="now"?"now":"fut"}">
+        <input type="checkbox" data-plan="${i.k}"><span class="win">${i.t0===i.t1?`ab ${i.t0} h`:`${i.t0}–${i.t1} h`}</span>
+        <span class="txt">${esc(i.txt)}</span></label>`).join("")}</div>` : "";
+    h += grp(past?"Offen geblieben":"Überfällig","over",over) + grp("Jetzt fällig","now",now) + grp("Später","fut",soon);
+    if(!over.length && !now.length && !soon.length) h += `<div class="note i">Alle Pflichtpunkte der ersten 24 Stunden sind abgehakt.</div>`;
+  }
+
+  h += `</div><div class="sh-hint">◀ ▶ wischen für das nächste Bett · nach unten wischen zum Schließen</div>`;
+  box.innerHTML = h;
+  if(dir) { box.classList.remove("sl","sr"); void box.offsetWidth; box.classList.add(dir>0?"sl":"sr"); }
+  $("#shClose").onclick = sheetClose;
+  $("#shPrev").onclick  = ()=>stepBed(-1);
+  $("#shNext").onclick  = ()=>stepBed(1);
+  box.querySelectorAll("[data-plan]").forEach(cb=>cb.onchange=()=>{
+    p.done = p.done||{};
+    if(cb.checked) p.done[cb.dataset.plan]=Date.now(); else delete p.done[cb.dataset.plan];
+    p.updated=Date.now(); save(); renderSheet(0); renderBeds();
+  });
+}
+
+/* ---------- Gestenerkennung ----------
+   Grundregel: Wurde während der Berührung gescrollt, war es kein Wisch.
+   -------------------------------------- */
+(function(){
+  let T=null;
+  const H_MIN = 90;    // Mindestweg waagerecht
+  const H_RATIO = 2.2; // waagerecht muss deutlich überwiegen
+  const V_CLOSE = 130; // Mindestweg zum Schließen des Vollbilds
+  const V_RATIO = 2.5;
+
+  const noSwipe = el => {
+    const t=(el.tagName||"").toLowerCase();
+    if(["input","textarea","select","option"].includes(t)) return true;
+    return !!(el.closest && el.closest("input,textarea,select,.formula,.ref .body table,.plist,.sh-grp"));
+  };
+  const curView = () => (document.querySelector("nav button.on")||{}).dataset?.v;
+  const scrollPos = () => SHEET ? ($("#sheet").scrollTop||0) : (window.scrollY||0);
+
+  document.addEventListener("touchstart", e=>{
+    if(e.touches.length!==1){ T=null; return; }
+    const t=e.touches[0];
+    T={x:t.clientX, y:t.clientY, t:Date.now(), el:e.target, sc:scrollPos(), moved:false};
+  }, {passive:true});
+
+  document.addEventListener("touchmove", e=>{
+    if(!T || e.touches.length!==1) return;
+    // Sobald sich die Ansicht bewegt hat, ist es ein Scrollvorgang
+    if(Math.abs(scrollPos() - T.sc) > 4) T.moved = true;
+  }, {passive:true});
+
+  document.addEventListener("touchend", e=>{
+    const st=T; T=null;
+    if(!st || !e.changedTouches[0]) return;
+    if(st.moved) return;                               // es wurde gescrollt
+    if(Math.abs(scrollPos() - st.sc) > 4) return;      // Nachlauf des Scrollens
+    if(noSwipe(st.el)) return;
+    const t=e.changedTouches[0];
+    const dx=t.clientX-st.x, dy=t.clientY-st.y, dt=Date.now()-st.t;
+    if(dt>700) return;
+
+    // Waagerecht: Bett wechseln
+    if(Math.abs(dx)>H_MIN && Math.abs(dx) > Math.abs(dy)*H_RATIO){
+      if(SHEET || curView()==="pat") stepBed(dx<0 ? 1 : -1);
+      return;
+    }
+    // Senkrecht nach unten schließt das Vollbild — nur ganz oben und nur eindeutig
+    if(SHEET && dy>V_CLOSE && Math.abs(dy) > Math.abs(dx)*V_RATIO && st.sc<=2){ sheetClose(); }
+  }, {passive:true});
+})();
+
+/* ============================================================
+   Navigation, Sichern/Laden, Start
+   ============================================================ */
+function go(v){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
+  document.querySelectorAll(".view").forEach(s=>s.classList.remove("on"));
+  $("#v-"+v).classList.add("on");
+  window.scrollTo(0,0);
+  if(v==="beds"){ renderBeds(); updHsub(); }
+  if(v==="pat")  renderPat();
+  if(v==="calc") renderCalc();
+  if(v==="ref")  renderRef();
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+$("#btnExport").onclick = ()=>{
+  S.lastBackup = Date.now(); save();
+  const blob = new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  const d = new Date().toISOString().slice(0,10);
+  a.href = URL.createObjectURL(blob); a.download = `verbrennungs-station_${d}.json`;
+  a.click(); URL.revokeObjectURL(a.href); renderBeds(); toast("Sicherung gespeichert");
+};
+$("#btnImport").onclick = ()=>$("#fileIn").click();
+$("#fileIn").onchange = e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const rd = new FileReader();
+  rd.onload = ()=>{
+    try{
+      const d = JSON.parse(rd.result);
+      if(!d || !Array.isArray(d.beds)) throw 0;
+      while(d.beds.length < N_BEDS) d.beds.push(blank(d.beds.length+1));
+      S = {beds:d.beds.slice(0,N_BEDS), cur:d.cur||1};
+      S.beds.forEach((b,i)=>b.id=i+1);
+      save(); go("beds"); toast("Daten geladen");
+    }catch(err){ toast("Datei nicht lesbar"); }
+    e.target.value="";
+  };
+  rd.readAsText(f);
+};
+
+// Burn-Tage wandern über Mitternacht weiter
+setInterval(()=>{ const v=document.querySelector("nav button.on").dataset.v; if(v==="beds") renderBeds(); }, 60000);
+
+renderBeds();
+$("#verline").textContent = "Version " + APP_VERSION;
+
+/* Offlinebetrieb ist optional: Liegt eine sw.js daneben, wird sie genutzt.
+   Fehlt sie, läuft die App unverändert weiter — die Registrierung scheitert still. */
+if(false){
+  window.addEventListener("load", ()=>{
+    navigator.serviceWorker.register("./sw.js").then(reg=>{
+      reg.addEventListener("updatefound", ()=>{
+        const nw = reg.installing; if(!nw) return;
+        nw.addEventListener("statechange", ()=>{
+          if(nw.state==="installed" && navigator.serviceWorker.controller) toast("Neue Version geladen — App neu öffnen");
+        });
+      });
+    }).catch(()=>{});
+  });
+}
+
+function updHsub(){
+  const d = backupAge();
+  $("#hsub").textContent = `${N_BEDS} Betten · ` + (d===null ? (hasData()?"nie gesichert":"lokal gespeichert") : d===0 ? "heute gesichert" : `Sicherung vor ${d} Tag${d===1?"":"en"}`);
+  $("#hsub").style.color = (hasData() && (d===null || d>=7)) ? "var(--warn)" : "";
+}
+updHsub();
+setInterval(updHsub, 300000);
+</script>
+</body>
+</html>

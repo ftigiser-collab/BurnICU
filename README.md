@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.7.2 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.8.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,22 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.8.0
+
+- **Pflichtwerte pro Schicht** oben in der Patientenansicht: P/F, Katecholamine, Diurese, Laktat, Ernährung, AB. Grün = in dieser Schicht eingetragen, gelb = offen; antippen öffnet die Schnelleingabe (inkl. „unverändert“ bzw. „keine“). Offene Pflichtwerte werden nur in der Eingabe markiert (Leiste, Laborchips Laktat/P/F/pO2/FiO2, Ernährung) — es entsteht kein zusätzliches To-Do.
+- **P/F automatisch**, sobald in der Schicht pO2 (BGA) und FiO2 (neu in der BGA-Gruppe oder aus der Beatmung) vorliegen.
+- **Noradrenalin in µg/kg/min** (BG-Standard): Schnelleingabe und Chip „NA“ in µg/kg/min, ml/h wird nach Gewicht und Perfusor (Standard 5 mg/50 ml) dazugerechnet. Werte > 2 werden als ml/h erkannt und umgerechnet.
+- **Organsysteme** werden nur noch von Hand abgehakt. Ein einzelner Eintrag (z. B. RASS aus einem To-Do) hakt nicht mehr das ganze System ab.
+- **Succinylcholin** überall entfernt (Hinweise, Checkliste 48 h, Wissen, Schockraum-Übergabe).
+- **Ernährung als eigener Bereich**: aktueller Stand, Hausstandard nach Katecholaminbedarf, SOP-Rate des Tages und „wie bisher“ jeweils mit einem Tipp übernehmen, eigene Chips. Die Einträge stehen weiter beim Abdomen im Ausdruck.
+- **CiCa-Kästchen** (wie PiCCO), sobald „CiCA gestartet“ eingetragen ist: Einstellungen (Blut, Dialysat, Citrat, Calcium, Entzug) mit Startwerten nach Herstellerstandard, Dosis in ml/kg/h, iCa postfilter/systemisch mit Anpassungsvorschlag zum Übernehmen, Ca-Ratio, Säure-Basen-Hinweis, Filterlaufzeit. Kontrollen und Filterwechsel kommen als To-Do.
+- **Infektion**: Empfehlungen je Erreger sind antippbar (übernimmt die Substanz), bei MRE-Kapiteln zusätzlich „Standard BG Kap.“. Bei zwei oder mehr Erregern erscheint „Gemeinsam wirksam“ mit den Substanzen, die alle abdecken (★), und ob die laufende Therapie schon alle abdeckt.
+- **Verlauf nach Kontext**: Aufnahme-Optionen verschwinden nach der Aufnahme, Intubation/Extubation/Re-Intubation passend zum Zustand, Tracheotomie nur einmal, Escharotomie nur bei Verbrennung. CiCA-Chips unter Niere ebenso.
+- **Labor**: Favoriten erscheinen zusätzlich in ihrer eigentlichen Gruppe. Neu: FiO2 (BGA), iCa postfilter (Niere, für CiCa).
+- **Basislaufrate**: beim frischen Verbrennungspatienten ohne Rate Vorschlag nach SOP (Rule of 10) zum Übernehmen.
+- **Rekap** aus der Reevaluation wird jetzt unter Kreislauf dokumentiert (vorher nur 2 h intern für die Reevaluation gespeichert).
+- **Abhak-Felder** neu gestaltet: Haken als Grafik, exakt mittig, grün gefüllt.
 
 ## Neu in 3.7.2
 
