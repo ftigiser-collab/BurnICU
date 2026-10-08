@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.10.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.11.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,19 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.11.0
+
+- **Tablet-Layout ist jetzt Standard**: Bettenleiste links, Reiter Übersicht · Organe · Therapie · Infektion · Labor & Verlauf · Organisation · Wissen & SOPs. Auf dem Handy ohne Bettenleiste, Reiter oben. Auswahl-Chips brechen um statt seitlich zu scrollen.
+- **Druck Schichtliste/Übergabe**:
+  - Bereichsüberschriften (Verlauf, Diurese, Devices, Neuro, Pulmo …) fetter und etwas größer.
+  - Kopf ohne Dopplungen: Diagnose in einer Zeile, dahinter nur noch, was nicht schon in der Diagnose steht (z. B. „davon tief 18 % · h 19 nach Unfall · IHT AIS 2 …“). Burn-Tag nur, wenn er vom ITS-Tag abweicht. Vorerkrankungen, die schon in der Diagnose stehen, entfallen. Im Verlauf steht der Unfall nur noch als „Unfall“.
+  - **Erinnern** nur noch am Ende (vor der Vertretung), jeder Punkt in eigener Zeile mit Trennlinie, zweispaltig, Kernaussage fett. Metabolisches Bündel als kurze Stichworte.
+  - Kürzere Texte: Datumsangaben ohne laufendes Jahr, Infektzeile ohne doppelten Fokus, Device-Evaluation kürzer.
+  - **Labor**: Trendpfeil immer (auch „→“ bei stabil), Werte außerhalb des Referenzbereichs dezent fett, Werte im Referenzbereich grau. Legende ergänzt.
+- **Blanko**: Labor der letzten 24 h mit Trendpfeil (auffällige zuerst, unauffällige grau), laufende Antiinfektiva mit Therapietag in der Zeile „Infekt / AB“, dazu ITS-Tag und Vorerkrankungen im Kopf. Kompaktere Zeilen, damit die Übergabe-Zeile auch bei 4 Patienten je Seite Platz hat.
+
+Referenzbereiche (Erwachsene, Einheiten wie in der App) sind Standardwerte, z. B. Krea ≤ 1,2 mg/dl, K⁺ 3,5–5,1, Na⁺ 135–145 mmol/l, Hb 12–17,5 g/dl, Thrombozyten 150–400/nl, CRP ≤ 5 mg/l, PCT ≤ 0,5 ng/ml, Laktat ≤ 2 mmol/l, Glukose 80–180 mg/dl, p/F ≥ 300.
 
 ## Neu in 3.10.0
 
