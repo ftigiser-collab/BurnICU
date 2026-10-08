@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.9.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.10.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,11 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.10.0
+
+- **Ernährungsrechner** im Bereich Ernährung (aufklappbar) und in der SOP „Ernährung und Abführen“: Bedarf nach SOP (24 kcal/kg Idealgewicht, einstellbar), Aufbau Tag 1 / Tag 2 / ab Tag 3, Sondenkost wählbar (HPenergy, Original, Renal, HPfibre). Laufende Zufuhr wird gegengerechnet — enteral, Olimel 5,7 %, Propofol (≈ 1,1 kcal/ml, aus der Medikation vorbelegt) und Glukose 5 %/10 % — mit Deckung in % und der Rate für heute bzw. für 100 %. „übernehmen“ trägt die Rate in die Ernährung ein. Ab Tag 3 und Deckung < 80 %: Hinweis Cernevit + Addel Trace und die Olimel-Rate, die das Defizit deckt.
+- **Probeweise: Verbrennung nur bei passender Diagnose.** Der Bereich „Verbrennung“ erscheint nur, wenn Verbrennungsdaten erfasst sind, die Diagnose auf eine Verbrennung hinweist (z. B. Verbrennung, Verbrühung, VKOF, Strom-/Hochspannungsunfall, Inhalationstrauma) oder der Patient als Zugang angekündigt ist. Das Metabolische Bündel hängt daran (Verbrennung > 20 % VKOF). Bei anderen Diagnosen (z. B. Pneumonie) bleiben beide ausgeblendet.
 
 ## Neu in 3.9.0
 

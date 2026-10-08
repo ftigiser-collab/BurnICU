@@ -2,7 +2,7 @@
 
 Testversion neben der echten App: https://ftigiser-collab.github.io/BurnICU/tablet/
 
-- Gleiche Funktionen und Inhalte wie BurnICU 3.9.0, nur anders angeordnet: Bettenleiste links, Reiter Übersicht · Organe · Therapie · Infektion · Labor & Verlauf · Organisation · Wissen & SOPs.
+- Gleiche Funktionen und Inhalte wie BurnICU 3.10.0, nur anders angeordnet: Bettenleiste links, Reiter Übersicht · Organe · Therapie · Infektion · Labor & Verlauf · Organisation · Wissen & SOPs.
 - Nutzt **dieselben Daten** wie die echte App (gleicher Browserspeicher auf derselben Adresse). Was du hier einträgst, steht auch in der echten App und umgekehrt.
 - Eigener Offline-Speicher und eigenes Update; die echte App unter /BurnICU/ bleibt unverändert.
 - Druckbilder, Arztbrief, Checkliste 48 h, schlanker Modus, Zimmerplan, Meine Schicht, Fokus und To-Do sind identisch mit der echten App.
