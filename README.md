@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.11.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.11.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -15,6 +15,14 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
 
+## Neu in 3.11.1
+
+- **Labor im Druck nach ITS-Relevanz** statt nach Referenzbereich, drei Stufen:
+  - **fett** — ITS-Grenze überschritten, relevanter Trend (⚠) oder außerhalb der Norm und schlechter werdend (Pfeil in die ungünstige Richtung, bei Elektrolyten/Glukose/pH: weiter weg von der Mitte).
+  - normal — außerhalb der Norm, aber stabil oder besser.
+  - grau — im Normbereich.
+- ITS-Grenzen: Laktat ≥ 2 · Hb < 8 · p/F < 200 · CRP ≥ 100 · PCT ≥ 2 · Leukos < 4 / > 12 · Thrombozyten < 100 · Quick < 50 · pTT > 50 · Fibrinogen < 150 · Krea > 1,5 · Harnstoff > 100 · K⁺ < 3,3 / > 5,5 · Na⁺ < 130 / > 150 · Ca < 1,9 / > 2,8 · iCa < 1,0 / > 1,4 · Phosphat < 0,6 / > 2 · Mg < 0,6 / > 1,5 · CK > 5000 · Myoglobin > 1000 · Bilirubin > 3 · GOT/GPT > 150 · GGT > 300 · AP > 300 · Lipase > 180 · Albumin < 20 · Glukose < 70 / > 180 · Troponin > 50 · BNP > 400 · Triglyceride > 400 · pH < 7,30 / > 7,50 · pO2 < 60 · pCO2 < 30 / > 55 · BE < −5 / > 5 · ScvO2 < 65 · COHb > 10 · MetHb > 3 · Präalbumin < 10 (Einheiten wie in der App).
+
 ## Neu in 3.11.0
 
 - **Tablet-Layout ist jetzt Standard**: Bettenleiste links, Reiter Übersicht · Organe · Therapie · Infektion · Labor & Verlauf · Organisation · Wissen & SOPs. Auf dem Handy ohne Bettenleiste, Reiter oben. Auswahl-Chips brechen um statt seitlich zu scrollen.
@@ -23,10 +31,8 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
   - Kopf ohne Dopplungen: Diagnose in einer Zeile, dahinter nur noch, was nicht schon in der Diagnose steht (z. B. „davon tief 18 % · h 19 nach Unfall · IHT AIS 2 …“). Burn-Tag nur, wenn er vom ITS-Tag abweicht. Vorerkrankungen, die schon in der Diagnose stehen, entfallen. Im Verlauf steht der Unfall nur noch als „Unfall“.
   - **Erinnern** nur noch am Ende (vor der Vertretung), jeder Punkt in eigener Zeile mit Trennlinie, zweispaltig, Kernaussage fett. Metabolisches Bündel als kurze Stichworte.
   - Kürzere Texte: Datumsangaben ohne laufendes Jahr, Infektzeile ohne doppelten Fokus, Device-Evaluation kürzer.
-  - **Labor**: Trendpfeil immer (auch „→“ bei stabil), Werte außerhalb des Referenzbereichs dezent fett, Werte im Referenzbereich grau. Legende ergänzt.
-- **Blanko**: Labor der letzten 24 h mit Trendpfeil (auffällige zuerst, unauffällige grau), laufende Antiinfektiva mit Therapietag in der Zeile „Infekt / AB“, dazu ITS-Tag und Vorerkrankungen im Kopf. Kompaktere Zeilen, damit die Übergabe-Zeile auch bei 4 Patienten je Seite Platz hat.
-
-Referenzbereiche (Erwachsene, Einheiten wie in der App) sind Standardwerte, z. B. Krea ≤ 1,2 mg/dl, K⁺ 3,5–5,1, Na⁺ 135–145 mmol/l, Hb 12–17,5 g/dl, Thrombozyten 150–400/nl, CRP ≤ 5 mg/l, PCT ≤ 0,5 ng/ml, Laktat ≤ 2 mmol/l, Glukose 80–180 mg/dl, p/F ≥ 300.
+  - **Labor**: Trendpfeil immer (auch „→“ bei stabil), Hervorhebung nach ITS-Relevanz (siehe 3.11.1). Legende ergänzt.
+- **Blanko**: Labor der letzten 24 h mit Trendpfeil (fett hervorgehobene zuerst, normale grau am Ende), laufende Antiinfektiva mit Therapietag in der Zeile „Infekt / AB“, dazu ITS-Tag und Vorerkrankungen im Kopf. Kompaktere Zeilen, damit die Übergabe-Zeile auch bei 4 Patienten je Seite Platz hat.
 
 ## Neu in 3.10.0
 
