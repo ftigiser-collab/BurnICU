@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.11.2 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.12.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,19 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.12.0
+
+- **Lappenkontrolle als eigenes Kästchen** (Übersicht und Organe → Wunde), sobald eine Lappen-OP als erfolgt eingetragen ist oder im Verlauf steht — 5 Tage lang alle 2 h:
+  - großer Knopf „✓ Kontrolle jetzt — unauffällig“, dazu Befund-Chips (vital, Rekap, Doppler, warm bzw. livide, blass, Doppler –, kalt) und Freitext.
+  - Jede Kontrolle wird mit Uhrzeit dokumentiert (Kette ✓ 08:05 · ✓ 10:02 …, verpasste Termine als ✗).
+  - Kontrolle mehr als 15 min überfällig → **rotes To-Do** (Priorität hoch); verschwindet, sobald abgehakt ist.
+  - Auffälliger Befund → Wunde als Baustelle und To-Do „Plastische Chirurgie sofort informieren“.
+  - Diagnose mit Lappenplastik, aber keine OP-Zeit → das Kästchen fragt nach dem OP-Ende (oder „keine Kontrollen nötig“).
+  - Ausdruck: Zeile „Lappen“ mit den Kontrollen der Schicht und den nächsten Terminen; die Routinekontrollen stehen nicht mehr einzeln unter Wunde.
+- **Niere**: Chip „Diurese ml/h“ entfernt — Diurese nur noch im Bereich Diurese.
+- **O2-Einträge** lesbar: „O2 2 l/min“ bzw. „Raumluft“.
+- **Neue Demo-Patienten**: Zi 1 schwer verbrannt (58 % VKOF, Inhalationstrauma, Schockphase, PiCCO, IAP steigend) · Zi 2 mittel (32 %, Tag 9, Sepsis, zwei Erreger) · Zi 3 Langlieger (45 %, Tag 24, tracheotomiert, Weaning, VAP 3-MRGN, AKI mit CiCa) · Zi 5 unter 20 % (16 % Gesicht/Hals/Arme, nicht intubiert) · Zi 6 Lappenplastik (Tag 1 nach OP, eine Kontrolle verpasst, eine überfällig) · Zi 7 Minorfall (7 % Verbrühung, eher IMC).
 
 ## Neu in 3.11.2
 

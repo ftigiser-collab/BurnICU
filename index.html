@@ -1736,6 +1736,30 @@ main:has(> .tv){max-width:none;padding:0}
 }
 .tvwissen .chip{white-space:normal;max-width:100%;text-align:left}
 
+/* ===== 3.12.0: Lappenkontrolle ===== */
+.sec.lappensec{border-color:rgba(163,52,107,.45)}
+.sec.lappensec .sec-h{background:linear-gradient(90deg,rgba(163,52,107,.12),transparent 70%)}
+.sec.lappensec.overdue{border-color:var(--red);box-shadow:inset 4px 0 0 var(--red)}
+.lap-st{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;font-size:14px;margin-bottom:8px}
+.lap-st.over b{color:var(--red)}
+.lap-chain{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.lapslot{display:inline-flex;align-items:center;min-height:30px;padding:0 9px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid var(--line2);background:var(--surf);white-space:nowrap}
+.lapslot.ok{border-color:color-mix(in srgb,var(--grn) 55%,var(--line2));background:color-mix(in srgb,var(--grn) 8%,var(--surf));color:var(--grn)}
+.lapslot.ok.bad{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+.lapslot.miss{border-color:rgba(255,107,107,.6);background:var(--red-soft);color:var(--red)}
+.lapslot.next{border-style:dashed;color:var(--mut)}
+.lap-form{display:flex;flex-direction:column;gap:8px;padding:10px 12px;border-radius:12px;background:var(--raise);margin-bottom:8px}
+.lap-form .lap-ok{min-height:48px;font-size:16px;align-self:flex-start}
+.lap-row{display:flex;gap:8px;flex-wrap:wrap}
+.lap-row input{flex:1 1 220px;min-height:40px}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.lap-op{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.lap-op input{min-height:40px}
+/* Druck */
+.pr.plap .lok{font-weight:600}
+.pr.plap .lmiss{font-weight:700;text-decoration:underline}
+.pr.plap .lnext{color:#333}
+
 </style>
 </head>
 <body>
@@ -1792,7 +1816,7 @@ react-dom/cjs/react-dom.production.min.js:
   const LOGO_DARK = "data:image/png;base64,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";
   const KEY = "burnicu_v3";
   const THEME_KEY = "burnicu_theme";
-  const APP_VERSION = "3.11.2";
+  const APP_VERSION = "3.12.0";
   const INFEKTIO_KEY = "burnicu_infektio_url";
   const INFEKTIO_DEFAULT = "https://ftigiser-collab.github.io/InfektioBuddy/";
   const MAX_MINE = 8;
@@ -1853,7 +1877,7 @@ react-dom/cjs/react-dom.production.min.js:
       G("Diagnostik & Transfusion", ["Echo", "TEE", "PiCCO", "VExUS", "ZVD", "EK", "TK", "FFP", "Fibrinogen substituiert", "Blutung"])
     ] },
     { k: "niere", name: "Niere & Bilanz", short: "Niere", e: "💧", c: "#e6d34d", hint: "Diurese, Nierenfunktion, CiCA, Entzug, Elektrolyte", chips: [
-      G("Funktion", ["Diurese ml/h", "Oligurie", "Anurie", "Polyurie", "Gewicht", "Nierenfunktion stabil", "Nierenfunktion verschlechtert", "Hyperkaliämie", "Hyponatriämie", "Hypernatriämie"]),
+      G("Funktion", ["Oligurie", "Anurie", "Polyurie", "Gewicht", "Nierenfunktion stabil", "Nierenfunktion verschlechtert", "Hyperkaliämie", "Hyponatriämie", "Hypernatriämie"]),
       G("Therapie", ["Diurese adäquat", "keine Nierenersatztherapie", "Furosemid", "Entzug", "Zielbilanz", "Volumengabe", "CiCA gestartet", "CiCA läuft", "CiCA pausiert", "CiCA beendet", "Shaldon", "Kaliumsubstitution", "Natriumkorrektur", "Nephro-Konsil"])
     ] },
     { k: "abdomen", name: "Abdomen & Ernährung", short: "Abd.", e: "🍽️", c: "#ff9f43", hint: "Befund, Drainagen, Ernährung, abgeführt?, Leber", chips: [
@@ -4164,7 +4188,7 @@ react-dom/cjs/react-dom.production.min.js:
       })))))), (() => {
         const td = (p.todos || []).slice().sort(sortTodos).filter((t) => !t.done || mode === "uebergabe" && t.doneAt && t.doneAt >= ss);
         return td.length > 0 && React.createElement("div", { className: "pr pl ptodo" }, React.createElement("span", { className: "l" }, "To-Do"), React.createElement("span", { className: "v" }, td.map((t) => React.createElement("span", { key: t.id, className: (t.done ? "d" : "o p" + t.prio) + (t.ueb ? " ueb" : "") }, t.ueb && React.createElement("span", { className: "pfl" }, "⚑", " "), druckTxt(t.text)))));
-      })(), React.createElement(TkPrintSlots, { p, ss }), orga.length > 0 && React.createElement("div", { className: "pr pl" }, React.createElement("span", { className: "l" }, "Orga"), React.createElement("span", { className: "v" }, orga.map((o) => React.createElement("span", { key: o.id, className: (o.done ? "d" : "o") + (o.ueb ? " ueb" : "") }, o.ueb && React.createElement("span", { className: "pfl" }, "⚑", " "), o.text)))), p.notiz && React.createElement("div", { className: "pr" }, React.createElement("span", { className: "l" }, "Notiz"), React.createElement("span", { className: "v" }, p.notiz)), schreib && React.createElement(SchreibRaum, { p, ss }), er.length > 0 && React.createElement(ErinnDruck, { p, er }), React.createElement("div", { className: "pr pvert" }, React.createElement("span", { className: "l" }, "Vertretung"), React.createElement("span", { className: "v" }, React.createElement(VertrLine, { p }))));
+      })(), React.createElement(TkPrintSlots, { p, ss }), React.createElement(LappenDruck, { p, ss }), orga.length > 0 && React.createElement("div", { className: "pr pl" }, React.createElement("span", { className: "l" }, "Orga"), React.createElement("span", { className: "v" }, orga.map((o) => React.createElement("span", { key: o.id, className: (o.done ? "d" : "o") + (o.ueb ? " ueb" : "") }, o.ueb && React.createElement("span", { className: "pfl" }, "⚑", " "), o.text)))), p.notiz && React.createElement("div", { className: "pr" }, React.createElement("span", { className: "l" }, "Notiz"), React.createElement("span", { className: "v" }, p.notiz)), schreib && React.createElement(SchreibRaum, { p, ss }), er.length > 0 && React.createElement(ErinnDruck, { p, er }), React.createElement("div", { className: "pr pvert" }, React.createElement("span", { className: "l" }, "Vertretung"), React.createElement("span", { className: "v" }, React.createElement(VertrLine, { p }))));
     };
     return React.createElement("div", { className: "paper" }, React.createElement("div", { className: "ph" }, React.createElement("h1", null, title), React.createElement("span", { className: "meta" }, meta)), state.shiftNote && React.createElement("div", { className: "pnote" }, state.shiftNote), mine.length === 0 && React.createElement("div", { className: "pempty" }, "Keine eigenen Patienten markiert."), mine.map((p) => React.createElement(Block, { key: p.id, p })), withOthers && others.length > 0 && React.createElement(React.Fragment, null, React.createElement("div", { className: "psec" }, "Weitere Patienten der Station"), React.createElement("table", { className: "ptab" }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Zi"), React.createElement("th", null, "Name"), React.createElement("th", null, "Hauptdiagnose"), React.createElement("th", null, "Diurese"), React.createElement("th", null, "zuletzt"), React.createElement("th", null, "Hauptproblem"))), React.createElement("tbody", null, others.map((p) => {
       const d = diuCalc(p, ss);
@@ -4939,7 +4963,7 @@ react-dom/cjs/react-dom.production.min.js:
     if (!L.length) return null;
     return React.createElement("div", { className: "syslabs" }, React.createElement("span", { className: "lb" }, "Labor"), React.createElement("div", { className: "chips" }, L.map((l) => React.createElement("span", { key: l.name, className: "chip static lab t" + trCls(l.trend) + (l.imp ? " imp" : "") + (l.sig ? " sig sig-" + l.sig.lvl : "") }, l.name, " ", React.createElement("b", null, l.last.v), l.trend && React.createElement("span", { className: "tr" }, l.trend)))));
   }
-  function burnDemoState() {
+  function burnDemoStateOrig() {
     const now = Date.now();
     const hAgo = (h) => new Date(now - h * 36e5).toISOString();
     const dAgo = (days, h = 8, m = 0) => {
@@ -5849,6 +5873,7 @@ react-dom/cjs/react-dom.production.min.js:
   const ventVal = (v, k) => !v ? null : k === "dp" ? ventDp(v) : v[k] != null ? v[k] : null;
   const ventUnit = (k) => k === "spont" ? " %" : k === "vt" ? " ml" : k === "flow" || k === "o2" ? " l/min" : "";
   function ventText(v, prev) {
+    if (v && v.mode === "o2") return v.o2 ? `O2 ${fmtN(v.o2)} l/min` : "Raumluft";
     const md = VENT_MODES.find((m) => m.k === v.mode) || VENT_MODES[0];
     const parts = md.f.map((k) => {
       const x = ventVal(v, k);
@@ -6044,7 +6069,7 @@ react-dom/cjs/react-dom.production.min.js:
     const rest = t.replace(new RegExp("^\\s*" + esc(drug) + "\\b", "i"), "").replace(/\([^)]*\)/g, "").replace(/[\d.,]+|→|->|≈|ml|mg|[µμu]g|IE|kg|min|\/|\bh\b/gi, "").replace(/[\s·,;:]+/g, "");
     return rest.length <= 2;
   }
-  function sysPrintEntries(p, k, mode, ss, vIds) {
+  function sysPrintEntriesOrig(p, k, mode, ss, vIds) {
     const keep = getList(p, null, k).filter((e) => !vIds.has("a-s-" + e.id) && !perfOnly(e.text) && !(k === "pulmo" && isVentEntry(e)) && !(k === "abdomen" && /^\s*IAP\s*[:=]?\s*\d+(?:[.,]\d+)?\s*(mmHg)?\s*$/i.test(e.text)));
     let list;
     if (mode === "uebergabe") {
@@ -9524,21 +9549,30 @@ function ErinnRow({ p, r }) {
   const tog = () => ctx && ctx.onUpdate((x) => ({ ...x, erinnUeb: { ...x.erinnUeb || {}, [erinnKey(r)]: !on } }));
   return /* @__PURE__ */ React.createElement("div", { className: "erow erow2" + (on ? " ueb" : "") }, /* @__PURE__ */ React.createElement("span", { className: "erow-t" }, "☐ ", r.text), ctx && r.k !== "eingr" && /* @__PURE__ */ React.createElement("button", { type: "button", className: "flagbtn" + (on ? " on" : ""), onClick: tog, "aria-pressed": on, title: on ? "steht auf der Übergabe" : "auf der Übergabe zeigen", "aria-label": "für die Übergabe markieren" }, "⚑"));
 }
-function lappenStart(p) {
-  const now = Date.now();
+/* 3.12.0: Lappenkontrolle — OP-Zeit aus Eingriff, Verlauf oder manuell (Kästchen „Lappenkontrolle“) */
+function lappenOps(p) {
+  const lp = p.lappen || {};
   const ops = erfolgt(p).filter((e) => /lappen/i.test(e.text) && !/kontrolle/i.test(e.text)).map((e) => e.erfolgtT ? tMs(e.erfolgtT) : tMs((/* @__PURE__ */ new Date(`${e.datum}T${e.zeit || "12:00"}:00`)).toISOString()));
   const vl = (p.verlauf || []).filter((e) => /lappen/i.test(e.text) && !/kontrolle/i.test(e.text)).map((e) => tMs(e.t));
-  const all = [...ops, ...vl].filter((t) => t && t <= now && now - t < 5 * 24 * H);
+  const man = lp.op ? [tMs(lp.op)] : [];
+  return [...ops, ...vl, ...man].filter((t) => t && t <= Date.now());
+}
+function lappenStart(p) {
+  if ((p.lappen || {}).aus) return null;
+  const now = Date.now();
+  const all = lappenOps(p).filter((t) => now - t < 5 * 24 * H);
   return all.length ? Math.max(...all) : null;
 }
+const lappenChecks = (p, st) => getList(p, null, "wunde").filter((e) => /^\s*Lappenkontrolle/i.test(e.text) && tMs(e.t) >= st - 6e4).slice().sort(byT);
+/* verpasste Kontrolle (> 15 min über 2 h) → rotes To-Do; erledigt wird im Kästchen oder über das To-Do */
 function lappenTkRules(p, push, tl) {
   const st = lappenStart(p);
   if (!st) return;
-  const lw = last(getList(p, null, "wunde").filter((e) => /lappen/i.test(e.text)));
+  const lw = last(lappenChecks(p, st));
   const l = mx(st, lw ? tMs(lw.t) : null, tl("lappen"));
   const due = l + 2 * H, bis = st + 5 * 24 * H;
-  if (due > bis) return;
-  push({ k: "lappen", every: 2, due, lead: 15 * 6e4, prio: 1, bind: { t: "lappen" }, text: `Lappenkontrolle — fällig ${tkWhen(due)} (alle 2 h bis ${fmtDT(new Date(bis).toISOString())})` });
+  if (due > bis || Date.now() < due + 15 * 6e4) return;
+  push({ k: "lappen", due, lead: 0, prio: 1, bind: { t: "lappen" }, text: `Lappenkontrolle überfällig — fällig war ${fmtT(new Date(due).toISOString())} (alle 2 h bis ${fmtDT(new Date(bis).toISOString())})` });
 }
 const LAPPEN_OK = ["Lappen vital", "Rekap < 3 s", "Doppler +", "warm"];
 const LAPPEN_BAD = ["livide/kongestiv", "blass", "Doppler –", "Rekap verlängert", "kalt"];
@@ -9784,8 +9818,8 @@ function PatientViewTabs({ p, pats, onOpenPat, shiftStart, onBack, onEdit, onUpd
     return null;
   };
   let body = null;
-  if (tab === "uebersicht") body = /* @__PURE__ */ React.createElement("div", { className: "tvgrid" }, /* @__PURE__ */ React.createElement("div", { className: "tvwide" }, /* @__PURE__ */ React.createElement(PflichtLeiste, { p, ss, onUpdate }), /* @__PURE__ */ React.createElement(C48Fold, { p, onOpen: onC48 }), /* @__PURE__ */ React.createElement(TenPanel, { p, onUpdate }), rea, schock && /* @__PURE__ */ React.createElement(BurnPanel, { p, onUpdate })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(TvLage, { p, ss, go }), /* @__PURE__ */ React.createElement(TvOrgList, { p, ss, sel: null, onPick: (k) => go(k === "infekt" ? "infektion" : "organe", k) })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(FokusPanel, { p, shiftStart: ss })), /* @__PURE__ */ React.createElement(TvNow, { p, onUpdate, go }), todoFold, /* @__PURE__ */ React.createElement(UebergabePanel, { p, onUpdate })));
-  else if (tab === "organe") body = /* @__PURE__ */ React.createElement("div", { className: "tvsplit" }, /* @__PURE__ */ React.createElement("div", { className: "tvsplit-l" }, /* @__PURE__ */ React.createElement(TvOrgList, { p, ss, sel, onPick: setSel })), /* @__PURE__ */ React.createElement("div", { className: "tvsplit-r" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, sysSec(sel), sel === "kreislauf" && /* @__PURE__ */ React.createElement(PiccoPanel, { p, onUpdate }), sel === "niere" && /* @__PURE__ */ React.createElement(CicaPanel, { p, onUpdate }))));
+  if (tab === "uebersicht") body = /* @__PURE__ */ React.createElement("div", { className: "tvgrid" }, /* @__PURE__ */ React.createElement("div", { className: "tvwide" }, /* @__PURE__ */ React.createElement(PflichtLeiste, { p, ss, onUpdate }), /* @__PURE__ */ React.createElement(C48Fold, { p, onOpen: onC48 }), /* @__PURE__ */ React.createElement(TenPanel, { p, onUpdate }), rea, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(LappenPanel, { p, onUpdate })), schock && /* @__PURE__ */ React.createElement(BurnPanel, { p, onUpdate })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(TvLage, { p, ss, go }), /* @__PURE__ */ React.createElement(TvOrgList, { p, ss, sel: null, onPick: (k) => go(k === "infekt" ? "infektion" : "organe", k) })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(FokusPanel, { p, shiftStart: ss })), /* @__PURE__ */ React.createElement(TvNow, { p, onUpdate, go }), todoFold, /* @__PURE__ */ React.createElement(UebergabePanel, { p, onUpdate })));
+  else if (tab === "organe") body = /* @__PURE__ */ React.createElement("div", { className: "tvsplit" }, /* @__PURE__ */ React.createElement("div", { className: "tvsplit-l" }, /* @__PURE__ */ React.createElement(TvOrgList, { p, ss, sel, onPick: setSel })), /* @__PURE__ */ React.createElement("div", { className: "tvsplit-r" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, sysSec(sel), sel === "kreislauf" && /* @__PURE__ */ React.createElement(PiccoPanel, { p, onUpdate }), sel === "niere" && /* @__PURE__ */ React.createElement(CicaPanel, { p, onUpdate }), sel === "wunde" && /* @__PURE__ */ React.createElement(LappenPanel, { p, onUpdate }))));
   else if (tab === "therapie") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(DiurPanel, { p, onUpdate, shiftStart: ss }), /* @__PURE__ */ React.createElement(BurnPanel, { p, onUpdate }), /* @__PURE__ */ React.createElement(VolumenPanel, { p, onUpdate, shiftStart: ss }), /* @__PURE__ */ React.createElement(ErnPanel, { p, onUpdate, shiftStart: ss }), /* @__PURE__ */ React.createElement(MedPanel, { p, onUpdate }), /* @__PURE__ */ React.createElement(AntikoagPanel, { p, onUpdate }), /* @__PURE__ */ React.createElement(MbPanel, { p, onUpdate }));
   else if (tab === "infektion") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, sysSec("infekt")));
   else if (tab === "laborverlauf") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(LabSection, { p, onUpdate, shiftStart: ss }), verlaufFold));
@@ -10042,6 +10076,315 @@ function BlankSysLn({ s, p }) {
     if (th.length) return /* @__PURE__ */ React.createElement("span", { className: "ln bfill" }, th.map((t) => t.name + (abTag(t) ? " Tag " + abTag(t) : "")).join(" · "));
   }
   return /* @__PURE__ */ React.createElement("span", { className: "ln" });
+}
+
+const LAPPEN_DX_RE = /lappen(?!kontrolle)/i;
+function lappenKette(p, st) {
+  const ch = lappenChecks(p, st);
+  const out = [];
+  let prev = st;
+  ch.forEach((e) => {
+    const t = tMs(e.t);
+    let due2 = prev + 2 * H;
+    while (t > due2 + 15 * 6e4) {
+      out.push({ miss: true, t: due2 });
+      due2 += 2 * H;
+    }
+    out.push({ t, e, bad: !!e.hot });
+    prev = t;
+  });
+  const next = prev + 2 * H;
+  let due = next;
+  while (Date.now() > due + 15 * 6e4 && due <= st + 5 * 24 * H) {
+    out.push({ miss: true, t: due, offen: true });
+    due += 2 * H;
+  }
+  return { items: out, next, last: ch.length ? tMs(last(ch).t) : null, overdue: Date.now() > next + 15 * 6e4 };
+}
+const lapHM = (ms) => fmtT(new Date(ms).toISOString());
+function LappenPanel({ p, onUpdate }) {
+  const [sel, setSel] = useState([]);
+  const [txt, setTxt] = useState("");
+  const [opIn, setOpIn] = useState("");
+  const lp = p.lappen || {};
+  const st = lappenStart(p);
+  if (lp.aus) return null;
+  if (!st) {
+    if (lappenOps(p).length || !LAPPEN_DX_RE.test(p.diagnose || "")) return null;
+    const setOp = (iso) => onUpdate((x) => ({ ...x, lappen: { ...x.lappen || {}, op: iso } }));
+    return /* @__PURE__ */ React.createElement(Fold, { id: "lappen", title: "Lappenkontrolle", cls: "v1f lappensec", summary: "OP-Zeit fehlt — dann alle 2 h für 5 Tage", hint: "Diagnose Lappenplastik", badge: /* @__PURE__ */ React.createElement("span", { className: "sysbadge", style: { "--sc": "#a3346b" } }, "🩹") }, /* @__PURE__ */ React.createElement("div", { className: "lap-op" }, /* @__PURE__ */ React.createElement("span", { className: "tag" }, "Ende der Lappen-OP"), /* @__PURE__ */ React.createElement("input", { type: "datetime-local", value: opIn, onChange: (e) => setOpIn(e.target.value) }), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn sm primary", disabled: !opIn, onClick: () => opIn && setOp(new Date(opIn).toISOString()) }, "übernehmen"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn sm", onClick: () => setOp(nowISO()) }, "OP gerade beendet"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn sm ghost", onClick: () => onUpdate((x) => ({ ...x, lappen: { ...x.lappen || {}, aus: true } })) }, "keine Kontrollen nötig")));
+  }
+  const bis = st + 5 * 24 * H;
+  const k = lappenKette(p, st);
+  const tag = Math.floor((Date.now() - st) / (24 * H)) + 1;
+  const tog = (x) => setSel((s) => s.indexOf(x) >= 0 ? s.filter((y) => y !== x) : [...s, x]);
+  const save = (f) => {
+    onUpdate((x) => lappenApply(x, f));
+    setSel([]);
+    setTxt("");
+  };
+  const bad = sel.some((x) => LAPPEN_BAD.indexOf(x) >= 0);
+  const sum = `Tag ${tag}/5 · ${k.overdue ? "ÜBERFÄLLIG seit " + lapHM(k.next) : "nächste " + lapHM(k.next)}${k.last ? " · zuletzt " + lapHM(k.last) : ""}`;
+  return /* @__PURE__ */ React.createElement(Fold, { id: "lappen", title: "Lappenkontrolle", cls: "v1f lappensec" + (k.overdue ? " overdue" : ""), summary: sum, hint: `alle 2 h bis ${fmtDT(new Date(bis).toISOString())} — hier abhaken, die Uhrzeit wird dokumentiert`, badge: /* @__PURE__ */ React.createElement("span", { className: "sysbadge", style: { "--sc": "#a3346b" } }, "🩹") }, /* @__PURE__ */ React.createElement("div", { className: "lap-st" + (k.overdue ? " over" : "") }, /* @__PURE__ */ React.createElement("span", null, "OP ", fmtDT(new Date(st).toISOString()), " · Tag ", tag, " von 5"), /* @__PURE__ */ React.createElement("b", null, k.overdue ? `Kontrolle überfällig seit ${lapHM(k.next)} — steht als rotes To-Do` : `nächste Kontrolle ${lapHM(k.next)}`)), /* @__PURE__ */ React.createElement("div", { className: "lap-chain" }, k.items.slice(-14).map((x, i) => x.miss ? /* @__PURE__ */ React.createElement("span", { key: i, className: "lapslot miss" + (x.offen ? " offen" : ""), title: "nicht kontrolliert" }, "✗ ", lapHM(x.t)) : /* @__PURE__ */ React.createElement("span", { key: i, className: "lapslot ok" + (x.bad ? " bad" : ""), title: x.e.text }, "✓ ", lapHM(x.t))), !k.overdue && /* @__PURE__ */ React.createElement("span", { className: "lapslot next" }, "☐ ", lapHM(k.next))), /* @__PURE__ */ React.createElement("div", { className: "lap-form" }, /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn primary lap-ok", onClick: () => save({ sel: ["Lappen vital", "Rekap < 3 s", "warm"] }) }, "✓ Kontrolle jetzt — unauffällig"), /* @__PURE__ */ React.createElement("div", { className: "chips" }, LAPPEN_OK.map((x) => /* @__PURE__ */ React.createElement("button", { type: "button", key: x, className: "chip sm" + (sel.indexOf(x) >= 0 ? " on" : ""), onClick: () => tog(x) }, x))), /* @__PURE__ */ React.createElement("div", { className: "chips" }, LAPPEN_BAD.map((x) => /* @__PURE__ */ React.createElement("button", { type: "button", key: x, className: "chip sm warnchip" + (sel.indexOf(x) >= 0 ? " on" : ""), onClick: () => tog(x) }, x))), /* @__PURE__ */ React.createElement("div", { className: "lap-row" }, /* @__PURE__ */ React.createElement("input", { value: txt, placeholder: "Besonderheiten …", onChange: (e) => setTxt(e.target.value) }), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn sm" + (bad ? " danger" : ""), disabled: !sel.length && !txt.trim(), onClick: () => save({ sel, txt }) }, bad ? "auffällig speichern" : "mit Befund abhaken"))), /* @__PURE__ */ React.createElement("div", { className: "tag" }, "Auffälliger Befund → Wunde als Baustelle und To-Do „Plastische Chirurgie sofort informieren“. Die Kontrollen stehen mit Uhrzeit unter Wunde und auf dem Ausdruck."));
+}
+function sysPrintEntries(p, k, mode, ss, vIds) {
+  const l = sysPrintEntriesOrig(p, k, mode, ss, vIds);
+  if (k !== "wunde") return l;
+  const f = l.filter((e) => !/^\s*Lappenkontrolle/i.test(e.text) || e.hot);
+  if (f.length || !l.length) return f;
+  const sonst = last(getList(p, null, "wunde").filter((e) => !/^\s*Lappenkontrolle/i.test(e.text)));
+  return sonst ? [sonst] : [];
+}
+function LappenDruck({ p, ss }) {
+  const st = lappenStart(p);
+  if (!st) return null;
+  const k = lappenKette(p, st);
+  const from = ss ? tMs(ss) : Date.now() - 12 * H;
+  const done = k.items.filter((x) => x.t >= from);
+  const slots = [];
+  for (let t = k.overdue ? Date.now() : k.next, i = 0; i < 6 && t <= st + 5 * 24 * H; t += 2 * H, i++) slots.push(t);
+  return /* @__PURE__ */ React.createElement("div", { className: "pr plap" }, /* @__PURE__ */ React.createElement("span", { className: "l" }, "Lappen"), /* @__PURE__ */ React.createElement("span", { className: "v" }, done.map((x, i) => /* @__PURE__ */ React.createElement("span", { key: i, className: x.miss || x.bad ? "lmiss" : "lok" }, x.miss ? "✗ " : "✓ ", lapHM(x.t), x.bad ? " auffällig" : "", " ")), k.overdue && /* @__PURE__ */ React.createElement("b", { className: "lmiss" }, "überfällig seit ", lapHM(k.next), " "), slots.map((t, i) => /* @__PURE__ */ React.createElement("span", { key: "s" + i, className: "lnext" }, "☐ ", i === 0 && k.overdue ? "jetzt" : lapHM(t), " ")), /* @__PURE__ */ React.createElement("span", { className: "pmut" }, "· alle 2 h bis ", fmtDT(new Date(st + 5 * 24 * H).toISOString()))));
+}
+function burnDemoState() {
+  const now = Date.now();
+  const hAgo = (h) => new Date(now - h * 36e5).toISOString();
+  const dAgo = (days, h = 8, m = 0) => {
+    const d = /* @__PURE__ */ new Date();
+    d.setDate(d.getDate() - days);
+    d.setHours(h, m, 0, 0);
+    return d.toISOString();
+  };
+  const ymdAgo = (days) => {
+    const d = /* @__PURE__ */ new Date();
+    d.setDate(d.getDate() - days);
+    return ymdOf(d);
+  };
+  const inTagen = (n) => ymdAgo(-n);
+  const E = (t, text, x = {}) => ({ id: uid(), t, text, ...x });
+  const T = (text, prio) => ({ id: uid(), t: hAgo(2), text, prio, done: false });
+  const O = (text) => ({ id: uid(), t: hAgo(3), text, done: false });
+  const S2 = (flag, entries) => ({ flag, entries: entries.slice().sort(byT) });
+  const LV = (hrs, v) => ({ id: uid(), t: hAgo(hrs), v: String(v) });
+  const LAB = (name, imp, vals) => [name, { grp: labGrp(name, {}), unit: unitOf(name), imp, ueb: false, vals }];
+  const diu = (arr) => arr.map((v, i) => ({ id: uid(), t: hAgo(arr.length - 1 - i + 0.2), v: String(v) }));
+  const PI = (hrs, hi, gedi, svri, elwi, cpi) => ({ id: uid(), t: hAgo(hrs), hi, gedi, svri, elwi, cpi });
+  const DEV = (typ, lage, tage, x = {}) => ({ id: uid(), typ, lage, seit: ymdAgo(tage), ...x });
+  const V = (t, v, prev) => E(t, ventText(v, prev), { vent: v });
+  const ERN = (t, text) => E(t, text, { ern: true });
+  const lapOK = "Lappenkontrolle: Lappen vital, Rekap < 3 s, Doppler +, warm";
+  const pats = [
+    /* schwer: Schockphase, Inhalationstrauma */
+    newPatient({
+      name: "Herr Falke",
+      groesse: "182",
+      zimmer: 1,
+      platz: "",
+      mine: true,
+      gewicht: "86",
+      info: "49 J., m",
+      aufnahme: ymdAgo(hoursAgoDay(9)),
+      diagnose: "Flammenverbrennung Grad 2b–3, 58 % VKOF, Inhalationstrauma",
+      vorerkrankungen: ["aHT"],
+      burn: { ...emptyBurn(), unfall: hAgo(9), vkof: "58", tief: "40", gegeben: "6900", gegebenT: hAgo(0.3), rate: "900", inhal: true, ais: "3", russ: "Subsegmentebene" },
+      devices: [DEV("ZVK", "V. subclavia re.", 0), DEV("Arterie", "A. femoralis li. (PiCCO)", 0), DEV("Tubus", "oral 8,0", 0), DEV("DK", "", 0), DEV("Magensonde", "nasal", 0)],
+      iap: [{ id: uid(), t: hAgo(7), v: "10" }, { id: uid(), t: hAgo(3), v: "13" }],
+      infRate: [[8.5, 580], [6, 680], [4, 800], [1.5, 900]].map(([h, v]) => ({ id: uid(), t: hAgo(h), v })),
+      verlauf: [E(hAgo(8.5), "Aufnahme über Schockraum, intubiert präklinisch"), E(hAgo(6.5), "Escharotomie Thorax, beide Arme und Beine")],
+      diurese: diu([60, 45, 38, 30, 28, 34, 41, 36]),
+      picco: [PI(6, 2.1, 540, 2900, 6.4, 0.38), PI(2, 2.6, 610, 2400, 7.9, 0.46)],
+      meds: [{ id: uid(), t: hAgo(8), text: "Sufentanil 0,4 µg/kg/h" }, { id: uid(), t: hAgo(8), text: "Propofol 2 % 3 mg/kg/h" }, { id: uid(), t: hAgo(2.5), text: "Albumin 20 % 90 ml/h" }],
+      eingriffe: [{ id: uid(), t: hAgo(4), text: "Nekrektomie Rumpf und Beine, Spalthaut", datum: inTagen(2), zeit: "08:00", nuechtern: true, status: "geplant" }, { id: uid(), t: hAgo(6), text: "Bronchoskopie (Inhalationstrauma Verlauf)", datum: inTagen(1), zeit: "10:00", nuechtern: false, status: "geplant" }],
+      systeme: {
+        neuro: S2("ok", [E(hAgo(5), "RASS -4, Sufentanil/Propofol")]),
+        pulmo: S2("hot", [V(hAgo(8), { mode: "bipap", pinsp: 24, peep: 10, dp: 14, fio: 0.6, spont: 0 }), E(hAgo(7), "Bronchoskopie: Ruß bis Subsegmentebene, AIS 3"), V(hAgo(3), { mode: "bipap", pinsp: 28, peep: 12, dp: 16, fio: 0.7, spont: 0 }, { mode: "bipap", pinsp: 24, peep: 10, dp: 14, fio: 0.6, spont: 0 })]),
+        kreislauf: S2("hot", [E(hAgo(8), "NA 0,1 µg/kg/min (≈ 5,2 ml/h)"), E(hAgo(2), "NA 0,1 → 0,25 µg/kg/min (≈ 12,9 ml/h)")]),
+        niere: S2("auff", [E(hAgo(1), "Diurese unter Ziel trotz Rate — IAP steigend")]),
+        abdomen: S2("ok", [ERN(hAgo(6), "Zottenpflege 10 ml/h über Magensonde")]),
+        wunde: S2("auff", [E(hAgo(6.5), "Escharotomie Thorax, Arme, Beine — Perfusion Hände erhalten"), E(hAgo(5), "Polyhexanid-Verbände, Extremitäten hoch")])
+      },
+      labs: Object.fromEntries([LAB("Laktat", true, [LV(8, "5,2"), LV(4, "4,1"), LV(1, "3,6")]), LAB("p/F", true, [LV(8, "240"), LV(2.5, "155")]), LAB("pH", false, [LV(8, "7,26"), LV(1, "7,31")]), LAB("BE", false, [LV(8, "-8"), LV(1, "-5,5")]), LAB("COHb", false, [LV(8.5, "21"), LV(4, "6"), LV(1, "2,4")]), LAB("Hb", false, [LV(8, "19,1"), LV(2, "16,4")]), LAB("K+", false, [LV(2, "4,8")]), LAB("Na+", false, [LV(2, "137")]), LAB("Krea", false, [LV(8, "1,0"), LV(2, "1,4")]), LAB("CK", false, [LV(2, "2400")]), LAB("Albumin", false, [LV(2, "1,8")]), LAB("Glukose", false, [LV(2, "168")])]),
+      todos: [T("Aufklärung Nekrektomie (Ehefrau)", 2)],
+      uebPunkte: [{ id: uid(), t: hAgo(1), text: "IAP steigt (13) — bei > 15 mmHg plus Oligurie Chirurgie informieren (ACS?)", hot: true }],
+      antikoag: { sub: "enox", ind: "pro", sched: 2, dose: "40", seit: hAgo(8) },
+      vertr: { ehe: "ja", eheName: "Ehefrau, Tel. in der Kurve", betr: "nein" },
+      aufkl: { op: "ja", transf: "ja" }
+    }),
+    /* mittel: Tag 9, Sepsis */
+    newPatient({
+      name: "Frau Ahorn",
+      groesse: "165",
+      zimmer: 2,
+      platz: "",
+      mine: true,
+      gewicht: "64",
+      info: "58 J., w",
+      aufnahme: ymdAgo(8),
+      diagnose: "Verbrühung/Flamme 32 % VKOF, Z. n. Nekrektomie + Spalthaut, Sepsis",
+      burn: { ...emptyBurn(), unfall: dAgo(8, 22), vkof: "32", tief: "18" },
+      verlauf: [E(dAgo(8, 23), "Aufnahme, Volumentherapie nach Rule of Ten"), E(dAgo(5, 9), "Nekrektomie Beine, Spalthaut"), E(dAgo(1, 14), "Fieber, Thrombozytenabfall — Sepsis-Verdacht")],
+      diurese: diu([60, 55, 48, 70, 52, 45, 58, 61]),
+      picco: [PI(30, 4.8, 720, 1450, 7.8, 0.66), PI(8, 5.3, 760, 1310, 8.1, 0.71)],
+      infekt: { foki: ["verbrennung"], erreger: [{ name: "Pseudomonas", eid: "pseudomonas", material: "Wundbiopsie", datum: ymdAgo(2), resistenz: "" }, { name: "MRSA", eid: "mrsa", material: "Screening Nase", datum: ymdAgo(1), resistenz: "" }], therapie: [{ id: uid(), name: "Piperacillin/Tazobactam", sid: "piptazo", start: ymdAgo(1), plan: "72 h", src: "LL Kap. 5.2 · Notfall, Escharotomie: große, verschmutzte Weichteildefekte oder Verbrennungen", pro: true }] },
+      volumen: { status: "eu", pulm: "feucht", note: "", b24: [{ id: uid(), t: hAgo(7), v: "+1800" }], bkum: [{ id: uid(), t: hAgo(7), v: "+9400" }], ziel: "neg", zielMenge: "-1000" },
+      meds: [{ id: uid(), t: dAgo(1, 15), text: "Noradrenalin 0,15 µg/kg/min", tc: hAgo(5), hist: [{ t: dAgo(1, 15), text: "Noradrenalin 0,1 µg/kg/min" }] }, { id: uid(), t: dAgo(6, 9), text: "Sufentanil 0,2 µg/kg/h" }],
+      antikoag: { sub: "enox", ind: "pro", sched: 2, dose: "40", seit: dAgo(4, 20) },
+      vertr: { ehe: "nein", betr: "beantragt" },
+      devices: [DEV("ZVK", "V. jug. int. li.", 8, { burn: true }), DEV("Arterie", "A. radialis re.", 8), DEV("Tubus", "oral 7,5", 8), DEV("DK", "", 8), DEV("Magensonde", "nasal", 8)],
+      vw: [{ id: uid(), t: dAgo(2, 10), ort: "Bett", analgo: "Esketamin 25 mg + Propofol 40 mg", bes: "RR-Abfall auf 75/40, NA kurz erhöht", befund: "Transplantate Beine angegangen" }],
+      vwNext: ymdAgo(0),
+      aufkl: { op: "ja", transf: "ja", tracheo: "nn" },
+      mb: { en: "ja", kcal: "ja", glu: "ja", exz: "ja", mob: "ja" },
+      eingriffe: [{ id: uid(), t: dAgo(6, 10), text: "Nekrektomie Beine + Spalthaut", datum: ymdAgo(5), zeit: "09:00", nuechtern: true, status: "erfolgt", erfolgtT: dAgo(5, 12) }, { id: uid(), t: dAgo(1, 10), text: "Re-Nekrektomie Rücken + Spalthaut", datum: inTagen(1), zeit: "09:00", nuechtern: true, status: "geplant" }],
+      systeme: {
+        neuro: S2("ok", [E(hAgo(6), "RASS -2, CAM-ICU negativ")]),
+        pulmo: S2("ok", [V(hAgo(6), { mode: "asb", peep: 8, asb: 8, fio: 0.35 })]),
+        kreislauf: S2("hot", [E(dAgo(1, 15), "NA 0,1 µg/kg/min (≈ 3,8 ml/h)"), E(hAgo(5), "MAP 68 unter NA 0,15 µg/kg/min")]),
+        infekt: S2("hot", [E(dAgo(1, 14), "Fieber 39,4 °C"), E(hAgo(9), "BK abgenommen, Wundabstrich P. aeruginosa")]),
+        wunde: S2("auff", [E(dAgo(2, 10), "Transplantate Beine angegangen ~90 %"), E(hAgo(8), "Spenderstelle Oberschenkel nachnässend")]),
+        abdomen: S2("ok", [ERN(hAgo(8), "Fresubin HPenergy 60 ml/h, Ziel erreicht")])
+      },
+      labs: Object.fromEntries([LAB("Thrombozyten", true, [LV(40, "210"), LV(16, "142"), LV(3, "96")]), LAB("Anti-Xa", false, [LV(44, "0,16"), LV(20, "0,31")]), LAB("CRP", false, [LV(40, "120"), LV(3, "236")]), LAB("PCT", true, [LV(16, "0,8"), LV(3, "3,4")]), LAB("Leukos", false, [LV(16, "11,2"), LV(3, "17,8")]), LAB("Laktat", false, [LV(3, "1,9")]), LAB("Krea", false, [LV(3, "0,9")]), LAB("Glukose", false, [LV(3, "212")])]),
+      todos: [T("Insulinbedarf dokumentieren (ABA-Trigger)", 2)]
+    }),
+    /* Langlieger: Tag 24, Weaning, AKI mit CiCa */
+    newPatient({
+      name: "Herr Kiefer",
+      groesse: "178",
+      zimmer: 3,
+      platz: "",
+      mine: true,
+      gewicht: "92",
+      info: "61 J., m",
+      aufnahme: ymdAgo(23),
+      diagnose: "Flammenverbrennung 45 % VKOF, Inhalationstrauma, VAP, AKI (CiCa), prolongiertes Weaning",
+      vorerkrankungen: ["COPD", "DM2"],
+      burn: { ...emptyBurn(), unfall: dAgo(23, 2), vkof: "45", tief: "30", inhal: true, ais: "2" },
+      verlauf: [E(dAgo(23, 4), "Aufnahme über Schockraum, intubiert"), E(dAgo(20, 9), "Nekrektomie Rumpf und Arme, Spalthaut"), E(dAgo(16, 9), "Nekrektomie Beine, Spalthaut"), E(dAgo(13, 11), "Tracheotomie (dilatativ)"), E(dAgo(9, 10), "Re-Spalthaut Rücken"), E(dAgo(1, 14), "AKI KDIGO 3, anurisch")],
+      devices: [DEV("Trachealkanüle", "8,0 mit Cuff", 13), DEV("ZVK", "V. jug. int. re.", 6), DEV("Shaldon", "V. femoralis li.", 1), DEV("Arterie", "A. radialis li.", 9), DEV("DK", "", 23), DEV("Magensonde", "nasal", 10)],
+      diurese: [[9, 10], [6, 5], [3, 0], [0.5, 5]].map(([h, v]) => ({ id: uid(), t: hAgo(h), v: String(v) })),
+      systeme: {
+        neuro: S2("ok", [E(hAgo(5), "RASS 0, wach, CAM-ICU negativ")]),
+        pulmo: S2("auff", [V(hAgo(20), { mode: "asb", peep: 6, asb: 10, fio: 0.35 }), E(dAgo(1, 9), "Weaning Stufe 5"), E(hAgo(4), "Feuchte Nase 6 h toleriert")]),
+        kreislauf: S2("ok", [E(hAgo(6), "katecholaminfrei, SR 92/min")]),
+        niere: S2("auff", [E(hAgo(30), "CiCA gestartet"), E(hAgo(29.9), "CiCA Einstellung: Blut 100 ml/min · Dialysat 2000 ml/h · Citrat 4 · Ca 1,7 mmol/l · Entzug 0 ml/h"), E(hAgo(12), "CiCA Einstellung: Blut 120 ml/min · Dialysat 2400 ml/h · Citrat 4 · Ca 1,7 mmol/l · Entzug 50 ml/h")]),
+        infekt: S2("auff", [E(dAgo(6, 10), "VAP: Klebsiella 3-MRGN im Trachealsekret"), E(hAgo(10), "afebril, Sekret weniger")]),
+        abdomen: S2("ok", [ERN(hAgo(9), "Fresubin HPenergy 75 ml/h, Ziel erreicht"), E(hAgo(20), "Stuhlgang geformt")]),
+        wunde: S2("auff", [E(dAgo(1, 10), "Transplantate Rücken ~80 % angegangen, Restdefekte Gesäß")])
+      },
+      cica: { set: [{ id: uid(), t: hAgo(29.9), qb: 100, qd: 2e3, cit: 4, ca: 1.7, uf: 0 }, { id: uid(), t: hAgo(12), qb: 120, qd: 2400, cit: 4, ca: 1.7, uf: 50 }] },
+      infekt: { foki: ["hap_mre"], erreger: [{ name: "Klebsiella pneumoniae", eid: "klebsiella", material: "Trachealsekret", datum: ymdAgo(6), resistenz: "3-MRGN" }, { name: "MRSA", eid: "mrsa", material: "Screening Nase", datum: ymdAgo(20), resistenz: "" }], therapie: [{ id: uid(), name: "Meropenem", sid: "meropenem", start: ymdAgo(6), plan: "7 Tage" }] },
+      meds: [{ id: uid(), t: dAgo(10, 9), text: "Propranolol 40 mg 2×/d p.o." }, { id: uid(), t: dAgo(4, 9), text: "Clonidin 0,5 µg/kg/h" }],
+      mb: { en: "ja", kcal: "ja", glu: "ja", exz: "ja", mob: "ja", spur: "ja", vite: "ja", cern: "na", prop: "ja" },
+      vw: [{ id: uid(), t: dAgo(2, 10), ort: "Bad", analgo: "Esketamin 50 mg + Midazolam 2 mg", bes: "", befund: "Restdefekte Gesäß, sauber" }],
+      vwNext: ymdAgo(0),
+      labs: Object.fromEntries([LAB("Hb", false, [LV(30, "8,9"), LV(6, "8,4")]), LAB("Leukos", false, [LV(30, "13,8"), LV(6, "11,2")]), LAB("CRP", false, [LV(30, "112"), LV(6, "85")]), LAB("PCT", false, [LV(6, "0,6")]), LAB("Krea", false, [LV(40, "3,9"), LV(6, "2,1")]), LAB("K+", false, [LV(6, "4,4")]), LAB("Na+", false, [LV(30, "143"), LV(6, "147")]), LAB("Phosphat", false, [LV(6, "0,62")]), LAB("Albumin", false, [LV(6, "2,0")]), LAB("Präalbumin", false, [LV(6, "9")]), LAB("iCa postfilter", false, [LV(5.8, "0,42")]), LAB("iCa", false, [LV(5.8, "1,08")]), LAB("Anti-Xa", false, [LV(0.5, "0,12")])]),
+      antikoag: { sub: "enox", ind: "pro", sched: 2, dose: "40", seit: dAgo(20, 8) },
+      vertr: { ehe: "nein", betr: "ja", betrName: "Tochter (Gesundheitssorge), Tel. in der Kurve" },
+      aufkl: { op: "ja", transf: "ja", tracheo: "ja" },
+      orga: [O("Frühreha-Antrag stellen"), O("Hilfsmittel: Lagerungsschienen Hände")],
+      todos: [T("Physiotherapie: Mobilisation an die Bettkante", 3)]
+    }),
+    /* unter 20 % VKOF, Gesicht */
+    newPatient({
+      name: "Frau Linde",
+      groesse: "168",
+      zimmer: 5,
+      platz: "",
+      mine: true,
+      gewicht: "61",
+      info: "34 J., w",
+      aufnahme: ymdAgo(hoursAgoDay(30)),
+      diagnose: "Flammenverbrennung Grad 2a–2b, 16 % VKOF (Gesicht, Hals, Arme)",
+      burn: { ...emptyBurn(), unfall: hAgo(30), vkof: "16", tief: "6", gegeben: "3900", gegebenT: hAgo(1), rate: "140" },
+      devices: [DEV("PVK", "Unterarm li.", 1), DEV("PVK", "Handrücken re.", 1), DEV("DK", "", 1)],
+      infRate: [[29, 160], [12, 140]].map(([h, v]) => ({ id: uid(), t: hAgo(h), v })),
+      verlauf: [E(hAgo(29), "Aufnahme über Schockraum, nicht intubiert")],
+      diurese: diu([90, 85, 70, 95, 80]),
+      meds: [{ id: uid(), t: hAgo(28), text: "Piritramid-PCA" }, { id: uid(), t: hAgo(28), text: "Metamizol 1 g 4×/d" }],
+      eingriffe: [{ id: uid(), t: hAgo(10), text: "Nekrektomie Arme, Spalthaut", datum: inTagen(1), zeit: "10:00", nuechtern: true, status: "geplant" }],
+      systeme: {
+        neuro: S2("ok", [E(hAgo(4), "wach, orientiert, NRS 3 unter PCA")]),
+        pulmo: S2("auff", [V(hAgo(10), { mode: "o2", o2: 2 }), E(hAgo(4), "Gesichtsödem rückläufig, kein Stridor")]),
+        kreislauf: S2("ok", [E(hAgo(6), "stabil, keine Katecholamine")]),
+        abdomen: S2("ok", [ERN(hAgo(7), "Kostaufbau, trinkt gut")]),
+        wunde: S2("ok", [E(hAgo(8), "Gesicht offen mit Salbe, Arme Polyhexanid")])
+      },
+      labs: Object.fromEntries([LAB("Hb", false, [LV(29, "15,1"), LV(6, "13,2")]), LAB("Laktat", false, [LV(6, "1,2")]), LAB("CRP", false, [LV(6, "34")]), LAB("K+", false, [LV(6, "3,9")]), LAB("Na+", false, [LV(6, "141")]), LAB("Krea", false, [LV(6, "0,7")]), LAB("COHb", false, [LV(29, "4,1")])]),
+      todos: [T("Augenkonsil (Gesichtsverbrennung)", 2)],
+      uebPunkte: [{ id: uid(), t: hAgo(2), text: "Atemweg: bei Heiserkeit oder Stridor sofort Intubationsbereitschaft", hot: true }],
+      vertr: { ehe: "ja", eheName: "Partner, Tel. in der Kurve", betr: "nein" },
+      aufkl: { op: "ja", transf: "ja" }
+    }),
+    /* Lappenplastik, Tag 1 nach OP — eine Kontrolle verpasst, eine offen */
+    newPatient({
+      name: "Frau Birke",
+      groesse: "170",
+      zimmer: 6,
+      platz: "",
+      mine: true,
+      gewicht: "74",
+      info: "52 J., w",
+      aufnahme: ymdAgo(3),
+      diagnose: "Kontaktverbrennung Grad 3 Unterarm li. (4 % VKOF), Z. n. freier ALT-Lappenplastik",
+      vorerkrankungen: ["DM2"],
+      burn: { ...emptyBurn(), unfall: dAgo(4, 11), vkof: "4", tief: "4" },
+      eingriffe: [{ id: uid(), t: dAgo(2, 10), text: "Nekrektomie Unterarm li., freie ALT-Lappenplastik", datum: ymdAgo(1), zeit: "08:00", nuechtern: true, status: "erfolgt", erfolgtT: hAgo(20) }],
+      devices: [DEV("Arterie", "A. radialis re.", 1), DEV("ZVK", "V. jug. int. re.", 1), DEV("DK", "", 1)],
+      diurese: diu([80, 75, 90, 85]),
+      meds: [{ id: uid(), t: hAgo(19), text: "Heparin 400 IE/h (Lappen)" }, { id: uid(), t: hAgo(19), text: "Metamizol 1 g 4×/d" }],
+      systeme: {
+        neuro: S2("ok", [E(hAgo(6), "wach, NRS 2")]),
+        pulmo: S2("ok", [V(hAgo(12), { mode: "o2", o2: 0 })]),
+        kreislauf: S2("ok", [E(hAgo(10), "MAP-Ziel > 70 (Lappenperfusion), keine Vasopressoren")]),
+        abdomen: S2("ok", [ERN(hAgo(8), "Vollkost oral"), E(hAgo(26), "Stuhlgang geformt")]),
+        wunde: S2("auff", [E(hAgo(19.5), "Lappen Unterarm li.: Hochlagerung, kein Druck, warm halten"), ...[19.8, 17.7, 15.9, 13.8, 11.9, 9.8, 7.7, 5.9, 3.2].map((h) => E(hAgo(h), lapOK))])
+      },
+      labs: Object.fromEntries([LAB("Hb", false, [LV(20, "11,8"), LV(6, "10,9")]), LAB("Glukose", false, [LV(6, "196")]), LAB("Laktat", false, [LV(6, "1,1")]), LAB("CRP", false, [LV(6, "48")]), LAB("K+", false, [LV(6, "4,1")]), LAB("Krea", false, [LV(6, "0,8")])]),
+      todos: [T("Plastische Chirurgie: Visite 14 Uhr", 2)],
+      uebPunkte: [{ id: uid(), t: hAgo(2), text: "Lappen livide, kalt oder Doppler – → sofort Plastische Chirurgie (Dienst-Tel.)", hot: true }],
+      vertr: { ehe: "ja", eheName: "Ehemann, Tel. in der Kurve", betr: "nein" },
+      aufkl: { op: "ja", transf: "ja" }
+    }),
+    /* Minor: eher IMC als Intensiv */
+    newPatient({
+      name: "Herr Eibe",
+      groesse: "180",
+      zimmer: 7,
+      platz: "",
+      mine: true,
+      gewicht: "78",
+      info: "27 J., m",
+      aufnahme: ymdAgo(hoursAgoDay(14)),
+      diagnose: "Verbrühung Grad 2a, 7 % VKOF Unterarm und Hand re.",
+      burn: { ...emptyBurn(), unfall: hAgo(15), vkof: "7", gegeben: "1500", gegebenT: hAgo(2) },
+      devices: [DEV("PVK", "Handrücken li.", 0)],
+      verlauf: [E(hAgo(14), "Aufnahme aus der Notaufnahme")],
+      diurese: diu([120, 95, 110, 100]),
+      meds: [{ id: uid(), t: hAgo(13), text: "Metamizol 1 g 4×/d" }, { id: uid(), t: hAgo(13), text: "Piritramid 3 mg bei Bedarf" }],
+      systeme: {
+        neuro: S2("ok", [E(hAgo(4), "wach, orientiert, NRS 2")]),
+        pulmo: S2("ok", [V(hAgo(12), { mode: "o2", o2: 0 })]),
+        kreislauf: S2("ok", [E(hAgo(6), "stabil, keine Katecholamine")]),
+        abdomen: S2("ok", [ERN(hAgo(6), "Vollkost oral")]),
+        wunde: S2("ok", [E(hAgo(8), "Blasen abgetragen, Polyhexanid-Gel, Hand hochgelagert")])
+      },
+      labs: Object.fromEntries([LAB("Hb", false, [LV(13, "15,4")]), LAB("CRP", false, [LV(13, "8")]), LAB("K+", false, [LV(13, "4,0")]), LAB("Krea", false, [LV(13, "0,9")]), LAB("Laktat", false, [LV(13, "0,9")])]),
+      todos: [T("Tetanusschutz prüfen", 2)],
+      orga: [O("Verlegung IMC anmelden — kein Intensivbedarf")],
+      uebPunkte: [{ id: uid(), t: hAgo(1), text: "kein Intensivbedarf — Verlegung IMC angefragt" }]
+    })
+  ];
+  const patients = {};
+  pats.forEach((p) => {
+    patients[p.id] = p;
+  });
+  const ss = /* @__PURE__ */ new Date();
+  ss.setHours(7, 15, 0, 0);
+  if (ss > /* @__PURE__ */ new Date()) {
+    ss.setDate(ss.getDate() - 1);
+    ss.setHours(19, 15, 0, 0);
+  }
+  return { ...DEFAULT, patients, shiftStart: ss.toISOString(), shiftNote: "Demo — alle Namen erfunden. Zimmer 4 und 8 frei." };
 }
 
   ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App, null));
