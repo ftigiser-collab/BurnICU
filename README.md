@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.12.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.13.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,18 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.13.0
+
+- **Diurese unter Ziel ist nur in der akuten Verbrennung (erste 48 h) rot.** Sonst gelb („prüfen“), ohne roten Alarm — in App, Zimmerplan, Lagebild und Ausdruck.
+- **Dialysepflichtig**: Beim Anklicken von „Dialysepflichtig“ (Vorerkrankungen bzw. im Bereich Diurese) wird gefragt: Restausscheidung vorhanden / keine. Bei „keine“ ist die Diurese ausgegraut — keine Pflichtangabe, keine Diurese-Erinnerungen, im Ausdruck „Diurese entfällt“.
+- **Laufende CiCa**: Diurese ebenfalls ausgegraut; im Pflichtwert und im Lagebild steht stattdessen der **CiCa-Entzug** (mit Trendpfeil).
+- **CiCa deutlicher**: blauer Hinweis „CiCa läuft · Entzug …“ im Kopf, „CiCa“ in der Bettenleiste und im Zimmerplan, kräftig umrandetes Kästchen mit pulsierendem „läuft“.
+- **CiCa-Werte nur noch unter CiCa**: Einstellungen und iCa (postfilter/systemisch) stehen im Kästchen CiCa; unter Niere nur „CiCa läuft · Entzug …“. Die Einstellungszeilen erscheinen nicht mehr im Verlauf der Niere.
+- **Trendpfeile** bei jeder Änderung der Einstellung (z. B. Entzug 50 ↑ (0) ml/h, Blut 120 ↑ (100)).
+- **Säure-Basen-Vorschlag**: bei metabolischer Azidose (BE < −3, pH < 7,35) Blutfluss +10 ml/min oder Dialysat −500 ml/h zum Übernehmen; bei Alkalose (BE > +3, pH > 7,45) umgekehrt. Kein Citrat-Plus bei Gesamt-Ca/iCa > 2,5 (Citratakkumulation).
+- **CiCa-Filter** entfernt (macht die Pflege) — kein Filter-To-Do, keine Filterzeit mehr.
+- Ausdruck: Zeile „CiCa“ (Entzug, Einstellungen mit Pfeilen, iCa) statt Diurese.
 
 ## Neu in 3.12.0
 
