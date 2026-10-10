@@ -2,7 +2,7 @@
    Update: index.html ersetzen und hier VERSION hochzählen (z. B. burnicu-v3.6.1),
    dazu version.json anpassen. Der SW räumt nur eigene Caches (Präfix "burnicu-") auf,
    damit andere Apps auf derselben GitHub-Pages-Domain unberührt bleiben. */
-const VERSION = 'burnicu-v3.17.1';
+const VERSION = 'burnicu-v3.18.0';
 const PREFIX = 'burnicu-';
 const CORE = [
   './',

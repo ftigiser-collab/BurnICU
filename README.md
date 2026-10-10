@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.17.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.18.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,15 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.18.0
+
+- **Rundgang** (Knopf „☑ Rundgang“ im Patientenkopf, optional): einmal über den Patienten in vier Schritten — 1 Informationen sammeln (Bestandsaufnahme nur für diesen Patienten, Pflichtwerte, Organe) · 2 Bewerten (Fokus, Labor-Trends, Kreislauf/Diurese/Bilanz, Beatmung, Analgosedierung, Infektion, Ernährung, Antikoagulation, Wunde/OP, Transfusion, Devices) · 3 Abarbeiten (To-Dos) · 4 Offene Probleme & Optimierung (Baustellen, was kann weg, Angehörige/Aufklärung, Übergabe). Jede Zeile zeigt den aktuellen Stand; „›“ springt direkt in den Bereich (Abschnitt wird aufgeklappt und markiert), der grüne Knopf „‹ Rundgang“ unten rechts bringt zurück. Haken gelten für die Schicht; was die App selbst erkennt (Pflichtwerte vollständig, alle Organe abgehakt, keine To-Dos offen, Bestandsaufnahme gemacht, Übergabe geschrieben), hakt sie automatisch ab.
+- **Devices leichter zu finden**: Kachel „Zugänge & Devices“ im Lagebild (Typ und Liegetag, gelb bei Prüfbedarf) springt direkt hin; der Reiter heißt jetzt „Devices & Orga“ und beginnt mit den Devices.
+- **PiCCO**: „Messungen beenden“ (kein Schicht-To-Do mehr, keine alten Werte mehr im Kreislauf/Ausdruck) und „Katheter entfernt“ (trägt das PiCCO-Device heute als entfernt ein); „Messungen wieder aufnehmen“ macht es rückgängig.
+- **Volumen & Bilanz** mit Symbol ⚖️ und direkt unter Diurese.
+- **Checkliste 48 h** bei Verbrennung sichtbar bis 72 h Aufenthalt (Aufnahmezeit wird bei Neuaufnahmen gemerkt), danach weg.
+- Lagebild-Kacheln springen direkt in den passenden Abschnitt (Diurese, Bilanz, Transfusion, Medikation, CiCa).
 
 ## Neu in 3.17.1
 
