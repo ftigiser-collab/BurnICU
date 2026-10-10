@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.15.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.16.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,23 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.16.0
+
+Bedienbarkeit nach einem Testlauf über zwei Schichten (alle Demo-Patienten, Neuaufnahme Verbrennung und Lappenplastik).
+
+- **Aufnahme**: Nach „Speichern“ öffnet sich der Patient direkt. Bei Verbrennungsdiagnose gibt es gleich im Dialog Unfallzeit, VKOF, davon 2b/3 und Inhalationstrauma — VKOF und Inhalationstrauma werden aus der Diagnose übernommen. Bei Lappenplastik: „Ende der Lappen-OP“ bzw. „OP gerade beendet“, die 2-h-Kontrollen laufen ab Speichern.
+- **Checkliste 48 h** nur noch bei Verbrennung (nicht mehr bei jeder Neuaufnahme) und nur noch als Abschnitt in der Übersicht — der doppelte Knopf im Kopf ist weg, die Kopfzeile passt in eine Zeile.
+- **To-Do**: „Jetzt dran“ und der To-Do-Abschnitt sind eine Karte (abhaken, neue Aufgabe direkt eintippen, „Liste bearbeiten ›“ für Priorität/Erledigte im Reiter „To-Do & Orga“). Gleichartige automatische Aufgaben werden gebündelt: Devices-7-Tage-Check und Metabolisches Bündel pro Patient (mit „alle belassen — Indikation besteht“ bzw. „alle umgesetzt“ in einem Tipp), auf der To-Do-Seite zusätzlich RASS/BPS/CAM über alle Patienten. Die To-Do-Seite hat damit 19 statt 31 Zeilen.
+- **Fokus**: Das Zählerchen oben zeigt nur noch rote Punkte (vorher alle 20). Automatische Punkte, die ein manuelles Hauptproblem nur wiederholen (z. B. „NA 0,1 → 0,25 ↑“ unter Kreislauf-Baustelle), entfallen.
+- **Sprungziele**: Ein Tipp auf einen Fokus-Punkt oder ein To-Do öffnet den Patienten im passenden Reiter (Albumin → Therapie, Verbandswechsel → Organe/Wunde, Device → To-Do & Orga, Laborwert → Labor & Verlauf).
+- **Infektion**: Die Antiinfektiva-Auswahl ist eingeklappt („+ Antiinfektivum“); Hinweistext verständlicher.
+- **Schlanker Modus neu — Übergabe-Werkzeug, dokumentiert wird im Klinik-System**:
+  - Patient: Übergabe-Kernpunkte (mit „!“ = wichtig), To-Dos, Lage automatisch aus den vorhandenen Daten (Fokus, Katecholamine, Beatmung, Diurese/CiCa, Sedierung, Antiinfektiva, Transfusion, Labor), Verlauf mit einer Zeile zum Ergänzen. Lappenkontrolle bleibt abhakbar.
+  - Weg: „Noch zu prüfen“ mit sieben Organfeldern und die Pflichtwerte-Leiste. Werte (Labor, Noradrenalin, Diurese, RASS) nur noch optional unter „Werte nachtragen“.
+  - Keine Erinnerungen, die nur fehlende Dokumentation in der App anmahnen (Diurese eintragen, RASS/BPS/CAM, PiCCO, Stuhlgang). Klinische Intervalle (IAP, Anti-Xa, Natrium, Lappen, Devices, Verbandswechsel, SBT) bleiben.
+  - „Vollansicht“ öffnet denselben Patienten mit allen Reitern.
+  - Meine Schicht (schlank): pro Patient Lage, Übergabe und To-Dos. Ausdruck (schlank): Übergabe-Kernpunkte und Fokus oben, Lappen, Transfusion, CiCa statt Diurese.
 
 ## Neu in 3.15.0
 
