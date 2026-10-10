@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.13.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.14.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,18 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.14.0
+
+- **Transfusion als eigene Karte** (Reiter Therapie, direkt unter Diurese):
+  - Kacheln: Hb (Ziel 7–9 g/dl, rot < 7), Thrombozyten (rot < 50, gelb < 100), Fibrinogen (rot < 150, gelb < 200 mg/dl), Blutprodukte der letzten 24 h und seit Aufnahme.
+  - Schnelleintrag: EK · FFP · TK · Fibrinogen (g) · PPSB (IE), Menge per Tipp, Uhrzeit optional, Indikation (Hb < 7, Blutung, OP/Nekrektomie, Gerinnung, Thrombopenie). Einträge mit × löschbar.
+  - Nach einer EK-Gabe: „Hb-Kontrolle ausstehend“ mit direkter Eingabe, bis ein neues Hb da ist.
+  - Bereitstellung: EK bereitgestellt (−/+, „n nach SOP“ für die nächste geplante Nekrektomie; transfundierte EK werden abgezogen), Kreuzblut „jetzt abgenommen“ → gültig 72 h, Blutgruppe, Aufklärung Transfusion.
+  - Hinweise nach SOP Transfusionsregime: EK-Bedarf für die geplante OP, Kreuzblut fehlt/abgelaufen, EK : FFP bei Blutung/OP 1 : 1 bis 1 : 2, Massentransfusion 6 EK : 1 TK, fehlende Aufklärung; Gerinnungsvoraussetzungen aus dem Labor.
+- **Lagebild**: Kachel „Transfusion 24 h“, sobald transfundiert wurde oder Hb < 7.
+- **Ausdruck**: Zeile „Transfusion“ (Gaben der Schicht mit Uhrzeit, 48 h, gesamt, bereitgestellt, Kreuzblut, Blutgruppe, offene Hb-Kontrolle).
+- Kreislauf: Chips EK/TK/FFP/Fibrinogen entfernt (jetzt in der Karte Transfusion).
 
 ## Neu in 3.13.1
 
