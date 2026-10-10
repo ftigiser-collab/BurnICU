@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.17.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.17.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,15 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.17.1
+
+- **Bestandsaufnahme fokussiert** auf Labor, laufende Medikamente und Verlauf:
+  - BGA und Labor wie bisher (letzter Wert unter jedem Feld, P/F wird berechnet, Abnahmezeit fürs Labor).
+  - Katecholamine, Sedierung und Analgesie: jeder laufende Perfusor als Zeile mit „neue Dosis“ und „beendet“; „= alle unverändert“ bestätigt die Katecholamine für die Pflichtwerte; neu angesetzte Medikamente als Freitext.
+  - Antiinfektiva: laufende mit Tag, einzeln „beendet“, „= fortgeführt“ bzw. „keine Antiinfektiva“, neu angesetzt als Freitext.
+  - Verlauf: die letzten drei Einträge zur Orientierung, Änderungen seit der letzten Schicht — jede Zeile wird ein eigener Verlaufseintrag.
+  - Beatmung, Diurese/Bilanz, RASS/Schmerz/CAM, Tmax und Ernährung sind aus der Maske raus (bleiben in den Bereichen und im Schicht-To-Do).
 
 ## Neu in 3.17.0
 
