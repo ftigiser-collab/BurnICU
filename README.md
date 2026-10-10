@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.19.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.19.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,10 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.19.1
+
+- **Noradrenalin kritisch**: Steigt NA um ≥ 50 % und liegt danach über 0,25 µg/kg/min, erscheint das rot im Fokus (zählt im Fokus-Zähler oben, wird nie als Dopplung ausgeblendet), die Kachel Katecholamine im Lagebild steht auf „Handeln“. Kleinere Anstiege bleiben gelb.
 
 ## Neu in 3.19.0
 
