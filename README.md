@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.16.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.17.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,16 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.17.0
+
+- **Bestandsaufnahme zum Schichtbeginn** (optional): Im Schicht-Dialog „Starten + Bestandsaufnahme“, jederzeit auch über „☰ Bestandsaufnahme“ in Meine Schicht. Patient für Patient (eigene Patienten) nur Ist-Werte, die man ohne Patientenkontakt bekommt — keine Pläne, leere Felder bleiben leer:
+  - BGA (pO2, FiO2 → P/F wird berechnet, pH, BE, Laktat, K+, Na+, Glukose) und Labor (Hb, Leukozyten, Thrombozyten, CRP, PCT, Krea, Albumin; Anti-Xa bei Antikoagulation, iCa bei CiCa, Fibrinogen bei Verbrennung) mit Abnahmezeit; unter jedem Feld der letzte Wert.
+  - Noradrenalin bzw. „= unverändert“, Beatmung „= unverändert“ oder neu, Diurese seit letztem Eintrag, Bilanz 24 h, RASS, BPS/NAS, CAM-ICU, Tmax, Ernährung und Antiinfektiva „unverändert/fortgeführt“, Ereignisse seit der letzten Schicht (→ Verlauf).
+  - Enter springt ins nächste Feld, „Speichern & weiter ›“ zum nächsten Patienten. Die Pflichtwerte der Schicht sind damit meist schon erfüllt.
+- **Erledigte To-Dos** werden nicht mehr beim Schichtstart gelöscht: Sie bleiben sichtbar und verschwinden automatisch 10 h nach dem Ende der Schicht, in der sie erledigt wurden.
+- **Schicht-Dialog**: „Neue Schicht starten“ (beendet die laufende), „Startzeit korrigieren“ (ändert nur die Uhrzeit, setzt nichts zurück), „Schicht beenden“. Übergabe-Kernpunkte bleiben standardmäßig stehen, wenn die letzte Schicht vor weniger als 10 h endete.
+- **RASS, Schmerz, CAM-ICU bei allen Patienten** einmal pro Schicht, auch im schlanken Modus. Schmerzskala automatisch: **BPS** bei invasiver Beatmung (Tubus/Trachealkanüle bzw. BIPAP, CPAP/ASB, VCV), sonst **NAS** (numerische Analogskala, ersetzt NRS).
 
 ## Neu in 3.16.0
 
