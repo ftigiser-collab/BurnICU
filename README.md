@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.14.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.15.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,12 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.15.0
+
+- **Devices**: Beim Abhaken der 7-Tage-Evaluation gibt es „gewechselt“ mit Feld für den neuen Zugang (Lage, ggf. durch verbrannte Haut) — das alte Device wird heute als entfernt eingetragen, das neue liegt ab heute (Liegetag 1). „entfernt (ohne Neuanlage)“ trägt nur das Ende ein. „Wechsel geplant“ legt ein To-Do „… wechseln“ an; beim Abhaken kommt dieselbe Abfrage (gewechselt mit neuem Zugang / entfernt ohne Neuanlage / noch nicht gewechselt). Auch selbst getippte To-Dos wie „DK wechseln“ fragen so nach.
+- **Metabolisches Bündel**: Die Karte verschwindet 48 h nach dem Unfall. Offene Punkte laufen dann als einzelne To-Dos („Metabolisches Bündel: …“); beim Abhaken „umgesetzt“ oder „nicht indiziert“.
+- **Infektion**: Läuft schon ein Antiinfektivum, sind die Vorschläge zum Krankheitsbild (Hausleitlinie, Leitlinienlage, Erreger) minimiert — „Vorschläge anzeigen“ klappt sie wieder auf. Die Sonderregel zur Therapiedauer bleibt sichtbar.
 
 ## Neu in 3.14.0
 
