@@ -15,6 +15,13 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
 
+## Neu in 3.20.0
+
+- **CiCa und PiCCO unter Devices**: Im Reiter „Devices & Orga“ stehen oben PiCCO und CiCa mit Status — antippen öffnet die jeweilige Karte (wie bisher PiCCO). CiCa lässt sich dort auch starten; Link zur CiCa-App direkt in der CiCa-Karte.
+- **Ernährung neu**: mehrere Nahrungen gleichzeitig (Sondenkost, parenteral, Glukose, Eiweiß-Zusatz; Propofol wird automatisch als Fett und kcal mitgerechnet). Tabelle Ziel / Zufuhr / Differenz pro Tag für kcal, Protein und Fett, darunter konkrete Vorschläge mit „einsetzen“. Olimel korrigiert auf 1,07 kcal/ml (Fachinformation).
+- **Druck „Schicht & Übergabe“** ersetzt Schichtliste und Übergabe: letzter Stand plus alles Neue aus der Schicht (Datum umrandet = neu, grau = älterer Kontext), Übergabe-Kasten, erledigte To-Dos der Schicht, alle Erinnerungen.
+- **Druck „Infektio / Mini-Visite“** je Patient: Fokus, Klinik und Laborverlauf (CRP, PCT mit Peak, Leukos, Thrombos, Krea, Vanco-Spiegel); Erregertabelle mit Material, Antibiogramm, Kolonisation/relevant und Wirksamkeit der laufenden Therapie; Antiinfektiva mit 14-Tage-Balken, Haus-Status und Ziel; regelbasierte Vorschläge (kritisch / prüfen / Hinweis) jeweils mit Begründung und Quelle — u. a. Re-Evaluation, Deeskalation, Absetzen ohne Fokus, Zieldauer nach Fokus, PCT-Stopp, prolongierte Infusion, ARC/TDM bei Verbrennung, Nierenersatz, Toxizität, Kolonisation vs. Infektion, erregerspezifische Hinweise (MRSA/MSSA, ESBL, AmpC, Pseudomonas, Stenotrophomonas, VRE, Candida); Alternativen mit Begründung aus den Infektio-Daten der Rotationsklinik (schmaler, oral, Hausleitlinie, Penicillinallergie); Hausleitlinie und Dauer; Zeilen für die Visitenentscheidung. Auswahl: mit Infektion/Antiinfektiva, meine Patienten oder alle, wahlweise eine Seite pro Patient. Quellen (S3-LL Sepsis 2025, S3-LL Nosokomiale Pneumonie 2024, ABS-LL, ESCMID/IDSA, BALANCE, BLING III, MERINO u. a.) und Abkürzungen stehen am Ende.
+
 ## Neu in 3.19.1
 
 - **Noradrenalin kritisch**: Steigt NA um ≥ 50 % und liegt danach über 0,25 µg/kg/min, erscheint das rot im Fokus (zählt im Fokus-Zähler oben, wird nie als Dopplung ausgeblendet), die Kachel Katecholamine im Lagebild steht auf „Handeln“. Kleinere Anstiege bleiben gelb.
