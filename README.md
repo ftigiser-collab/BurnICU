@@ -15,6 +15,13 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
 
+## Neu in 3.21.0
+
+- **Eigene Symbole statt Emojis** für alle Themenbereiche (Organe, Therapie-Bereiche, Reiter, Abschnitte, Lagebild-Kacheln, Druckzeilen wie Verlauf, Diurese, Medis, Antikoag., Devices, Eingriffe, To-Do, Erinnern). Die Symbole sind Strichzeichnungen in Textfarbe und drucken unter Windows, macOS und iPad gleich — Windows kannte viele Emojis im Druck nicht.
+- **Schlagworte fett** — im Druck und in der App: Medikamentennamen (Perfusoren, Dauermedikation, Antiinfektiva, Katecholamine; in Medikamentenzeilen immer der Name am Anfang) und Schlüsselereignisse (z. B. Intubation, Extubation, Bronchoskopie, Reanimation, OP-Begriffe, CT, Transfusion, EK, Sepsis, Fieber, Blutung, BK, MRSA/MRGN). Dafür ist der übrige Fließtext im Druck nicht mehr fett (Verlauf: schwarz = Aufnahme und letzte 48 h, grau = älter).
+- **OPs im Verlauf blau umrandet** (Druck und App), z. B. Escharotomie, Nekrektomie, Spalthaut, Lappenplastik, Tracheotomie — Aufklärungen und Planungen nicht.
+- **Markieren im Druck**: in der Druckansicht einen Eintrag antippen → gelb transparent markiert, nochmal antippen hebt es auf; die Bezeichnung links markiert die ganze Zeile. Markierungen werden mitgedruckt, aber nicht gespeichert: Beim Wechsel der Druckart oder beim Verlassen der Druckansicht sind sie weg; „Markierungen entfernen“ löscht alle.
+
 ## Neu in 3.20.0
 
 - **CiCa und PiCCO unter Devices**: Im Reiter „Devices & Orga“ stehen oben PiCCO und CiCa mit Status — antippen öffnet die jeweilige Karte (wie bisher PiCCO). CiCa lässt sich dort auch starten; Link zur CiCa-App direkt in der CiCa-Karte.
