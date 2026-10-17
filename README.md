@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.19.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.22.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,18 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.22.0
+
+- **Arztbrief nach Organsystemen**: Verlauf je Organsystem (Neurologie/Analgosedierung, Atmung/Beatmung, Herz/Kreislauf, Niere, Gastrointestinaltrakt/Ernährung, Infektiologie, Haut/Wunden, Blut/Gerinnung, Weiteres) und eine knappe Epikrise mit Zustand bei Verlegung. Phasen werden automatisch übernommen, z. B. „Invasive Beatmung vom 10.09. bis 16.09., Extubation am 16.09., anschließend problemlos HFNC bis 18.09., seit 19.09. Raumluft“, Katecholamine mit Zeitraum und Höchstdosis, Analgosedierung, CiCa, Ernährungsaufbau, Antiinfektiva mit Tagen, Transfusionen, Labor-Peaks (CRP, PCT, Kreatinin, Hb-Tiefstwert), Lappenkontrollen, Rücksprachen. Bausteine landen im passenden Organabschnitt. In der Briefansicht links „Aufbau“: je Organ Vorschau, einzelne Punkte mit × ausblenden, eigene Ergänzung; „Fließtext (bisher)“ bleibt wählbar.
+- **Verlaufsgedächtnis**: Was für die Übergabe gelöscht wird (Verlauf, Organsystem-Einträge, Medikamente, Eingriffe, Transfusionen, Verbandswechsel, Rücksprachen), bleibt für den Arztbrief erhalten — außer es wurde innerhalb von 30 min nach dem Eintragen gelöscht (Korrektur). Laborwerte älter als 48 h werden als Tageswerte (Minimum, Maximum, letzter Wert) archiviert. Höchstdosis je Perfusor wird mitgeschrieben.
+- **Schneller Verlaufseintrag**: Zeile „Verlauf“ im Patientenkopf (in jedem Reiter und im IMC-Modus), am PC Taste V. Organsystem wird automatisch zugeordnet oder gewählt, Zeitpunkt optional.
+- **Reiter „Verlauf“**: Erkrankungsweg plus „Verlauf je Organsystem“ — genau das, was im Brief steht, mit Eingabezeile je Organ. Der Reiter „Labor & Verlauf“ heißt jetzt „Labor“.
+- **Rücksprachen mit anderen Abteilungen**: Karte in Übersicht, Devices & Orga und IMC — Abteilung antippen, Fragestellung, „angefragt“ (mit Wartezeit), Ergebnis eintragen (optional als To-Do). Offene Rücksprachen im Druck, im Zimmerplan (Symbol mit Anzahl) und im To-Do-Reiter gesammelt nach Abteilung; Ergebnisse im Arztbrief im passenden Organabschnitt.
+- **IMC-Modus statt „schlank“** (Knopf oben rechts): für Post-OP-, Lappen- und andere Patienten ohne größere Intensivtherapie. Patientenansicht mit Lappenkontrolle, Tagescheck (Vitalparameter, Schmerz, Mobilisation, Atmung, Kost, Ausscheidung, Drainagen, Wunde — ein Tipp dokumentiert mit Uhrzeit), Lage mit POD, Labor-Schnelleingabe, Rücksprachen, Verlegung (Ziel, Datum, verlegungsfähig, Bett angefragt/zugesagt, Brief, telefonische Übergabe). Meine Schicht und Druck im IMC-Zuschnitt.
+- **Labor ohne Dopplungen**: Favoriten bleiben als Eingabe-Reiter, angezeigt werden die Werte nur noch in ihrer Organgruppe.
+- **Fresubin Hepa** in der Ernährung (1,3 kcal/ml, 4 g Protein/100 ml, 44 % verzweigtkettige Aminosäuren; Fresenius Kabi). Bei Leberinsuffizienz in Diagnose oder Vorerkrankungen erscheint ein Vorschlag.
+- Demo: Zi 3 mit Verlauf über 24 Tage (Beatmung, Katecholamine, Sedierung, Ernährung, gelöschte Einträge, Rücksprachen), Zi 6 und 7 als IMC-Beispiele.
 
 ## Neu in 3.21.0
 

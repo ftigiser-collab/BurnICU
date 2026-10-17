@@ -2163,6 +2163,134 @@ html[data-theme="dark"] .pill.op{border-color:#6ea8e6}
 tr[data-mk] > td{background:rgba(255,214,0,.48) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 @media print{.mk-bar{display:none !important}.mk-area .paper{cursor:auto}}
 
+/* ===== 3.22.0 ===== */
+/* Schneller Verlaufseintrag im Patientenkopf */
+.qv{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--surf);border:1px solid var(--line2);border-radius:12px;padding:6px 8px;margin:2px 0 0}
+.qv:focus-within{border-color:var(--st-info);box-shadow:0 0 0 3px var(--st-info-bg)}
+.qv-l{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:var(--st-info);padding:0 4px;white-space:nowrap;cursor:text}
+.qv-l .ico{width:17px;height:17px}
+.qv-in{flex:1 1 260px;min-width:0;min-height:40px;border-radius:9px}
+.qv-sys{min-height:40px;border:1px solid var(--line2);border-radius:9px;background:var(--bg);padding:0 8px;font-size:14px;color:var(--txt);max-width:170px}
+.qv-t{flex:0 0 auto;width:196px;min-height:40px;font-size:13px;color:var(--mut);padding:6px 8px}
+.qv-add{min-width:44px;justify-content:center;font-size:20px}
+.qv-add:disabled{opacity:.45;cursor:default}
+.qv-ok{flex-basis:100%;font-size:13px;color:var(--st-stabil);font-weight:600;padding:0 4px 2px}
+@media (max-width:700px){.qv{gap:6px}.qv-l{padding:0}.qv-in{flex:1 1 calc(100% - 100px);min-width:0}.qv-sys{flex:1 1 0;max-width:none;min-width:0}.qv-t{flex:1 1 0;width:auto;min-width:0}}
+/* Reiter Verlauf: Verlauf je Organsystem */
+.crs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
+.crs-c{border:1px solid var(--line2);border-radius:12px;padding:10px 12px;background:var(--surf);display:flex;flex-direction:column;gap:5px;min-width:0}
+.crs-c.leer{background:var(--raise);border-style:dashed}
+.crs-c.leer .crs-h{color:var(--mut)}
+.crs-h{display:flex;align-items:center;gap:7px;font-size:15px;margin-bottom:2px}
+.crs-h .ico{width:17px;height:17px;color:var(--mut)}
+.crs-auto{font-size:14px;line-height:1.45}
+.crs-evs{display:flex;flex-direction:column;gap:2px;border-top:1px dashed var(--line);padding-top:5px}
+.crs-ev{font-size:13.5px;display:flex;gap:7px;align-items:baseline;line-height:1.35}
+.crs-ev .d{flex:none;color:var(--mut);font-size:12px;min-width:44px}
+.crs-ev.kept{color:var(--mut);font-style:italic}
+.crs-ev.kons{display:block;padding:4px 7px;border-radius:8px;background:var(--st-info-bg);color:var(--st-info)}
+.crs-ev.kons.open{background:var(--st-pruefen-bg);color:var(--st-pruefen)}
+.crs-ev.kons .ico{width:14px;height:14px;vertical-align:-2px}
+.crs-ev.extra{display:block;font-style:italic}
+.crs-empty{font-size:13px}
+.crs-c .qin{width:100%;margin-top:auto}
+.crs-foot{margin-top:8px}
+/* Rücksprachen */
+.kons .tvcard-h h2{display:inline-flex;align-items:center;gap:6px}
+.kons .tvcard-h h2 .ico{width:18px;height:18px}
+.kons-r{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 8px 8px 10px;border:1px solid var(--line);border-left:4px solid var(--st-pruefen-bd);border-radius:10px;margin-bottom:6px;background:var(--surf)}
+.kons-r.st-offen{border-left-color:var(--st-handeln-bd);background:var(--st-handeln-bg)}
+.kons-l{display:flex;flex-direction:column;gap:1px;flex:1 1 220px;min-width:0}
+.kons-f{font-weight:700;font-size:14px}
+.kons-q{font-size:14px;overflow-wrap:anywhere}
+.kons-st{font-size:12px;color:var(--mut)}
+.kons-a{display:flex;gap:6px;align-items:center}
+.kons-erg{flex-basis:100%;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.kons-erg input:not([type]){flex:1 1 240px;min-height:38px}
+.kons-todo{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--mut);white-space:nowrap}
+.kons-todo input{width:18px;height:18px;min-height:0}
+.kons-add{border-top:1px dashed var(--line);padding-top:8px;margin-top:4px;display:flex;flex-direction:column;gap:6px}
+.kons-fc{display:flex;flex-wrap:wrap;gap:5px}
+.kons-sel{min-height:30px;border:1px solid var(--line2);border-radius:15px;background:var(--surf);color:var(--mut);font-size:13px;padding:0 8px}
+.kons-sel.on{border-color:var(--blu);color:var(--tint-blu);background:var(--blu-soft)}
+.kons-in{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.kons-in b{font-size:14px}
+.kons-in input{flex:1 1 220px;min-height:38px}
+.kons-hint{line-height:1.35}
+.kons-done{display:flex;flex-direction:column;gap:3px;margin-top:6px}
+.kons-d{display:flex;gap:8px;align-items:baseline;font-size:13.5px;padding:3px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+.kons-d .kons-f{font-size:13px;color:var(--st-stabil)}
+.kons-d .kons-q{flex:1 1 200px;min-width:0}
+.kons.compact .kons-fc .chip.sm{min-height:28px;font-size:12.5px;padding:0 9px}
+.konsall .fgroup-h .ico{width:18px;height:18px;color:var(--st-info)}
+.konsall-g{margin:4px 0 8px}
+.konsall-f{font-size:13px;font-weight:700;color:var(--st-info);margin:4px 0 3px}
+.konsall-r{display:flex;align-items:center;gap:8px;width:100%;min-height:42px;padding:4px 6px;border-radius:9px;text-align:left;flex-wrap:wrap}
+.konsall-r:hover{background:var(--raise)}
+.konsall-q{flex:1 1 180px;min-width:0}
+.bed-kons{display:inline-flex;align-items:center;gap:2px;color:var(--st-pruefen);font-weight:700}
+.bed-kons .ico{width:13px;height:13px}
+/* Arztbrief: Aufbau und Vorschau je Organsystem */
+.brorg-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.brorg-s{border:1px solid var(--line);border-radius:10px;background:var(--surf)}
+.brorg-s.leer{background:var(--raise)}
+.brorg-s.leer .brorg-h b{color:var(--mut);font-weight:500}
+.brorg-h{display:flex;align-items:center;gap:7px;width:100%;min-height:42px;padding:4px 10px;text-align:left;flex-wrap:wrap}
+.brorg-h .ico{width:16px;height:16px;color:var(--mut)}
+.brorg-h .tag{margin-left:auto}
+.brorg-h .chev{color:var(--mut);width:12px}
+.brorg-b{padding:0 10px 10px;display:flex;flex-direction:column;gap:4px}
+.brorg-auto{font-size:13.5px;line-height:1.4;padding:4px 8px;border-radius:8px;background:var(--raise)}
+.brorg-ev{display:flex;gap:7px;align-items:center;font-size:13.5px}
+.brorg-ev .d{color:var(--mut);font-size:12px;flex:none;min-width:42px}
+.brorg-ev .t{flex:1;min-width:0}
+.brorg-ev.kept .t{color:var(--mut);font-style:italic}
+.brorg-ev.kons .t{color:var(--st-info)}
+.brorg-ta{min-height:54px;font-size:14px}
+.brorg-s.epi{border-color:var(--st-info-bd)}
+/* IMC-Modus */
+.imcview{max-width:1240px}
+.imchead .grow{flex:1}
+.imchead h1{flex:0 1 auto}
+.imcbadge{font-size:12px;font-weight:800;letter-spacing:.4px;color:#fff;background:#6c5ce7;border-radius:6px;padding:2px 8px}
+.imc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start;margin-top:10px}
+.imc-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (max-width:900px){.imc-grid{grid-template-columns:1fr}}
+.imc-check .tvcard-h h2,.imc-verl .tvcard-h h2,.imc-labs .tvcard-h h2,.imc-verlauf .tvcard-h h2{display:inline-flex;align-items:center;gap:6px}
+.imc-check .tvcard-h h2 .ico,.imc-verl .tvcard-h h2 .ico,.imc-labs .tvcard-h h2 .ico,.imc-verlauf .tvcard-h h2 .ico{width:17px;height:17px}
+.imc-row{display:grid;grid-template-columns:112px 1fr;gap:4px 10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.imc-row:last-child{border-bottom:0}
+.imc-l{font-size:13px;font-weight:700;color:var(--mut)}
+.imc-row.ok .imc-l{color:var(--st-stabil)}
+.imc-row.bad .imc-l{color:var(--st-pruefen)}
+.imc-o{display:flex;flex-wrap:wrap;gap:5px}
+.imc-o .chip.sm{min-height:34px}
+.imc-o .chip.warnc:not(.on){border-style:dashed}
+.imc-row.bad .chip.on{background:var(--st-pruefen-bg);border-color:var(--st-pruefen-bd);color:var(--st-pruefen)}
+.imc-t{grid-column:2;font-size:12px;color:var(--mut)}
+.imc-mini{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.imc-m{font-size:12.5px;border:1px solid var(--line2);border-radius:7px;padding:2px 7px;color:var(--mut)}
+.imc-m.ok{border-color:var(--st-stabil-bd);color:var(--st-stabil);background:var(--st-stabil-bg)}
+.imc-m.bad{border-color:var(--st-pruefen-bd);color:var(--st-pruefen);background:var(--st-pruefen-bg);font-weight:700}
+.imc-lap{font-size:13.5px;margin:4px 0}
+.imc-lap.over{color:var(--st-handeln);font-weight:700}
+.imc-lap .ico,.imc-kons .ico,.imc-vl .ico{width:14px;height:14px;vertical-align:-2px}
+.imc-kons{font-size:13px;color:var(--st-pruefen);margin:3px 0}
+.imc-vl{font-size:13px;color:var(--st-info);margin:3px 0}
+.imc-warn{color:var(--st-handeln)}
+.imc-ziel{margin-bottom:8px}
+.imc-datum{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.imc-datum .lb{width:auto;padding-top:0}
+.imc-datum input{width:auto;min-height:38px}
+.imc-verl-st{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.imc-verl-st small{font-weight:400;color:var(--mut)}
+.imc-labs .sllabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:560px){.imc-labs .sllabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.imc-cards{grid-template-columns:repeat(auto-fill,minmax(360px,1fr))}
+/* Druck */
+.paper .pkons .pk-o b,.paper .pkons .pk-d b{font-weight:700}
+.paper .pmut{color:#666}
+@media print{.qv{display:none !important}}
 </style>
 </head>
 <body>
@@ -2219,7 +2347,7 @@ react-dom/cjs/react-dom.production.min.js:
   const LOGO_DARK = "data:image/png;base64,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";
   const KEY = "burnicu_v3";
   const THEME_KEY = "burnicu_theme";
-  const APP_VERSION = "3.21.0";
+  const APP_VERSION = "3.22.0";
   const INFEKTIO_KEY = "burnicu_infektio_url";
   const INFEKTIO_DEFAULT = "https://ftigiser-collab.github.io/InfektioBuddy/";
   const MAX_MINE = 8;
@@ -2706,7 +2834,7 @@ react-dom/cjs/react-dom.production.min.js:
       });
       return { group: g, rows: names.map((n) => [n, L[n]]) };
     }).filter((x) => x.rows.length);
-    return (favRows.length ? [{ group: LAB_FAV_GROUP, rows: favRows }] : []).concat(rest);
+    return rest;
   }
   const allLabs = (p) => labsByGroup(p).flatMap((x) => x.rows).filter((r, i, a) => a.findIndex((y) => y[0] === r[0]) === i);
   function labsSinceShift(p, since) {
@@ -2972,9 +3100,14 @@ react-dom/cjs/react-dom.production.min.js:
   function prunePatient(p) {
     let ch = false;
     const labs = {};
+    let labArch = p.labArch;
     Object.entries(p.labs || {}).forEach(([n, l]) => {
       const v = pruneVals(l.vals);
-      if (v !== l.vals) ch = true;
+      if (v !== l.vals) {
+        ch = true;
+        const drop = (l.vals || []).filter((x) => v.indexOf(x) < 0);
+        if (drop.length) labArch = labArchFold(labArch, n, drop);
+      }
       labs[n] = { ...l, vals: v };
     });
     const vol = volOf(p);
@@ -2982,7 +3115,7 @@ react-dom/cjs/react-dom.production.min.js:
     if (b24 !== vol.b24) ch = true;
     const dl = Array.isArray(p.diurese) && p.diurese.length > 1 ? pruneDiu(p.diurese) : p.diurese;
     if (dl !== p.diurese && dl.length !== p.diurese.length) ch = true;
-    return ch ? { ...p, labs, volumen: { ...vol, b24 }, diurese: dl } : p;
+    return ch ? { ...p, labs, ...labArch ? { labArch } : {}, volumen: { ...vol, b24 }, diurese: dl } : p;
   }
   function migrate(s) {
     let ch = false;
@@ -3463,7 +3596,7 @@ react-dom/cjs/react-dom.production.min.js:
   }
   const fillBrief = (tpl, f) => tpl.replace(/\{([A-Za-z_]+)\}/g, (m, k) => f[k] !== void 0 ? f[k] : m);
   function buildBrief(p, opt, meds) {
-    return buildBriefV1(p, opt, meds);
+    return (p.brief || {}).aufbau === "fliess" ? buildBriefV1(p, opt, meds) : buildBriefOrg(p, opt, meds);
   }
   const sysEntries = (p, k) => ((p.systeme || {})[k] || {}).entries || [];
   const sysLast = (p, k) => {
@@ -4378,7 +4511,7 @@ react-dom/cjs/react-dom.production.min.js:
       const nx = nextEingriff(p);
       const fk = fokusAuto(p);
       const sub = p.diagnose || (last(verlaufAll(p)) || {}).text;
-      return React.createElement("div", { className: "room", key: z }, React.createElement("div", { className: "room-h" }, React.createElement("span", null, "Zimmer ", z), React.createElement(DiuChip, { p, small: true })), React.createElement("button", { type: "button", className: "bed single " + (p.mine ? "mine" : "other") + (hc ? " hasHot" : ""), onClick: () => onOpen(p.id) }, React.createElement("span", { className: "bed-name" }, p.name || "ohne Namen"), React.createElement("span", { className: "bed-row" }, React.createElement("span", { className: "bed-meta" }, p.unterwegs && React.createElement("span", { className: "unterwegs" }, React.createElement(Ico, { k: "plane" }), " angek", "ü", "ndigt"), tag && !p.unterwegs && React.createElement("span", null, "Tag ", tag), React.createElement(VAKBadge, { p, small: true }), hc > 0 && React.createElement("span", { className: "cnt" }, hc)), React.createElement("span", { className: "bed-status" }, React.createElement(StatusDots, { p }))), React.createElement("span", { className: "bed-sub" }, sub || (p.mine ? "noch kein Verlauf" : "Mini-Überblick")), (bt || nx || fk.length > 0) && React.createElement("span", { className: "bed-extra" }, fk.length > 0 && React.createElement("span", { className: "bed-fk lvl-" + fk[0].lvl }, "⚠", " ", fk.length > 1 ? fk.length + " · " : "", fk[0].text), bt && React.createElement("span", { className: "burntag" }, React.createElement(Ico, { k: "burn" }), " ", bt, burnOf(p).vkof ? ` · ${burnOf(p).vkof} %` : ""), nx && React.createElement("span", { className: "bed-op" + (dayDiff(nx.datum) <= 0 ? " soon" : "") }, React.createElement(Ico, { k: "op" }), " ", eingriffKurz(nx)))));
+      return React.createElement("div", { className: "room", key: z }, React.createElement("div", { className: "room-h" }, React.createElement("span", null, "Zimmer ", z), React.createElement(DiuChip, { p, small: true })), React.createElement("button", { type: "button", className: "bed single " + (p.mine ? "mine" : "other") + (hc ? " hasHot" : ""), onClick: () => onOpen(p.id) }, React.createElement("span", { className: "bed-name" }, p.name || "ohne Namen"), React.createElement("span", { className: "bed-row" }, React.createElement("span", { className: "bed-meta" }, p.unterwegs && React.createElement("span", { className: "unterwegs" }, React.createElement(Ico, { k: "plane" }), " angek", "ü", "ndigt"), tag && !p.unterwegs && React.createElement("span", null, "Tag ", tag), React.createElement(VAKBadge, { p, small: true }), konsOffen(p).length > 0 && React.createElement("span", { className: "bed-kons", title: "offene Rücksprachen" }, React.createElement(Ico, { k: "kontakt" }), konsOffen(p).length), hc > 0 && React.createElement("span", { className: "cnt" }, hc)), React.createElement("span", { className: "bed-status" }, React.createElement(StatusDots, { p }))), React.createElement("span", { className: "bed-sub" }, sub || (p.mine ? "noch kein Verlauf" : "Mini-Überblick")), (bt || nx || fk.length > 0) && React.createElement("span", { className: "bed-extra" }, fk.length > 0 && React.createElement("span", { className: "bed-fk lvl-" + fk[0].lvl }, "⚠", " ", fk.length > 1 ? fk.length + " · " : "", fk[0].text), bt && React.createElement("span", { className: "burntag" }, React.createElement(Ico, { k: "burn" }), " ", bt, burnOf(p).vkof ? ` · ${burnOf(p).vkof} %` : ""), nx && React.createElement("span", { className: "bed-op" + (dayDiff(nx.datum) <= 0 ? " soon" : "") }, React.createElement(Ico, { k: "op" }), " ", eingriffKurz(nx)))));
     })));
   }
   function ListeFull({ pats, shiftStart, onOpen, onToggleTodo }) {
@@ -4591,12 +4724,12 @@ react-dom/cjs/react-dom.production.min.js:
       })))))), (() => {
         const td = (p.todos || []).slice().sort(sortTodos).filter((t) => !t.done || (mode === "uebergabe" || mode === "both") && ss && t.doneAt && t.doneAt >= ss);
         return td.length > 0 && React.createElement("div", { className: "pr pl ptodo" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "todo" }), "To-Do"), React.createElement("span", { className: "v" }, td.map((t) => React.createElement("span", { key: t.id, className: (t.done ? "d" : "o p" + t.prio) + (t.ueb ? " ueb" : "") }, t.ueb && React.createElement("span", { className: "pfl" }, "⚑", " "), kw(druckTxt(t.text))))));
-      })(), React.createElement(TkPrintSlots, { p, ss }), React.createElement(LappenDruck, { p, ss }), orga.length > 0 && React.createElement("div", { className: "pr pl" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "orga" }), "Orga"), React.createElement("span", { className: "v" }, orga.map((o) => React.createElement("span", { key: o.id, className: (o.done ? "d" : "o") + (o.ueb ? " ueb" : "") }, o.ueb && React.createElement("span", { className: "pfl" }, "⚑", " "), kw(o.text))))), p.notiz && React.createElement("div", { className: "pr" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "notiz" }), "Notiz"), React.createElement("span", { className: "v" }, p.notiz)), schreib && React.createElement(SchreibRaum, { p, ss }), er.length > 0 && React.createElement(ErinnDruck, { p, er }), React.createElement("div", { className: "pr pvert" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "kontakt" }), "Vertretung"), React.createElement("span", { className: "v" }, React.createElement(VertrLine, { p }))));
+      })(), React.createElement(TkPrintSlots, { p, ss }), React.createElement(KonsDruck, { p, ss }), React.createElement(LappenDruck, { p, ss }), orga.length > 0 && React.createElement("div", { className: "pr pl" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "orga" }), "Orga"), React.createElement("span", { className: "v" }, orga.map((o) => React.createElement("span", { key: o.id, className: (o.done ? "d" : "o") + (o.ueb ? " ueb" : "") }, o.ueb && React.createElement("span", { className: "pfl" }, "⚑", " "), kw(o.text))))), p.notiz && React.createElement("div", { className: "pr" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "notiz" }), "Notiz"), React.createElement("span", { className: "v" }, p.notiz)), schreib && React.createElement(SchreibRaum, { p, ss }), er.length > 0 && React.createElement(ErinnDruck, { p, er }), React.createElement("div", { className: "pr pvert" }, React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "kontakt" }), "Vertretung"), React.createElement("span", { className: "v" }, React.createElement(VertrLine, { p }))));
     };
     return React.createElement("div", { className: "paper" }, React.createElement("div", { className: "ph" }, React.createElement("h1", null, title), React.createElement("span", { className: "meta" }, meta)), state.shiftNote && React.createElement("div", { className: "pnote" }, state.shiftNote), mine.length === 0 && React.createElement("div", { className: "pempty" }, "Keine eigenen Patienten markiert."), mine.map((p) => React.createElement(Block, { key: p.id, p })), withOthers && others.length > 0 && React.createElement(React.Fragment, null, React.createElement("div", { className: "psec" }, "Weitere Patienten der Station"), React.createElement("table", { className: "ptab" }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Zi"), React.createElement("th", null, "Name"), React.createElement("th", null, "Hauptdiagnose"), React.createElement("th", null, "Diurese"), React.createElement("th", null, "zuletzt"), React.createElement("th", null, "Hauptproblem"))), React.createElement("tbody", null, others.map((p) => {
       const d = diuCalc(p, ss);
       return React.createElement("tr", { key: p.id }, React.createElement("td", null, bedLabel(p)), React.createElement("td", null, p.name || "—"), React.createElement("td", null, p.diagnose || "—"), React.createElement("td", null, d.last != null ? diuShort(d) : "—"), React.createElement("td", null, (last(verlaufAll(p)) || {}).text || "—"), React.createElement("td", null, hotEntries(p).map((x) => "■ " + x.e.text).join("; ") || "—"));
-    })))), React.createElement("div", { className: "pfoot" }, React.createElement("span", null, "fett = Medikament oder Schlüsselereignis (z. B. Intubation, OP, Transfusion) · ", mode === "both" ? "Organsysteme: Datum umrandet = neu in dieser Schicht, grau = älterer Kontext · " : "", mode === "uebergabe" || mode === "both" ? "* Diurese automatisch auf Stunden verteilt · Verlauf: schwarz = Aufnahme und letzte 48 h, grau = älter, blauer Rahmen = OP · umrandet = Organsystem als Baustelle markiert · ⚠ automatisch erkannter relevanter Trend · ☐ Erinnerung · Unterstrichen = ⚑ für die Übergabe markiert · ■ Baustelle · ↗ gebessert · fett = wichtig · ‼ To-Do hoch · Organsysteme: letzter Stand + Neues, Labor je Organsystem: fett = ITS-relevant (z. B. Laktat ≥ 2, Hb < 8, p/F < 200, CRP ≥ 100, Leukos > 12) oder außerhalb der Norm und schlechter werdend, grau = im Normbereich, Pfeil = Trend zum Vorwert" : "* Diurese automatisch auf Stunden verteilt · Verlauf: schwarz = Aufnahme und letzte 48 h, grau = älter, blauer Rahmen = OP · umrandet = Organsystem als Baustelle markiert · ⚠ automatisch erkannter relevanter Trend · ☐ Erinnerung · ■ Hauptbaustelle · □ Baustelle · ↗ gebessert · fett = wichtig · ‼ To-Do hoch · ☐ offen · Labor je Organsystem: fett = ITS-relevant (z. B. Laktat ≥ 2, Hb < 8, p/F < 200, CRP ≥ 100, Leukos > 12) oder außerhalb der Norm und schlechter werdend, grau = im Normbereich, Pfeil = Trend zum Vorwert"), React.createElement("span", null, "Arbeitsdokument, keine Patientenakte. Aliasnamen.")), React.createElement("div", { className: "pfoot legend" }, "Abk", "ü", "rzungen: VKOF verbrannte K", "ö", "rperoberfl", "ä", "che ", "·", " VE Vorerkrankungen ", "·", " VAK Vollantikoagulation ", "·", " HI Herzindex ", "·", " GEDI global-enddiastolischer Volumenindex ", "·", " SVRI systemischer Gef", "ä", "ß", "widerstandsindex ", "·", " ELWI extravaskul", "ä", "rer Lungenwasserindex ", "·", " CPI Cardiac Power Index ", "·", " POD postoperativer Tag ", "·", " ", "Ø", " Mittelwert ", "·", " KDIGO Kidney Disease: Improving Global Outcomes ", "·", " NMH niedermolekulares Heparin ", "·", " UFH unfraktioniertes Heparin ", "·", " HIT heparininduzierte Thrombozytopenie ", "·", " CrCl Kreatinin-Clearance ", "·", " NA Noradrenalin ", "·", " FiO2 inspiratorische O2-Fraktion ", "·", " PEEP positiver endexspiratorischer Druck ", "·", " p/F Horovitz-Quotient ", "·", " IAP intraabdomineller Druck ", "·", " ACS abdominelles Kompartmentsyndrom ", "·", " ", "ΔP Driving Pressure (Pinsp − PEEP)", " ", "·", " Pinsp inspiratorischer Druck ", "·", " ASB assistierte Spontanatmung ", "·", " BIPAP biphasischer positiver Atemwegsdruck ", "·", " MRSA methicillinresistenter S. aureus ", "·", " ESBL Extended-Spectrum-Betalaktamase ", "·", " SBT Spontanatmungsversuch ", "·", " HI Herzindex ", "·", " IHT Inhalationstrauma ", "·", " TXA Tranexamsäure ", "·", " EK Erythrozytenkonzentrat ", "·", " FFP Fresh Frozen Plasma ", "·", " BPS Behavioral Pain Scale ", "·", " NAS numerische Analogskala ", "·", " PRIS Propofol-Infusionssyndrom ", "·", " CrCl Kreatinin-Clearance (Cockcroft-Gault) ", "·", " eGFR geschätzte glomeruläre Filtrationsrate (CKD-EPI) ", "·", " IAH intraabdominelle Hypertension ", "·", " AIS Abbreviated Injury Score (Inhalationstrauma) ", "·", " CAM-ICU Confusion Assessment Method for the ICU ", "·", " ZVK zentraler Venenkatheter ", "·", " PVK peripherer Venenkatheter ", "·", " DK Dauerkatheter ", "·", " SPK suprapubischer Katheter ", "·", " EVD externe Ventrikeldrainage ", "·", " ICP intrakranieller Druck ", "·", " IBW Idealgewicht ", "·", " LL Antibiotika-Leitlinie der Rotationsklinik ", "·", " AB Antiinfektiva ", "·", " NA-Umrechnung mit Perfusor 5 mg/50 ml, abweichende Konzentration in eckigen Klammern"));
+    })))), React.createElement("div", { className: "pfoot" }, React.createElement("span", null, "fett = Medikament oder Schlüsselereignis (z. B. Intubation, OP, Transfusion) · Rücksprache: ☐ offen, ✓ Ergebnis aus dieser Schicht · ", mode === "both" ? "Organsysteme: Datum umrandet = neu in dieser Schicht, grau = älterer Kontext · " : "", mode === "uebergabe" || mode === "both" ? "* Diurese automatisch auf Stunden verteilt · Verlauf: schwarz = Aufnahme und letzte 48 h, grau = älter, blauer Rahmen = OP · umrandet = Organsystem als Baustelle markiert · ⚠ automatisch erkannter relevanter Trend · ☐ Erinnerung · Unterstrichen = ⚑ für die Übergabe markiert · ■ Baustelle · ↗ gebessert · fett = wichtig · ‼ To-Do hoch · Organsysteme: letzter Stand + Neues, Labor je Organsystem: fett = ITS-relevant (z. B. Laktat ≥ 2, Hb < 8, p/F < 200, CRP ≥ 100, Leukos > 12) oder außerhalb der Norm und schlechter werdend, grau = im Normbereich, Pfeil = Trend zum Vorwert" : "* Diurese automatisch auf Stunden verteilt · Verlauf: schwarz = Aufnahme und letzte 48 h, grau = älter, blauer Rahmen = OP · umrandet = Organsystem als Baustelle markiert · ⚠ automatisch erkannter relevanter Trend · ☐ Erinnerung · ■ Hauptbaustelle · □ Baustelle · ↗ gebessert · fett = wichtig · ‼ To-Do hoch · ☐ offen · Labor je Organsystem: fett = ITS-relevant (z. B. Laktat ≥ 2, Hb < 8, p/F < 200, CRP ≥ 100, Leukos > 12) oder außerhalb der Norm und schlechter werdend, grau = im Normbereich, Pfeil = Trend zum Vorwert"), React.createElement("span", null, "Arbeitsdokument, keine Patientenakte. Aliasnamen.")), React.createElement("div", { className: "pfoot legend" }, "Abk", "ü", "rzungen: VKOF verbrannte K", "ö", "rperoberfl", "ä", "che ", "·", " VE Vorerkrankungen ", "·", " VAK Vollantikoagulation ", "·", " HI Herzindex ", "·", " GEDI global-enddiastolischer Volumenindex ", "·", " SVRI systemischer Gef", "ä", "ß", "widerstandsindex ", "·", " ELWI extravaskul", "ä", "rer Lungenwasserindex ", "·", " CPI Cardiac Power Index ", "·", " POD postoperativer Tag ", "·", " ", "Ø", " Mittelwert ", "·", " KDIGO Kidney Disease: Improving Global Outcomes ", "·", " NMH niedermolekulares Heparin ", "·", " UFH unfraktioniertes Heparin ", "·", " HIT heparininduzierte Thrombozytopenie ", "·", " CrCl Kreatinin-Clearance ", "·", " NA Noradrenalin ", "·", " FiO2 inspiratorische O2-Fraktion ", "·", " PEEP positiver endexspiratorischer Druck ", "·", " p/F Horovitz-Quotient ", "·", " IAP intraabdomineller Druck ", "·", " ACS abdominelles Kompartmentsyndrom ", "·", " ", "ΔP Driving Pressure (Pinsp − PEEP)", " ", "·", " Pinsp inspiratorischer Druck ", "·", " ASB assistierte Spontanatmung ", "·", " BIPAP biphasischer positiver Atemwegsdruck ", "·", " MRSA methicillinresistenter S. aureus ", "·", " ESBL Extended-Spectrum-Betalaktamase ", "·", " SBT Spontanatmungsversuch ", "·", " HI Herzindex ", "·", " IHT Inhalationstrauma ", "·", " TXA Tranexamsäure ", "·", " EK Erythrozytenkonzentrat ", "·", " FFP Fresh Frozen Plasma ", "·", " BPS Behavioral Pain Scale ", "·", " NAS numerische Analogskala ", "·", " PRIS Propofol-Infusionssyndrom ", "·", " CrCl Kreatinin-Clearance (Cockcroft-Gault) ", "·", " eGFR geschätzte glomeruläre Filtrationsrate (CKD-EPI) ", "·", " IAH intraabdominelle Hypertension ", "·", " AIS Abbreviated Injury Score (Inhalationstrauma) ", "·", " CAM-ICU Confusion Assessment Method for the ICU ", "·", " ZVK zentraler Venenkatheter ", "·", " PVK peripherer Venenkatheter ", "·", " DK Dauerkatheter ", "·", " SPK suprapubischer Katheter ", "·", " EVD externe Ventrikeldrainage ", "·", " ICP intrakranieller Druck ", "·", " IBW Idealgewicht ", "·", " LL Antibiotika-Leitlinie der Rotationsklinik ", "·", " AB Antiinfektiva ", "·", " NA-Umrechnung mit Perfusor 5 mg/50 ml, abweichende Konzentration in eckigen Klammern"));
   }
   function Druck({ state, pats, onUpd, onNew }) {
     const [mode, setMode] = useState("both");
@@ -4644,7 +4777,7 @@ react-dom/cjs/react-dom.production.min.js:
       if (!tagEdit) setTag(buildTagesnotiz(p));
     }, [p, tagEdit]);
     useEffect(() => {
-      onUpdate((x) => ({ ...x, brief: { template, genus, bausteine, meds: medSel } }));
+      onUpdate((x) => ({ ...x, brief: { ...x.brief || {}, template, genus, bausteine, meds: medSel } }));
     }, [template, genus, bausteine.join(","), medSel.join(",")]);
     const pickTemplate = (k) => {
       setTemplate(k);
@@ -4676,7 +4809,7 @@ react-dom/cjs/react-dom.production.min.js:
     } }, "Neu erzeugen"), React.createElement("button", { type: "button", className: "btn sm primary", onClick: copyTag }, "Kopieren")), React.createElement("textarea", { ref: taTag, className: "tagtext", value: tag, onChange: (e) => {
       setTag(e.target.value);
       setTagEdit(true);
-    }, spellCheck: false })), React.createElement("div", { className: "briefgrid" }, React.createElement("div", { className: "col" }, React.createElement("section", { className: "sec" }, React.createElement("div", { className: "sec-h" }, React.createElement("h2", null, "Vorlage")), React.createElement("div", { className: "seg", style: { display: "flex" } }, BRIEF_TEMPLATES.map((t) => React.createElement("button", { type: "button", key: t.k, className: template === t.k ? "on" : "", style: { flex: 1 }, onClick: () => pickTemplate(t.k) }, t.s || t.name))), React.createElement("div", { className: "row", style: { marginTop: 10, alignItems: "center" } }, React.createElement("span", { className: "lb", style: { paddingTop: 0 } }, "Genus"), React.createElement("div", { className: "seg" }, React.createElement("button", { type: "button", className: genus === "m" ? "on" : "", onClick: () => setGenus("m") }, "der Patient"), React.createElement("button", { type: "button", className: genus === "w" ? "on" : "", onClick: () => setGenus("w") }, "die Patientin")))), React.createElement("section", { className: "sec" }, React.createElement("div", { className: "sec-h" }, React.createElement("h2", null, "Bausteine"), React.createElement("span", { className: "hint" }, "Reihenfolge im Brief: Verbrennung → Verlauf → Sepsis/Antiinfektiva → Katecholamine → Beatmung → NIV → CiCA → Transfusion → Delir; „Sepsis“ enthält die Antiinfektiva schon")), React.createElement("div", { className: "chips" }, BAUSTEINE.map((b) => React.createElement("button", { type: "button", key: b.k, className: "chip" + (bausteine.includes(b.k) ? " on" : ""), onClick: () => toggleB(b.k) }, b.name))), React.createElement("div", { className: "tag", style: { marginTop: 8 } }, "Eckige Klammern [x] sind Platzhalter, die du im Brief ergänzt. Daten aus der Akte (Diagnose, Verlauf, Labor, Antiinfektiva, Liegetage) werden automatisch eingesetzt.")), React.createElement("section", { className: "sec" }, React.createElement("div", { className: "sec-h" }, React.createElement("h2", null, "Medikation bei Verlegung"), React.createElement("span", { className: "hint" }, "Hausstandard — antippen zum Auswählen"), React.createElement("button", { type: "button", className: "btn sm ghost", onClick: () => setEditMeds((e) => !e) }, editMeds ? "Fertig" : "Liste anpassen")), meds.map((m) => React.createElement("div", { key: m.k, className: "task medrow" + (medSel.includes(m.k) ? " sel" : "") }, React.createElement("button", { type: "button", className: "check" + (medSel.includes(m.k) ? " on" : ""), onClick: () => toggleM(m.k), "aria-label": "Auswählen" }, medSel.includes(m.k) ? "✓" : ""), editMeds ? React.createElement("input", { value: m.txt, onChange: (e) => updMed(m.k, e.target.value) }) : React.createElement("button", { type: "button", className: "tt", onClick: () => toggleM(m.k) }, m.txt, m.hint && React.createElement("span", { className: "tag" }, " · ", m.hint)), editMeds && React.createElement("button", { type: "button", className: "btn sm danger ghost", onClick: () => delMed(m.k), "aria-label": "Entfernen" }, "×"))), editMeds && React.createElement("div", { className: "addrow", style: { marginTop: 8 } }, React.createElement("input", { value: newMed, placeholder: "Neue Zeile, z. B. Bisoprolol 2,5 mg p.o. 1-0-0", onChange: (e) => setNewMed(e.target.value), onKeyDown: (e) => {
+    }, spellCheck: false })), React.createElement("div", { className: "briefgrid" }, React.createElement("div", { className: "col" }, React.createElement("section", { className: "sec" }, React.createElement("div", { className: "sec-h" }, React.createElement("h2", null, "Vorlage")), React.createElement("div", { className: "seg", style: { display: "flex" } }, BRIEF_TEMPLATES.map((t) => React.createElement("button", { type: "button", key: t.k, className: template === t.k ? "on" : "", style: { flex: 1 }, onClick: () => pickTemplate(t.k) }, t.s || t.name))), React.createElement("div", { className: "row", style: { marginTop: 10, alignItems: "center" } }, React.createElement("span", { className: "lb", style: { paddingTop: 0 } }, "Genus"), React.createElement("div", { className: "seg" }, React.createElement("button", { type: "button", className: genus === "m" ? "on" : "", onClick: () => setGenus("m") }, "der Patient"), React.createElement("button", { type: "button", className: genus === "w" ? "on" : "", onClick: () => setGenus("w") }, "die Patientin")))), React.createElement(BriefOrgPanel, { p, onUpdate }), React.createElement("section", { className: "sec" }, React.createElement("div", { className: "sec-h" }, React.createElement("h2", null, "Bausteine"), React.createElement("span", { className: "hint" }, "Optionaler Zusatztext — steht im passenden Organabschnitt („Problemlos“, „Postoperativ“, „Therapiezieländerung“ in der Epikrise); „Sepsis“ enthält die Antiinfektiva schon")), React.createElement("div", { className: "chips" }, BAUSTEINE.map((b) => React.createElement("button", { type: "button", key: b.k, className: "chip" + (bausteine.includes(b.k) ? " on" : ""), onClick: () => toggleB(b.k) }, b.name))), React.createElement("div", { className: "tag", style: { marginTop: 8 } }, "Eckige Klammern [x] sind Platzhalter, die du im Brief ergänzt. Daten aus der Akte (Diagnose, Verlauf, Labor, Antiinfektiva, Liegetage) werden automatisch eingesetzt.")), React.createElement("section", { className: "sec" }, React.createElement("div", { className: "sec-h" }, React.createElement("h2", null, "Medikation bei Verlegung"), React.createElement("span", { className: "hint" }, "Hausstandard — antippen zum Auswählen"), React.createElement("button", { type: "button", className: "btn sm ghost", onClick: () => setEditMeds((e) => !e) }, editMeds ? "Fertig" : "Liste anpassen")), meds.map((m) => React.createElement("div", { key: m.k, className: "task medrow" + (medSel.includes(m.k) ? " sel" : "") }, React.createElement("button", { type: "button", className: "check" + (medSel.includes(m.k) ? " on" : ""), onClick: () => toggleM(m.k), "aria-label": "Auswählen" }, medSel.includes(m.k) ? "✓" : ""), editMeds ? React.createElement("input", { value: m.txt, onChange: (e) => updMed(m.k, e.target.value) }) : React.createElement("button", { type: "button", className: "tt", onClick: () => toggleM(m.k) }, m.txt, m.hint && React.createElement("span", { className: "tag" }, " · ", m.hint)), editMeds && React.createElement("button", { type: "button", className: "btn sm danger ghost", onClick: () => delMed(m.k), "aria-label": "Entfernen" }, "×"))), editMeds && React.createElement("div", { className: "addrow", style: { marginTop: 8 } }, React.createElement("input", { value: newMed, placeholder: "Neue Zeile, z. B. Bisoprolol 2,5 mg p.o. 1-0-0", onChange: (e) => setNewMed(e.target.value), onKeyDown: (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
         addMed();
@@ -6693,7 +6826,7 @@ react-dom/cjs/react-dom.production.min.js:
       }
       window.dispatchEvent(new Event("burnicu-slim"));
     };
-    return React.createElement("button", { type: "button", className: "slimbtn" + (s ? " on" : ""), onClick: flip, "aria-pressed": s, title: s ? "zur Vollansicht" : "schlanker Modus" }, React.createElement("span", { className: "sdot" }), "schlank");
+    return React.createElement("button", { type: "button", className: "slimbtn" + (s ? " on" : ""), onClick: flip, "aria-pressed": s, title: s ? "IMC-Modus beenden — zurück zur ITS-Ansicht" : "IMC-Modus: Post-OP, Lappen, wenig Intensivtherapie" }, React.createElement("span", { className: "sdot" }), "IMC");
   }
   function PatientView(props) {
     const slim = useSlim();
@@ -6702,13 +6835,13 @@ react-dom/cjs/react-dom.production.min.js:
       if (window.__c48open === props.p.id) window.__c48open = null;
     }, []);
     if (c48) return React.createElement(Check48Mask, { p: props.p, onUpdate: props.onUpdate, onClose: () => setC48(false) });
-    return slim ? React.createElement(SlimPatient, { ...props, onC48: () => setC48(true) }) : React.createElement(PatientViewTabs, { ...props, onC48: () => setC48(true) });
+    return slim ? React.createElement(ImcPatient, { ...props, onC48: () => setC48(true) }) : React.createElement(PatientViewTabs, { ...props, onC48: () => setC48(true) });
   }
   function Liste(props) {
-    return useSlim() ? React.createElement(SlimListe, { ...props }) : React.createElement(ListeFull, { ...props });
+    return useSlim() ? React.createElement(ImcListe, { ...props }) : React.createElement(ListeFull, { ...props });
   }
   function PrintDoc(props) {
-    return useSlim() ? React.createElement(SlimPrintDoc, { ...props }) : React.createElement(PrintDocFull, { ...props });
+    return useSlim() ? React.createElement(ImcPrintDoc, { ...props }) : React.createElement(PrintDocFull, { ...props });
   }
   const SLIM_LABS = ["Hb", "Leukos", "CRP", "Krea", "Laktat", "p/F"];
   const SED_RE = /^\s*(propofol|disoprivan|midazolam|dormicum|lormetazepam|sedalam|dexmedetomidin|dexdor|clonidin|catapresan|sevofluran|isofluran|sedaconda|thiopental|lorazepam|tavor|haloperidol)\b/i;
@@ -7501,10 +7634,13 @@ react-dom/cjs/react-dom.production.min.js:
       if (erfolgt(p).length || vwOf(p).length) k.push("b_wunde");
       if (mbIndiziert(p)) k.push("b_metab");
     }
-    if (akOf(p)) k.push("b_antikoag");
-    if (infektHasData(p)) k.push("infekt");
-    if (ventEntries(p).length) k.push("beatmung");
-    return k;
+    if ((p.brief || {}).aufbau === "fliess") {
+      if (akOf(p)) k.push("b_antikoag");
+      if (infektHasData(p)) k.push("infekt");
+      if (ventEntries(p).length) k.push("beatmung");
+      return k;
+    }
+    return k.filter((x) => x !== "b_wunde");
   }
   const labVals = (p, n) => (((p.labs || {})[n] || {}).vals || []).map((v) => ({ ...v, n: numDE(v.v) })).filter((v) => v.n != null);
   const labFirst = (p, n) => {
@@ -8141,7 +8277,8 @@ react-dom/cjs/react-dom.production.min.js:
     } }, React.createElement(SopView, { k: st.k, p: st.p, onK: (k) => setSt((o) => ({ ...o, k })), onClose: () => setSt(null) }));
   }
   function App() {
-    const [state, setState] = useState(load);
+    const [state, setStateRaw] = useState(load);
+    const setState = (u) => setStateRaw((s0) => hvState(s0, typeof u === "function" ? u(s0) : u));
     const [view, setView] = useState("plan");
     const [openId, setOpenId] = useState(null);
     const [briefId, setBriefId] = useState(null);
@@ -8315,7 +8452,7 @@ react-dom/cjs/react-dom.production.min.js:
           const s = JSON.parse(r.result);
           if (!s || typeof s.patients !== "object") throw new Error("kein Schicht-Export");
           if (window.confirm(`Import ersetzt die aktuellen Daten (${Object.keys(s.patients).length} Patienten in der Datei). Fortfahren?`)) {
-            setState({ ...DEFAULT, ...s });
+            setStateRaw({ ...DEFAULT, ...s });
             setToast("Import abgeschlossen");
           }
         } catch (err) {
@@ -8328,7 +8465,7 @@ react-dom/cjs/react-dom.production.min.js:
     };
     const loadDemo = () => {
       if (pats.length && !window.confirm("Demo-Daten ersetzen die aktuellen Patienten. Fortfahren?")) return;
-      setState(burnDemoState());
+      setStateRaw(burnDemoState());
       setOpenId(null);
       setView("plan");
       setMenu(false);
@@ -8336,7 +8473,7 @@ react-dom/cjs/react-dom.production.min.js:
     };
     const wipe = () => {
       if (!window.confirm("Wirklich alle Patienten, Archiv und Schichtdaten löschen?")) return;
-      setState(DEFAULT);
+      setStateRaw(DEFAULT);
       setOpenId(null);
       setMenu(false);
     };
@@ -9570,7 +9707,7 @@ function addErn(x, text) {
   return { ...x, systeme: { ...sy, abdomen: { ...s, entries: [...s.entries || [], { id: uid(), t: nowISO(), text, ern: true }] } } };
 }
 const ERN_CHIPS = [
-  G("Enteral", ["Fresubin HPenergy ml/h", "Fresubin Original ml/h", "Fresubin Renal ml/h", "Fresubin HPfibre ml/h", "Zottenpflege", "Kostaufbau", "Kalorienziel erreicht", "Magenreste ml", "Reflux"]),
+  G("Enteral", ["Fresubin HPenergy ml/h", "Fresubin Original ml/h", "Fresubin Renal ml/h", "Fresubin Hepa ml/h", "Fresubin HPfibre ml/h", "Zottenpflege", "Kostaufbau", "Kalorienziel erreicht", "Magenreste ml", "Reflux"]),
   G("Oral", ["Schluckversuch", "Fresubin Energy Drink", "Fresubin Pudding", "Breikost", "Vollkost oral"]),
   G("Parenteral & Pause", ["Olimel 5,7 % zentral ml/h", "SmofKabiven zentral ml/h", "Cernevit + Addel Trace", "nüchtern", "nüchtern ab 0 Uhr (OP)", "Ernährung pausiert"])
 ];
@@ -10058,7 +10195,7 @@ function NutriBox({ p }) {
   return /* @__PURE__ */ React.createElement("div", { className: "nutribox" }, /* @__PURE__ */ React.createElement("div", { className: "nb-h" }, /* @__PURE__ */ React.createElement("b", null, "Ernährung (SOP)"), n.ibw ? /* @__PURE__ */ React.createElement("span", { className: "tag" }, " Idealgewicht ", r0(n.ibw), " kg · 24 kcal/kg = ", tsd(r10(n.kcal)), " kcal/d") : /* @__PURE__ */ React.createElement("span", { className: "tag" }, " Größe und Geschlecht fehlen für das Idealgewicht")), /* @__PURE__ */ React.createElement("div", { className: "nb-l" }, pr.name, " (", fmtN(pr.kcal), " kcal/ml, ", pr.why, ") kontinuierlich über 24 h: ", /* @__PURE__ */ React.createElement("b", null, "heute Tag ", n.tag, ": ", s ? s.rate : "___"), s && s.ziel ? ` · Ziel (100 %) ${r0(s.ziel)} ml/h` : "", " ", /* @__PURE__ */ React.createElement("span", { className: "dim" }, "(Tag 1: 20 ml/h · Tag 2: 75 % · Tag 3–5: 100 % nach Toleranz; bei Unverträglichkeit maximal enteral + parenteral ergänzen)")), /* @__PURE__ */ React.createElement("div", { className: "nb-l dim" }, "Weitere: Fresubin Original 1 kcal/ml (Standard) · Fresubin Renal 2 kcal/ml (Niereninsuffizienz ohne Dialyse, Hypernatriämie) · Fresubin HPfibre 2 kcal/ml (reduzierte Volumentoleranz, nicht in der akuten Verbrennungsphase) · Selbsternährer mit Defizit: Fresubin Energy Drink 300 ml/300 kcal oder Pudding 125 g/250 kcal · parenteral: Olimel 5,7 % zentral (1,07 kcal/ml, 1500 ml), bei Kindern < 14 J. ggf. SmofKabiven"), /* @__PURE__ */ React.createElement("div", { className: "nb-l" }, "BZ-Ziel 80–150 mg/dl (max. 180)", bz ? /* @__PURE__ */ React.createElement("span", { className: bz.n > 180 ? "warnc" : "" }, " · zuletzt ", bz.v) : "", " · Reflux > 400 ml: MCP 3×10 mg, anhaltend + Erythromycin 4×125 mg (3 Tage)"), /* @__PURE__ */ React.createElement("div", { className: "nb-l" + (stTage != null && stTage >= 3 || !st && Number(itsTag(p)) > 3 ? " warnc" : "") }, "Stuhlgang ", st ? `zuletzt ${fmtD(st.t)}${stTage ? ` (vor ${stTage} Tagen)` : " (heute)"}` : "noch nicht dokumentiert", " — spätestens alle 3 Tage forcieren (Laxoberal 10 Tropfen 1–3×/d, Macrogol 1×/d; unter Opioiden 1–3 Btl. Macrogol, Moventiq; Lactulose nur streng indiziert)"));
 }
 
-const ERN_PROD = [["Fresubin HPenergy", 1.5], ["Fresubin Original", 1], ["Fresubin Renal", 2], ["Fresubin HPfibre", 2]];
+const ERN_PROD = [["Fresubin HPenergy", 1.5], ["Fresubin Original", 1], ["Fresubin Renal", 2], ["Fresubin Hepa", 1.3], ["Fresubin HPfibre", 2]];
 const OLIMEL_KCAL = 1.07, PROPOFOL_KCAL = 1.1;
 function propofolMlh(p) {
   if (!p) return null;
@@ -10127,9 +10264,10 @@ function BurnPanel(props) {
 const FoldOpenCtx = React.createContext(false);
 const TV_TABS = [
   ["uebersicht", "Übersicht"],
+  ["verlauf", "Verlauf"],
   ["organe", "Organe & Therapie"],
   ["infektion", "Infektion"],
-  ["laborverlauf", "Labor & Verlauf"],
+  ["laborverlauf", "Labor"],
   ["todo", "To-Do"],
   ["orga", "Devices & Orga"],
   ["wissen", "Wissen & SOPs"]
@@ -10156,7 +10294,7 @@ function TvStatusWords({ p, onUpdate }) {
 function TvHead({ p, onBack, onEdit, onScores, onBrief, onC48, onUpdate, onRund, rundTxt }) {
   const tag = itsTag(p), bt = hasBurn(p) ? burnTagText(p) : "", vk = burnOf(p).vkof;
   const meta = [tag ? `Tag ${tag} · Aufnahme ${fmtYMD(p.aufnahme)}` : "", bt ? bt + (vk ? ` · VKOF ${vk} %` : "") : "", p.info || "", p.gewicht ? `${p.gewicht} kg` : ""].filter(Boolean);
-  return /* @__PURE__ */ React.createElement("div", { className: "tvhead" }, /* @__PURE__ */ React.createElement("div", { className: "tvh1" }, /* @__PURE__ */ React.createElement("button", { type: "button", className: "iconbtn tvback", onClick: onBack, "aria-label": "Zurück zum Zimmerplan" }, "‹"), /* @__PURE__ */ React.createElement("span", { className: "bedtag" }, bedLabel(p)), /* @__PURE__ */ React.createElement("h1", null, p.name || "ohne Namen"), /* @__PURE__ */ React.createElement("span", { className: "tvmeta" }, meta.join(" · ")), /* @__PURE__ */ React.createElement(VAKBadge, { p }), /* @__PURE__ */ React.createElement(CicaBadge, { p }), /* @__PURE__ */ React.createElement("span", { className: "grow" }), /* @__PURE__ */ React.createElement("button", { type: "button", className: "minetoggle" + (p.mine ? " on" : ""), onClick: () => onUpdate((x) => ({ ...x, mine: !x.mine })) }, /* @__PURE__ */ React.createElement("span", { className: "dot" + (p.mine ? " on" : "") }), p.mine ? "Mein Patient" : "Anderer Arzt")), /* @__PURE__ */ React.createElement("div", { className: "tvh2" }, /* @__PURE__ */ React.createElement("div", { className: "diag-row tvdiag" }, /* @__PURE__ */ React.createElement("span", { className: "lb" }, "Hauptdiagnose"), /* @__PURE__ */ React.createElement(DiagInput, { value: p.diagnose || "", onChange: (val) => onUpdate((x) => ({ ...x, diagnose: val })) })), /* @__PURE__ */ React.createElement("div", { className: "tvacts" }, /* @__PURE__ */ React.createElement(TvStatusWords, { p, onUpdate }), onRund && /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn rundbtn", onClick: onRund, title: "einmal über den Patienten — Checkliste mit Sprungzielen" }, /* @__PURE__ */ React.createElement(Ico, { k: "rund" }), " Rundgang", rundTxt ? " " + rundTxt : ""), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn", onClick: onEdit }, "Stammdaten"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn", onClick: onScores }, "Scores"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn blue", onClick: onBrief }, "Arztbrief"))));
+  return /* @__PURE__ */ React.createElement("div", { className: "tvhead" }, /* @__PURE__ */ React.createElement("div", { className: "tvh1" }, /* @__PURE__ */ React.createElement("button", { type: "button", className: "iconbtn tvback", onClick: onBack, "aria-label": "Zurück zum Zimmerplan" }, "‹"), /* @__PURE__ */ React.createElement("span", { className: "bedtag" }, bedLabel(p)), /* @__PURE__ */ React.createElement("h1", null, p.name || "ohne Namen"), /* @__PURE__ */ React.createElement("span", { className: "tvmeta" }, meta.join(" · ")), /* @__PURE__ */ React.createElement(VAKBadge, { p }), /* @__PURE__ */ React.createElement(CicaBadge, { p }), /* @__PURE__ */ React.createElement("span", { className: "grow" }), /* @__PURE__ */ React.createElement("button", { type: "button", className: "minetoggle" + (p.mine ? " on" : ""), onClick: () => onUpdate((x) => ({ ...x, mine: !x.mine })) }, /* @__PURE__ */ React.createElement("span", { className: "dot" + (p.mine ? " on" : "") }), p.mine ? "Mein Patient" : "Anderer Arzt")), /* @__PURE__ */ React.createElement("div", { className: "tvh2" }, /* @__PURE__ */ React.createElement("div", { className: "diag-row tvdiag" }, /* @__PURE__ */ React.createElement("span", { className: "lb" }, "Hauptdiagnose"), /* @__PURE__ */ React.createElement(DiagInput, { value: p.diagnose || "", onChange: (val) => onUpdate((x) => ({ ...x, diagnose: val })) })), /* @__PURE__ */ React.createElement("div", { className: "tvacts" }, /* @__PURE__ */ React.createElement(TvStatusWords, { p, onUpdate }), onRund && /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn rundbtn", onClick: onRund, title: "einmal über den Patienten — Checkliste mit Sprungzielen" }, /* @__PURE__ */ React.createElement(Ico, { k: "rund" }), " Rundgang", rundTxt ? " " + rundTxt : ""), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn", onClick: onEdit }, "Stammdaten"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn", onClick: onScores }, "Scores"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn blue", onClick: onBrief }, "Arztbrief"))), React.createElement(QuickVerlauf, { p, onUpdate }));
 }
 function TvTile({ label, main, sub, st, onGo, wide }) {
   return /* @__PURE__ */ React.createElement("button", { type: "button", className: "tvtile st-" + (st || "none") + (wide ? " wide" : ""), onClick: onGo }, /* @__PURE__ */ React.createElement("span", { className: "tvtile-h" }, /* @__PURE__ */ React.createElement("span", null, TILE_ICO[label] ? /* @__PURE__ */ React.createElement(Ico, { k: TILE_ICO[label] }) : null, label), st && st !== "none" && /* @__PURE__ */ React.createElement("span", { className: "tvpill st-" + st }, TV_ST_LABEL[st])), /* @__PURE__ */ React.createElement("span", { className: "tvtile-v" }, main), sub && /* @__PURE__ */ React.createElement("span", { className: "tvtile-s" }, sub));
@@ -10389,7 +10527,7 @@ function PatientViewTabs({ p, pats, onOpenPat, shiftStart, onBack, onEdit, onUpd
     return null;
   };
   let body = null;
-  if (tab === "uebersicht") body = /* @__PURE__ */ React.createElement("div", { className: "tvgrid" }, /* @__PURE__ */ React.createElement("div", { className: "tvwide" }, /* @__PURE__ */ React.createElement(PflichtLeiste, { p, ss, onUpdate }), /* @__PURE__ */ React.createElement(C48Fold, { p, onOpen: onC48 }), /* @__PURE__ */ React.createElement(TenPanel, { p, onUpdate }), rea, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(LappenPanel, { p, onUpdate })), (schock || burnDx(p) && !hasBurn(p)) && /* @__PURE__ */ React.createElement(BurnPanel, { p, onUpdate })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(TvLage, { p, ss, go }), /* @__PURE__ */ React.createElement(TvOrgList, { p, ss, sel: null, onPick: (k) => go(k === "infekt" ? "infektion" : "organe", k) })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(FokusPanel, { p, shiftStart: ss })), /* @__PURE__ */ React.createElement(TvTodoLink, { p, go }), /* @__PURE__ */ React.createElement(UebergabePanel, { p, onUpdate })));
+  if (tab === "uebersicht") body = /* @__PURE__ */ React.createElement("div", { className: "tvgrid" }, /* @__PURE__ */ React.createElement("div", { className: "tvwide" }, /* @__PURE__ */ React.createElement(PflichtLeiste, { p, ss, onUpdate }), /* @__PURE__ */ React.createElement(C48Fold, { p, onOpen: onC48 }), /* @__PURE__ */ React.createElement(TenPanel, { p, onUpdate }), rea, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(LappenPanel, { p, onUpdate })), (schock || burnDx(p) && !hasBurn(p)) && /* @__PURE__ */ React.createElement(BurnPanel, { p, onUpdate })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(TvLage, { p, ss, go }), /* @__PURE__ */ React.createElement(TvOrgList, { p, ss, sel: null, onPick: (k) => go(k === "infekt" ? "infektion" : "organe", k) })), /* @__PURE__ */ React.createElement("div", { className: "tvcol" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(FokusPanel, { p, shiftStart: ss })), /* @__PURE__ */ React.createElement(TvTodoLink, { p, go }), /* @__PURE__ */ React.createElement(UebergabePanel, { p, onUpdate }), React.createElement(KonsCard, { p, onUpdate })));
   else if (tab === "organe") {
     const tk = tvTherKeys(p);
     const cur = TV_ORG.indexOf(sel) >= 0 || tk.indexOf(sel) >= 0 ? sel : "kreislauf";
@@ -10416,8 +10554,9 @@ function PatientViewTabs({ p, pats, onOpenPat, shiftStart, onBack, onEdit, onUpd
     body = /* @__PURE__ */ React.createElement("div", { className: "tvsplit" }, /* @__PURE__ */ React.createElement("div", { className: "tvsplit-l" }, /* @__PURE__ */ React.createElement(TvOrgTherList, { p, ss, sel: cur, onPick: pick })), /* @__PURE__ */ React.createElement("div", { className: "tvsplit-r", key: cur }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, ther[cur] || /* @__PURE__ */ React.createElement(React.Fragment, null, sysSec(cur), cur === "kreislauf" && /* @__PURE__ */ React.createElement(PiccoPanel, { p, onUpdate }), cur === "niere" && /* @__PURE__ */ React.createElement(CicaPanel, { p, onUpdate }), cur === "wunde" && /* @__PURE__ */ React.createElement(LappenPanel, { p, onUpdate })))));
   } else if (tab === "todo") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack tvtodotab" }, /* @__PURE__ */ React.createElement(TvNow, { p, onUpdate, go }), todoFold);
   else if (tab === "infektion") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, sysSec("infekt")));
-  else if (tab === "laborverlauf") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(LabSection, { p, onUpdate, shiftStart: ss }), verlaufFold));
-  else if (tab === "orga") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(DevPanel, { p, onUpdate })), /* @__PURE__ */ React.createElement(DevCards, { p, onUpdate }), /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(EingriffPanel, { p, onUpdate }), orgaFold, notizFold));
+  else if (tab === "laborverlauf") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(LabSection, { p, onUpdate, shiftStart: ss })));
+  else if (tab === "verlauf") body = React.createElement(VerlaufTab, { p, onUpdate, verlaufFold, onBrief });
+  else if (tab === "orga") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(DevPanel, { p, onUpdate })), /* @__PURE__ */ React.createElement(DevCards, { p, onUpdate }), /* @__PURE__ */ React.createElement(FoldOpenCtx.Provider, { value: true }, /* @__PURE__ */ React.createElement(EingriffPanel, { p, onUpdate }), orgaFold, notizFold), React.createElement(KonsCard, { p, onUpdate }), React.createElement(ImcVerlegung, { p, onUpdate, onBrief }));
   else if (tab === "rund") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack" }, /* @__PURE__ */ React.createElement(RundView, { p, ss, go: rundGo, onUpdate, onEnd: rundEnd }));
   else if (tab === "wissen") body = /* @__PURE__ */ React.createElement("div", { className: "tvstack tvwissen" }, /* @__PURE__ */ React.createElement("section", { className: "tvcard" }, /* @__PURE__ */ React.createElement("div", { className: "tvcard-h" }, /* @__PURE__ */ React.createElement("h2", null, "Wissen"), /* @__PURE__ */ React.createElement("span", { className: "tag" }, tr.length, " passend zu diesem Patienten")), /* @__PURE__ */ React.createElement("div", { className: "chips" }, tr.map((w) => /* @__PURE__ */ React.createElement("button", { type: "button", key: w.k, className: "chip wchip", onClick: () => onWord(w.k) }, w.name)), /* @__PURE__ */ React.createElement("button", { type: "button", className: "chip dash", onClick: () => onWord("") }, "Stichwort suchen …"))), /* @__PURE__ */ React.createElement("section", { className: "tvcard" }, /* @__PURE__ */ React.createElement("div", { className: "tvcard-h" }, /* @__PURE__ */ React.createElement("h2", null, "SOPs der V1"), /* @__PURE__ */ React.createElement("span", { className: "tag" }, sopFor(p).length, " passend")), /* @__PURE__ */ React.createElement(SopChips, { p })));
   return /* @__PURE__ */ React.createElement(PatCtx.Provider, { value: { p, ss, onUpdate } }, /* @__PURE__ */ React.createElement("div", { className: "tv" }, /* @__PURE__ */ React.createElement(TvRail, { pats, cur: p.id, onOpen: onOpenPat, onBack }), /* @__PURE__ */ React.createElement("div", { className: "tvmain" }, /* @__PURE__ */ React.createElement(TvHead, { p, onBack, onEdit, onScores, onBrief, onC48, onUpdate, onRund: rundOpen, rundTxt: rundOn ? (() => {
@@ -10744,7 +10883,7 @@ function LappenDruck({ p, ss }) {
   for (let t = k.overdue ? Date.now() : k.next, i = 0; i < 6 && t <= st + 5 * 24 * H; t += 2 * H, i++) slots.push(t);
   return /* @__PURE__ */ React.createElement("div", { className: "pr plap" }, /* @__PURE__ */ React.createElement("span", { className: "l" }, React.createElement(Ico, { k: "lappen" }), "Lappen"), /* @__PURE__ */ React.createElement("span", { className: "v" }, done.map((x, i) => /* @__PURE__ */ React.createElement("span", { key: i, className: x.miss || x.bad ? "lmiss" : "lok" }, x.miss ? "✗ " : "✓ ", lapHM(x.t), x.bad ? " auffällig" : "", " ")), k.overdue && /* @__PURE__ */ React.createElement("b", { className: "lmiss" }, "überfällig seit ", lapHM(k.next), " "), slots.map((t, i) => /* @__PURE__ */ React.createElement("span", { key: "s" + i, className: "lnext" }, "☐ ", i === 0 && k.overdue ? "jetzt" : lapHM(t), " ")), /* @__PURE__ */ React.createElement("span", { className: "pmut" }, "· alle 2 h bis ", fmtDT(new Date(st + 5 * 24 * H).toISOString()))));
 }
-function burnDemoState() {
+function burnDemoStateBase() {
   const now = Date.now();
   const hAgo = (h) => new Date(now - h * 36e5).toISOString();
   const dAgo = (days, h = 8, m = 0) => {
@@ -11254,7 +11393,7 @@ function areaTab(a) {
   if (TV_SYS.indexOf(a) >= 0) return ["organe", a];
   if (a === "infekt") return ["infektion"];
   if (a === "devices") return ["orga"];
-  if (a === "verlauf") return ["laborverlauf"];
+  if (a === "verlauf") return ["verlauf"];
   if (a === "pflicht") return ["uebersicht"];
   if (["diurese", "antikoag", "transfusion", "volumen", "ernaehrung", "meds", "burn"].indexOf(a) >= 0) return ["organe", a];
   return ["organe", "meds"];
@@ -11278,7 +11417,7 @@ function fokusTab(k) {
   if (k === "ak") return ["organe", "antikoag"];
   return ["organe", "meds"];
 }
-const hotTab = (sys) => sys === "verlauf" ? ["laborverlauf"] : sys === "infekt" ? ["infektion"] : ["organe", sys];
+const hotTab = (sys) => sys === "verlauf" ? ["verlauf"] : sys === "infekt" ? ["infektion"] : ["organe", sys];
 const reEsc = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function fokusDedupe(p, F) {
   const hs = hotSystems(p).map((s) => s.k), he = hotEntries(p);
@@ -11367,7 +11506,7 @@ function TodoView({ pats, onOpen, onToggle, onUpd }) {
   const item = ({ p, t }, withPat) => /* @__PURE__ */ React.createElement("div", { key: t.id, className: "fitem" }, /* @__PURE__ */ React.createElement("button", { type: "button", className: "check", onClick: () => onToggle(p.id, t.id), "aria-label": "Erledigt" }), withPat ? /* @__PURE__ */ React.createElement("button", { type: "button", className: "bedtag", onClick: () => open(p, t) }, bedLabel(p)) : /* @__PURE__ */ React.createElement("span", { className: "prio p" + t.prio }, PRIO[t.prio]), /* @__PURE__ */ React.createElement("button", { type: "button", className: "what", onClick: () => open(p, t), style: { textAlign: "left" } }, withPat && /* @__PURE__ */ React.createElement("b", { style: { marginRight: 8 } }, p.name || "ohne Namen"), t.text, /* @__PURE__ */ React.createElement(TkTag, { it: t })), /* @__PURE__ */ React.createElement("span", { className: "src" }, fmtD(t.t), !p.mine ? " · anderer Arzt" : ""));
   const rows = (list, withPat) => tdGroups(list, withPat).map((x) => x.grp ? /* @__PURE__ */ React.createElement(TdGroup, { key: x.key, g: x, withPat, item, onUpd }) : item(x, withPat));
   const patGroups = pats.filter((p) => (p.todos || []).some((t) => !t.done)).sort((a, b) => (a.mine === b.mine ? 0 : a.mine ? -1 : 1) || sortPat(a, b));
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "viewhead todohead" }, /* @__PURE__ */ React.createElement("h1", null, "To-Do"), /* @__PURE__ */ React.createElement("span", { className: "sub" }, all.length, " offen · ", all.filter((x) => x.t.prio === 1).length, " hoch"), /* @__PURE__ */ React.createElement("div", { className: "seg todoseg" }, /* @__PURE__ */ React.createElement("button", { type: "button", className: nach === "prio" ? "on" : "", onClick: () => setNach("prio") }, "nach Priorität"), /* @__PURE__ */ React.createElement("button", { type: "button", className: nach === "pat" ? "on" : "", onClick: () => setNach("pat") }, "nach Patient"))), all.length === 0 && /* @__PURE__ */ React.createElement("div", { className: "empty" }, "Keine offenen Aufgaben. Aufgaben werden im Patienten unter „To-Do“ angelegt."), nach === "prio" ? [1, 2, 3].map((n) => {
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "viewhead todohead" }, /* @__PURE__ */ React.createElement("h1", null, "To-Do"), /* @__PURE__ */ React.createElement("span", { className: "sub" }, all.length, " offen · ", all.filter((x) => x.t.prio === 1).length, " hoch"), /* @__PURE__ */ React.createElement("div", { className: "seg todoseg" }, /* @__PURE__ */ React.createElement("button", { type: "button", className: nach === "prio" ? "on" : "", onClick: () => setNach("prio") }, "nach Priorität"), /* @__PURE__ */ React.createElement("button", { type: "button", className: nach === "pat" ? "on" : "", onClick: () => setNach("pat") }, "nach Patient"))), React.createElement(KonsAlle, { pats, onOpen }), all.length === 0 && /* @__PURE__ */ React.createElement("div", { className: "empty" }, "Keine offenen Aufgaben. Aufgaben werden im Patienten unter „To-Do“ angelegt."), nach === "prio" ? [1, 2, 3].map((n) => {
     const grp = all.filter((x) => x.t.prio === n);
     if (!grp.length) return null;
     return /* @__PURE__ */ React.createElement("div", { key: n, className: "fgroup" }, /* @__PURE__ */ React.createElement("div", { className: "fgroup-h" }, /* @__PURE__ */ React.createElement("span", { className: "prio p" + n }, PRIO[n]), /* @__PURE__ */ React.createElement("span", { className: "tag" }, grp.length, " Aufgaben")), rows(grp, true));
@@ -11929,6 +12068,7 @@ const ERN_P = [
   { k: "energy", n: "Fresubin Energy", art: "enteral", kcal: 1.5, prot: 0.056, fat: 0.058, kh: 0.19, re: /fresubin\s+energy(?!\s*drink)/i },
   { k: "2hp", n: "Fresubin 2 kcal HP", art: "enteral", kcal: 2, prot: 0.1, fat: 0.1, kh: 0.18, re: /2\s*kcal\s*hp|hp\s*fibre|hpfibre/i },
   { k: "renal", n: "Fresubin Renal", art: "enteral", kcal: 2, prot: 0.03, fat: 0.089, kh: 0.264, re: /renal/i },
+  { k: "hepa", n: "Fresubin Hepa", art: "enteral", kcal: 1.3, prot: 0.04, fat: 0.047, kh: 0.174, re: /fresubin\s*hepa\b|\bhepa\b/i },
   { k: "olimel", n: "Olimel 5,7 %", art: "parenteral", kcal: 1.07, prot: 0.0569, fat: 0.04, kh: 0.11, re: /olimel/i },
   { k: "smof", n: "SmofKabiven zentral", art: "parenteral", kcal: 1.1, prot: 0.051, fat: 0.038, kh: 0.127, re: /smofkabiven/i },
   { k: "g5", n: "Glukose 5 %", art: "Glukose", kcal: 0.2, prot: 0, fat: 0, kh: 0.05, re: /gluc?k?ose\s*5\s*%|\bG\s?5\b/i },
@@ -12011,7 +12151,7 @@ function ernBedarf(p) {
   const burn = burnDx(p), n = nutriPlan(p), protKg = burn ? 1.5 : 1.3;
   return { kg, ibw, bw, bmi, burn, tag: n.tag, kcal: n.kcal, protKg, prot: bw ? protKg * bw : null, fatLo: bw ? 0.7 * bw : null, fatHi: bw ? 1.5 * bw : null, faktor: n.tag <= 1 ? null : n.tag === 2 ? 0.75 : 1 };
 }
-function ernVorschlaege(p, items, B, Z) {
+function ernVorschlaegeOrig(p, items, B, Z) {
   const V = [];
   const ent = items.find((i) => (ernP(i.prod) || {}).art === "enteral" && ernNum(i.v));
   const E = ent ? ernP(ent.prod) : ernP(ernProdK(p));
@@ -12510,7 +12650,7 @@ function Fold(props) {
   const f = !props.badge && FOLD_ICO[props.id];
   return /* @__PURE__ */ React.createElement(FoldOrig, { ...props, badge: f ? /* @__PURE__ */ React.createElement("span", { className: "sysbadge", style: { "--sc": f[1] } }, /* @__PURE__ */ React.createElement(Ico, { k: f[0] })) : props.badge });
 }
-const TAB_ICO = { uebersicht: "grid", organe: "organe", infektion: "infekt", laborverlauf: "labor", todo: "todo", orga: "devices", wissen: "buch", rund: "rund" };
+const TAB_ICO = { uebersicht: "grid", organe: "organe", infektion: "infekt", laborverlauf: "labor", verlauf: "verlauf", todo: "todo", orga: "devices", wissen: "buch", rund: "rund" };
 const THER_ICO = { diurese: "diurese", volumen: "volumen", transfusion: "transfusion", burn: "burn", ernaehrung: "ernaehrung", meds: "meds", antikoag: "antikoag", mb: "mb" };
 const TILE_ICO = { "Katecholamine": "kreislauf", "CiCa-Entzug": "cica", "Diurese": "diurese", "Volumen & Bilanz": "volumen", "Bilanz": "volumen", "Bilanz 24 h": "volumen", "Transfusion 24 h": "transfusion", "Zugänge & Devices (Liegetag)": "devices", "Beatmung": "pulmo", "Transfusion": "transfusion", "Zugänge & Devices": "devices", "Analgosedierung": "neuro", "Sedierung": "neuro", "Infektion": "infekt", "Ernährung": "ernaehrung", "Antikoagulation": "antikoag", "Verbrennung": "burn", "Wunde": "wunde", "Labor": "labor" };
 const KW_DRUGS = [
@@ -12774,6 +12914,1236 @@ function MkArea({ mode, children }) {
     count();
   };
   return /* @__PURE__ */ React.createElement("div", { ref, className: "mk-area", onClick }, /* @__PURE__ */ React.createElement("div", { className: "mk-bar no-print" }, /* @__PURE__ */ React.createElement("span", { className: "mk-dot", "aria-hidden": "true" }), /* @__PURE__ */ React.createElement("span", null, "Antippen markiert gelb (Name links: ganze Zeile) — nur für diesen Druck, wird beim Verlassen verworfen."), n > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("b", null, n, " markiert"), /* @__PURE__ */ React.createElement("button", { type: "button", className: "btn sm", onClick: clear }, "Markierungen entfernen"))), children);
+}
+
+/* ===== 3.22.0: Verlaufsgedächtnis, Verlauf je Organsystem, Arztbrief nach Organsystemen, Rücksprachen, IMC-Modus ===== */
+const rce = React.createElement;
+/* --- Verlaufsgedächtnis: was aus Übergabe-Listen gelöscht wird, bleibt für den Arztbrief erhalten --- */
+const HV_SRC = [
+  ["verlauf", (p) => p.verlauf],
+  ["med", (p) => p.meds],
+  ["op", (p) => p.eingriffe],
+  ["tf", (p) => p.transf],
+  ["kons", (p) => p.konsile],
+  ["vw", (p) => p.vw]
+];
+const HV_NOISE = /RSBI|\(unverändert\)|^\s*CiCA Einstellung|^\s*Lappenkontrolle|^\s*=\s|^\s*(RASS|BPS|NAS|CAM-ICU)\b[^,;]{0,25}$/i;
+const HV_CORR_MS = 30 * 60 * 1e3;
+const HV_MAX = 600;
+function hvLists(p) {
+  const out = HV_SRC.map(([k, f]) => [k, f(p) || []]);
+  SYSTEMS.forEach((s) => out.push(["sys:" + s.k, ((p.systeme || {})[s.k] || {}).entries || []]));
+  return out;
+}
+function hvAge(e) {
+  const t = e.tc || e.t || e.erfolgtT || (e.datum ? e.datum + "T12:00:00" : null);
+  return t ? Date.now() - tMs(t) : Infinity;
+}
+function hvPatient(prev, next) {
+  if (!prev || !next || prev === next) return next;
+  let o = next;
+  const pl = hvLists(prev), nl = Object.fromEntries(hvLists(next));
+  const changed = pl.some(([k, a]) => a !== nl[k]);
+  if (changed) {
+    const add = [];
+    pl.forEach(([k, a]) => {
+      const b = nl[k] || [];
+      if (a === b || !a.length) return;
+      const ids = new Set(b.map((e) => e && e.id));
+      a.forEach((e) => {
+        if (!e || !e.id || ids.has(e.id)) return;
+        if (k === "op" && e.status !== "erfolgt") return;
+        if (hvAge(e) < HV_CORR_MS) return;
+        if (HV_NOISE.test(String(e.text || ""))) return;
+        add.push({ ...e, _src: k, _del: nowISO() });
+      });
+    });
+    const kept0 = next.kept || prev.kept || [];
+    let kept = kept0;
+    if (kept.length) {
+      const all = new Set();
+      Object.values(nl).forEach((l) => l.forEach((e) => e && e.id && all.add(e.id)));
+      if (kept.some((e) => all.has(e.id))) kept = kept.filter((e) => !all.has(e.id));
+    }
+    if (add.length) kept = [...kept.filter((e) => !add.some((x) => x.id === e.id)), ...add];
+    if (kept.length > HV_MAX) kept = kept.slice(-HV_MAX);
+    if (kept !== kept0 || (!next.kept && kept.length)) o = { ...o, kept };
+  }
+  /* Höchstdosis je Medikament merken (für „max. … µg/kg/min“ im Brief) */
+  if ((prev.meds || []) !== (next.meds || [])) {
+    let ch = false;
+    const meds = (o.meds || []).map((m) => {
+      const d = doseOf(m.text);
+      if (!d || d.v == null) return m;
+      if (m.dmax && (m.dmax.unit !== d.unit || m.dmax.v >= d.v)) return m;
+      ch = true;
+      return { ...m, dmax: { v: d.v, unit: d.unit, t: m.tc || m.t || nowISO() } };
+    });
+    if (ch) o = { ...o, meds };
+  }
+  return o;
+}
+function hvState(prev, next) {
+  if (!next || !prev || next === prev || !next.patients || next.patients === prev.patients) return next;
+  let ch = false;
+  const ps = {};
+  Object.entries(next.patients).forEach(([id, p]) => {
+    const q = prev.patients && prev.patients[id] ? hvPatient(prev.patients[id], p) : p;
+    if (q !== p) ch = true;
+    ps[id] = q;
+  });
+  return ch ? { ...next, patients: ps } : next;
+}
+/* Labor: Werte älter als 48 h werden beim Öffnen gekürzt — vorher als Tageswerte (min, max, letzter) archivieren */
+function labArchFold(arch, n, dropped) {
+  const A = { ...arch || {} };
+  const rows = (A[n] || []).slice();
+  (dropped || []).forEach((x) => {
+    const v = numDE(x.v);
+    if (v == null || !x.t) return;
+    const d = ymdOf(new Date(x.t)), t = tMs(x.t);
+    const i = rows.findIndex((r) => r[0] === d);
+    if (i < 0) rows.push([d, v, v, v, t]);
+    else {
+      const r = rows[i].slice();
+      r[1] = Math.min(r[1], v);
+      r[2] = Math.max(r[2], v);
+      if (t >= r[4]) {
+        r[3] = v;
+        r[4] = t;
+      }
+      rows[i] = r;
+    }
+  });
+  rows.sort((a, b) => a[0] < b[0] ? -1 : 1);
+  A[n] = rows.slice(-90);
+  return A;
+}
+function labHist(p, n) {
+  const out = ((p.labArch || {})[n] || []).map((r) => ({ t: new Date(r[4]).toISOString(), d: r[0], v: r[3], mn: r[1], mx: r[2], arch: true }));
+  labVals(p, n).forEach((x) => out.push({ t: x.t, d: ymdOf(new Date(x.t)), v: x.n, mn: x.n, mx: x.n }));
+  return out.sort(byT);
+}
+const labHistMax = (p, n) => {
+  const h = labHist(p, n);
+  return h.length ? h.reduce((m, x) => x.mx > m.mx ? x : m) : null;
+};
+const labHistMin = (p, n) => {
+  const h = labHist(p, n);
+  return h.length ? h.reduce((m, x) => x.mn < m.mn ? x : m) : null;
+};
+const keptOf = (p, src) => (p.kept || []).filter((e) => !src || e._src === src);
+/* --- Verlauf je Organsystem: automatische Phasen aus allen Daten (inkl. gelöschter Einträge) --- */
+const CRS_SYS = [
+  { k: "neuro", h: "Neurologie / Analgosedierung", s: "Neuro", ico: "neuro" },
+  { k: "pulmo", h: "Atmung / Beatmung", s: "Pulmo", ico: "pulmo" },
+  { k: "kreislauf", h: "Herz / Kreislauf", s: "Kreislauf", ico: "kreislauf" },
+  { k: "niere", h: "Niere / Wasser- und Elektrolythaushalt", s: "Niere", ico: "niere" },
+  { k: "abdomen", h: "Gastrointestinaltrakt / Ernährung", s: "Abdomen", ico: "abdomen" },
+  { k: "infekt", h: "Infektiologie", s: "Infekt", ico: "infekt" },
+  { k: "wunde", h: "Haut / Wunden", s: "Wunde", ico: "wunde" },
+  { k: "haem", h: "Blut / Gerinnung", s: "Gerinnung", ico: "transfusion" },
+  { k: "sonst", h: "Weiteres / Mobilisation / Organisation", s: "Weiteres", ico: "orga" }
+];
+const CRS_SYS_BY = Object.fromEntries(CRS_SYS.map((s) => [s.k, s]));
+const CRS_ORG = ["neuro", "pulmo", "kreislauf", "niere", "abdomen", "infekt", "wunde"];
+const crsIso = (x) => x ? String(x).length <= 10 ? x + "T12:00:00" : x : null;
+const crsD = (x) => x ? fmtD(crsIso(x)) : "___";
+const crsYmd = (x) => ymdOf(new Date(crsIso(x)));
+const joinDe = (a) => {
+  const l = (a || []).filter(Boolean);
+  return l.length <= 1 ? l[0] || "" : l.slice(0, -1).join(", ") + " und " + l[l.length - 1];
+};
+const capFirst = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+function crsRange(a, b) {
+  if (!a) return "";
+  if (!b) return `seit ${crsD(a)}`;
+  return crsYmd(a) === crsYmd(b) ? `am ${crsD(a)}` : `vom ${crsD(a)} bis ${crsD(b)}`;
+}
+const crsDays = (a, b) => Math.max(1, Math.round((tMs(crsIso(b) || nowISO()) - tMs(crsIso(a))) / 864e5));
+const crsEntries = (p, k) => [...getList(p, null, k), ...keptOf(p, "sys:" + k)].sort(byT);
+const crsVerlauf = (p) => [...p.verlauf || [], ...keptOf(p, "verlauf")].sort(byT);
+const crsMeds = (p) => [...p.meds || [], ...keptOf(p, "med")];
+const crsAus = (p) => (p.brief || {}).aus || [];
+/* Medikamente mit Zeiträumen */
+const CRS_RATE = /(ml|mg|[µμu]g|mcg|IE)\s*\/\s*(kg\s*\/\s*)?(h|min)\b/i;
+const CRS_DRUGS = {
+  na: { n: "Noradrenalin", re: /^\s*(na|noradrenalin|arterenol)\b/i, kat: 1, rate: 1 },
+  adr: { n: "Adrenalin", re: /^\s*(adrenalin|suprarenin)\b/i, kat: 1, rate: 1 },
+  vaso: { n: "Vasopressin", re: /^\s*(vasopressin|empressin)\b/i, kat: 1, rate: 1 },
+  dobu: { n: "Dobutamin", re: /^\s*dobutamin\b/i, kat: 1, rate: 1 },
+  milri: { n: "Milrinon", re: /^\s*milrinon\b/i, kat: 1, rate: 1 },
+  levo: { n: "Levosimendan", re: /^\s*levosimendan\b/i, kat: 1, rate: 1 },
+  prop: { n: "Propofol", re: /^\s*(propofol|disoprivan)\b/i, sed: 1, rate: 1 },
+  sufe: { n: "Sufentanil", re: /^\s*sufentanil\b/i, sed: 1, rate: 1 },
+  remi: { n: "Remifentanil", re: /^\s*(remifentanil|ultiva)\b/i, sed: 1, rate: 1 },
+  mida: { n: "Midazolam", re: /^\s*(midazolam|dormicum)\b/i, sed: 1, rate: 1 },
+  lorm: { n: "Lormetazepam", re: /^\s*(lormetazepam|sedalam)\b/i, sed: 1, rate: 1 },
+  esk: { n: "Esketamin", re: /^\s*esketamin\b/i, sed: 1, rate: 1 },
+  keta: { n: "Ketamin", re: /^\s*(ketamin|ketanest)\b/i, sed: 1, rate: 1 },
+  dex: { n: "Dexmedetomidin", re: /^\s*dexmedetomidin\b/i, sed: 1, adj: 1, rate: 1 },
+  clon: { n: "Clonidin", re: /^\s*clonidin\b/i, sed: 1, adj: 1, rate: 1 },
+  furo: { n: "Furosemid", re: /^\s*(furosemid|lasix)\b/i }
+};
+Object.entries(CRS_DRUGS).forEach(([k, d]) => {
+  d.k = k;
+});
+const CRS_KAT = ["na", "adr", "vaso", "dobu", "milri", "levo"];
+const CRS_SED = ["prop", "sufe", "remi", "mida", "lorm", "esk", "keta"];
+const CRS_ADJ = ["dex", "clon"];
+function crsDrugIv(p, D) {
+  const iv = [];
+  crsMeds(p).forEach((m) => {
+    const txts = [m.text, ...(m.hist || []).map((h) => h.text)].filter(Boolean);
+    if (!txts.some((t) => D.re.test(t))) return;
+    if (D.rate && !txts.some((t) => CRS_RATE.test(t))) return;
+    const doses = [];
+    (m.hist || []).forEach((h) => {
+      const d = doseOf(h.text);
+      if (d && d.v != null) doses.push(d);
+    });
+    const d0 = doseOf(m.text);
+    if (d0 && d0.v != null) doses.push(d0);
+    if (m.dmax) doses.push(m.dmax);
+    iv.push({ a: m.t, b: m.ende || (m._del ? m.tc || m.t : null), doses });
+  });
+  const ev = [];
+  CRS_ORG.forEach((k) => crsEntries(p, k).forEach((e) => {
+    const t = String(e.text || "");
+    if (D.kat && /katecholaminfrei|keine Katecholamine/i.test(t)) ev.push({ t: e.t, off: true });
+    if (D.sed && !D.adj && /keine Sedierung|Sedierung beendet/i.test(t)) ev.push({ t: e.t, off: true });
+    if (!D.re.test(t)) return;
+    if (STOP_RE.test(t)) {
+      ev.push({ t: e.t, off: true });
+      return;
+    }
+    if (D.rate && !CRS_RATE.test(t)) return;
+    const d = doseOf(t);
+    ev.push({ t: e.t, on: true, d: d && d.v != null ? d : null });
+  }));
+  ev.sort(byT);
+  let cur = null;
+  ev.forEach((x) => {
+    if (x.on) {
+      if (!cur) cur = { a: x.t, b: null, doses: [], lastT: x.t };
+      if (x.d) cur.doses.push(x.d);
+      cur.lastT = x.t;
+    } else if (x.off && cur) {
+      cur.b = x.t;
+      iv.push(cur);
+      cur = null;
+    }
+  });
+  if (cur) {
+    const running = perfusorenAuto(p).some((f) => D.re.test(f.text)) || medsRunning(p).some((m) => D.re.test(m.text));
+    if (!running) cur.b = cur.lastT;
+    iv.push(cur);
+  }
+  iv.sort((x, y) => x.a < y.a ? -1 : 1);
+  const out = [];
+  iv.forEach((x) => {
+    const l = out[out.length - 1];
+    if (l && (l.b == null || tMs(x.a) <= tMs(l.b) + 3 * H)) {
+      l.doses.push(...x.doses);
+      if (l.b != null) l.b = x.b == null ? null : tMs(x.b) > tMs(l.b) ? x.b : l.b;
+    } else out.push({ a: x.a, b: x.b, doses: x.doses.slice() });
+  });
+  return out;
+}
+function crsMaxDose(p, D, doses) {
+  const conv = (doses || []).map((d) => D.k === "na" && d.unit === "ml/h" ? { v: naUgOf(p, d), unit: "µg/kg/min" } : d).filter((d) => d && d.v != null && d.v > 0);
+  if (!conv.length) return null;
+  const cnt = {};
+  conv.forEach((d) => {
+    cnt[d.unit] = (cnt[d.unit] || 0) + (/kg/.test(d.unit) ? 1.5 : 1);
+  });
+  const u = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
+  const v = conv.filter((d) => d.unit === u).reduce((m, d) => d.v > m ? d.v : m, 0);
+  return { v, unit: u };
+}
+function crsDrugText(p, k, withMax) {
+  const D = CRS_DRUGS[k], iv = crsDrugIv(p, D);
+  if (!iv.length) return null;
+  const parts = iv.map((x) => {
+    const mx = withMax ? crsMaxDose(p, D, x.doses) : null;
+    return `${crsRange(x.a, x.b)}${mx ? ` (max. ${fmtNum(mx.v)} ${mx.unit})` : ""}`;
+  });
+  return { k, n: D.n, iv, text: `${D.n} ${joinDe(parts)}`, open: iv.some((x) => !x.b), end: iv.reduce((m, x) => x.b && (!m || x.b > m) ? x.b : m, null) };
+}
+/* Beatmung: Phasen invasiv → NIV → HFNC → O2 → Raumluft */
+const CRS_VENT_ST = { inv: "invasive Beatmung", niv: "nichtinvasive Beatmung (NIV)", hfnc: "High-Flow-Sauerstofftherapie (HFNC)", o2: "Sauerstoffgabe über Nasenbrille", ra: "Raumluft", spont: "Spontanatmung" };
+const CRS_VENT_RANK = { inv: 5, niv: 4, hfnc: 3, o2: 2, spont: 1.5, ra: 1 };
+const CRS_NOPLAN = /geplant|planen|fraglich|anmeld|aufkl|vorbereit|\?|morgen|evaluieren|prüfen/i;
+function crsVentOf(e) {
+  if (e.vent && e.vent.mode) {
+    const m = e.vent.mode;
+    return { st: m === "niv" ? "niv" : m === "hfnc" ? "hfnc" : m === "o2" ? e.vent.o2 ? "o2" : "ra" : "inv" };
+  }
+  const t = String(e.text || "");
+  if (/re-?intubation|re-?intubiert/i.test(t) && !CRS_NOPLAN.test(t)) return { st: "inv", ev: "reintub" };
+  if (/extubation|extubiert/i.test(t) && !CRS_NOPLAN.test(t)) return { st: "spont", ev: "extub" };
+  if (/intubation|intubiert/i.test(t) && !CRS_NOPLAN.test(t) && !/extub/i.test(t)) return { st: "inv", ev: "intub" };
+  if (/tracheotom/i.test(t) && !CRS_NOPLAN.test(t)) return { ev: "tracheo" };
+  if (/dekanül/i.test(t) && !CRS_NOPLAN.test(t)) return { st: "spont", ev: "dekan" };
+  if (/bronchoskop/i.test(t) && !CRS_NOPLAN.test(t)) return { ev: "bronch" };
+  if (/bauchlage/i.test(t) && !CRS_NOPLAN.test(t) && !/rückenlage/i.test(t)) return { ev: "bauch" };
+  if (/\bNIV\b/.test(t) && !CRS_NOPLAN.test(t)) return { st: "niv" };
+  if (/\bHFNC\b|high.?flow/i.test(t) && !CRS_NOPLAN.test(t)) return { st: "hfnc" };
+  if (/raumluft|keine beatmung/i.test(t) && !/O2\s*\d/i.test(t)) return { st: "ra" };
+  if (/O2-?Brille|Nasenbrille|\bO2\s*\d+([,.]\d+)?\s*l|Sauerstoffgabe|O2-?Maske|Venturi/i.test(t)) return { st: "o2" };
+  if (/\b(BIPAP|BiPAP|PCV|VCV|SIMV|APRV|IPPV)\b/.test(t)) return { st: "inv" };
+  if (/\b(ASB|CPAP)\b/.test(t) && !/\bNIV\b|maske|helm/i.test(t)) return { st: "inv" };
+  return null;
+}
+function crsVent(p) {
+  const ev = [];
+  const push = (t, e, src, weak) => {
+    const c = crsVentOf(e);
+    if (c && t) ev.push({ t, ...c, text: e.text || "", src, weak: !!weak, id: e.id });
+  };
+  crsEntries(p, "pulmo").forEach((e) => push(e.t, e, "pulmo"));
+  crsVerlauf(p).forEach((e) => {
+    const c = crsVentOf(e);
+    if (c && (c.ev || c.st === "niv" || c.st === "hfnc")) push(e.t, e, "verlauf");
+  });
+  const D = c48Data(p);
+  if (D.intub && p.aufnahme) push((p.aufnT || p.aufnahme + "T08:00:00"), { text: "intubiert" }, "c48", true);
+  (p.devices || []).forEach((d) => {
+    if (/^tubus/i.test(d.typ || "")) {
+      if (d.seit) push(d.seit + "T08:00:00", { text: "intubiert" }, "dev", true);
+      if (d.ende) push(d.ende + "T12:00:00", { text: "extubiert" }, "dev", true);
+    }
+    if (/trachealkan/i.test(d.typ || "")) {
+      if (d.seit) push(d.seit + "T10:00:00", { text: "Tracheotomie" }, "dev", true);
+      if (d.ende) push(d.ende + "T12:00:00", { text: "Dekanülierung" }, "dev", true);
+    }
+  });
+  /* schwache Ereignisse (aus Devices) nur, wenn es um den Tag herum nichts Genaueres gibt */
+  const strong = ev.filter((x) => !x.weak);
+  const E = ev.filter((x) => !x.weak || !strong.some((s) => (s.ev && s.ev === x.ev || !x.ev && s.st === x.st || x.ev === "intub" && s.st === "inv") && Math.abs(tMs(s.t) - tMs(x.t)) < 36 * H)).sort(byT);
+  if (!E.length) return null;
+  const segs = [];
+  E.forEach((x) => {
+    if (!x.st) return;
+    const l = segs[segs.length - 1];
+    if (l && l.st === x.st) return;
+    if (l) l.b = x.t;
+    segs.push({ st: x.st, a: x.t, b: null, ev: x.ev });
+  });
+  /* kurze „Spontanatmung“-Platzhalter nach Extubation fallen weg, wenn binnen 12 h eine konkrete Unterstützung folgt */
+  const S = segs.filter((s, i) => !(s.st === "spont" && segs[i + 1] && tMs(segs[i + 1].a) - tMs(s.a) < 12 * H && !segs[i + 1].ev)).map((s, i, a) => ({ ...s, b: a[i + 1] ? a[i + 1].a : null }));
+  const mergedS = [];
+  S.forEach((s) => {
+    const l = mergedS[mergedS.length - 1];
+    if (l && l.st === s.st) l.b = s.b;
+    else mergedS.push({ ...s });
+  });
+  const trach = E.find((x) => x.ev === "tracheo");
+  const dekan = E.filter((x) => x.ev === "dekan").pop();
+  const reint = E.filter((x) => x.ev === "reintub");
+  const extub = E.filter((x) => x.ev === "extub");
+  const bronch = [];
+  E.filter((x) => x.ev === "bronch").forEach((x) => {
+    const d = crsYmd(x.t), det = (String(x.text || "").match(/bronchoskopie\s*[:(–-]\s*([^)]+)\)?/i) || [])[1] || "";
+    const o = bronch.find((b) => b.d === d);
+    if (o) {
+      if (!o.det && det) o.det = det.trim();
+    } else bronch.push({ d, det: det.trim() });
+  });
+  const bauch = E.filter((x) => x.ev === "bauch");
+  const L = [];
+  let invDays = 0;
+  mergedS.forEach((s) => {
+    if (s.st === "inv") invDays += crsDays(s.a, s.b);
+  });
+  const trachDet = trach ? (String(trach.text || "").match(/tracheotomie\s*\(([^)]+)\)/i) || [])[1] || "" : "";
+  let trachUsed = false;
+  if (mergedS.length) {
+    const parts = [];
+    let problemlosDone = false;
+    mergedS.forEach((s, i) => {
+      const prev = mergedS[i - 1];
+      const name = s.st === "spont" && trach && !dekan ? "Spontanatmung über Trachealkanüle" : CRS_VENT_ST[s.st];
+      let tn = "";
+      if (!trachUsed && s.st === "inv" && trach && tMs(trach.t) >= tMs(crsIso(s.a)) - 36 * H && (!s.b || tMs(trach.t) <= tMs(crsIso(s.b)) + 12 * H)) {
+        tn = ` (Tracheotomie am ${crsD(trach.t)}${trachDet ? ", " + trachDet : ""})`;
+        trachUsed = true;
+      }
+      if (!prev) {
+        parts.push(`${capFirst(s.st === "ra" ? "Spontanatmung unter Raumluft" : s.st === "o2" && !s.b ? "Spontanatmung mit Sauerstoffgabe über Nasenbrille" : name)} ${crsRange(s.a, s.b)}${tn}`);
+        return;
+      }
+      if (prev.st === "inv" && s.st !== "inv") {
+        const ex = extub.find((x) => Math.abs(tMs(x.t) - tMs(s.a)) < 24 * H);
+        const dk = dekan && Math.abs(tMs(dekan.t) - tMs(s.a)) < 24 * H ? dekan : null;
+        if (dk) parts[parts.length - 1] += `, Dekanülierung am ${crsD(dk.t)}`;
+        else if (ex || !trach) parts[parts.length - 1] += `, Extubation am ${crsD(ex ? ex.t : s.a)}`;
+      }
+      if (s.st === "inv" && prev.st !== "inv") {
+        const ri = reint.find((x) => Math.abs(tMs(x.t) - tMs(s.a)) < 24 * H);
+        parts.push(`${ri ? `Re-Intubation am ${crsD(ri.t)}, ` : "erneut "}${name} ${s.b ? "bis " + crsD(s.b) : "seit " + crsD(s.a)}${tn}`);
+        return;
+      }
+      const down = CRS_VENT_RANK[s.st] < CRS_VENT_RANK[prev.st];
+      const reesc = mergedS.slice(i + 1).some((x) => CRS_VENT_RANK[x.st] > CRS_VENT_RANK[s.st]);
+      let conn = down ? "danach" : "bei Verschlechterung";
+      if (down && !problemlosDone && !reesc && (prev.st === "inv" || prev.st === "niv")) {
+        conn = "anschließend problemlos";
+        problemlosDone = true;
+      }
+      if (s.st === "ra" && !s.b) parts.push(conn === "anschließend problemlos" ? `anschließend problemlos Raumluft seit ${crsD(s.a)}` : `seit ${crsD(s.a)} Raumluft`);
+      else parts.push(`${conn} ${name} ${s.b ? "bis " + crsD(s.b) : "seit " + crsD(s.a)}`);
+    });
+    const lastS = mergedS[mergedS.length - 1];
+    if (lastS && lastS.st === "inv" && !lastS.b) {
+      const wn = crsEntries(p, "pulmo").filter((e) => tMs(e.t) >= tMs(crsIso(lastS.a)) && /weaning|feuchte nase|spontanatmung|\bSBT\b|t-?stück/i.test(e.text || "")).pop();
+      if (wn) parts[parts.length - 1] += `, aktuell im Weaning (zuletzt ${crsD(wn.t)}: ${String(wn.text).replace(/\.$/, "")})`;
+    }
+    L.push(parts.join("; ").replace(/; (danach|anschließend|bei Verschl)/g, ", $1").replace(/; seit/g, ", seit") + ".");
+  }
+  if (trach && !trachUsed) L.push(`Tracheotomie am ${crsD(trach.t)}${trachDet ? ` (${trachDet})` : ""}.`);
+  if (bronch.length) L.push(`${bronch.length > 1 ? "Bronchoskopien" : "Bronchoskopie"} am ${joinDe(bronch.map((b) => crsD(b.d) + (b.det ? ` (${b.det.replace(/\.$/, "")})` : "")))}.`);
+  if (bauch.length) L.push(`Bauchlagerung${bauch.length > 1 ? ` (${bauch.length} Zyklen)` : ""} ${crsRange(bauch[0].t, bauch.length > 1 ? last(bauch).t : bauch[0].t)}.`);
+  const last0 = mergedS[mergedS.length - 1];
+  return { lines: L, invDays: mergedS.some((s) => s.st === "inv") ? invDays : 0, trach: trach ? trach.t : null, now: last0 && !last0.b ? last0.st : null, segs: mergedS };
+}
+/* Ereignisse nach Organsystem */
+const CRS_CLS = [
+  ["wunde", /nekrektom|spalthaut|transplant|lappen|escharotom|fasziotom|verbandswechsel|\bVW\b|wunde|d[ée]brid|mesh|suprathel|nexobrid|amputation|dermis|epigard|hautersatz|verbrenn|kontraktur/i],
+  ["infekt", /sepsis|septisch|infekt|antibio|antiinfekt|fieber|blutkultur|\bBK\b|erreger|mrgn|mrsa|\bvre\b|esbl|candida|pilz|abszess|pneumon|\bVAP\b|\bHAP\b|harnwegsinf|\bHWI\b/i],
+  ["pulmo", /intub|extub|tracheotom|dekanül|bronchoskop|bauchlage|beatm|\bNIV\b|\bHFNC\b|\bARDS\b|pleura|thoraxdrain|r[öo]-?thorax|ct thorax|weaning|\bSBT\b|atem|sauerstoff|lunge|inhalationstrauma|aspiration|erguss/i],
+  ["kreislauf", /katechol|noradrenalin|reanim|\bROSC\b|kardiover|\bVHF\b|vorhofflimmer|rhythm|\bEcho\b|\bTEE\b|\bTTE\b|picco|kreislauf|lungenembol|myokard|troponin|hypoton|hypertens|schock(?!raum)|kardiolog/i],
+  ["niere", /cica|cvvh|dialyse|nierenersatz|\bAKI\b|\bANV\b|nierenversag|niereninsuff|diurese|furosemid|kreatinin|\bkrea\b|hyperkal|hypokal|hypernatr|hyponatr|shaldon|elektrolyt|rhabdo|myoglobin|nephrolog/i],
+  ["abdomen", /ern[äa]hr|sonde|\bPEG\b|ileus|abdomen|ögd|koloskop|darm|stuhl|leber|pankrea|galle|laparotom|erbrech|reflux|kostaufbau|\bIAP\b|kompartment|gastro/i],
+  ["haem", /transfus|\bEKs?\b|\bFFP\b|\bTKs?\b|thrombo|gerinn|blutung|\bHIT\b|antikoag|heparin|ppsb|fibrinogen|hb-?abfall|h[äa]matom/i],
+  ["neuro", /delir|sedier|\bRASS\b|cam-icu|krampf|\bcCT\b|\bEEG\b|neurolog|bewusst|aufwach|\bGCS\b|entzug|schmerz|analges|psych|unruh|agit/i]
+];
+function crsClassify(text) {
+  const t = String(text || "");
+  for (let i = 0; i < CRS_CLS.length; i++) if (CRS_CLS[i][1].test(t)) return CRS_CLS[i][0];
+  return "sonst";
+}
+const CRS_SKIP = {
+  pulmo: /intub|extub|tracheotom|dekanül|\bNIV\b|\bHFNC\b|raumluft|\bO2\b|beatm|BIPAP|\bASB\b|CPAP|bronchoskop|bauchlage|^\s*Atmung:/i,
+  niere: /cica|^\s*Ausscheidung:/i,
+  kreislauf: /katecholaminfrei|noradrenalin|^\s*NA\b|^\s*Vitalparameter:/i,
+  infekt: /^(Infektion:|Start |Stopp )/i,
+  abdomen: /^\s*(Kost|Drainagen):/i,
+  neuro: /^\s*(Schmerz|Mobilisation):/i,
+  wunde: /^\s*(Wunde\/Verband|Drainagen):|^\s*Lappenkontrolle/i
+};
+const CRS_KEY_RE = /re-?intub|intubi|extubi|tracheotom|dekanül|reanimation|kardioversion|bauchlage|escharotom|fasziotom|nekrektom|spalthaut|transplant|lappen(?!kontrolle)|pleuradrain|thoraxdrain|verlegt|sepsis|septisch|ards|pneumonie|lungenembolie|ileus|delir|krampfanfall|blutung|transfusion|\bCT\b|\bcCT\b|\bMRT\b|ögd|koloskop|bronchoskop|laparotom|angiograph|lyse|ecmo|\bAKI\b|anurie|hyperkal|rhabdo|vhf|vorhofflimmer|rückverleg|re-?op|schock(?!raum)|fieber|bk positiv|blutkultur positiv/i;
+const CRS_AUFN_RE = /^\s*(aufnahme|zuverlegung|übernahme|wiederaufnahme|vorab-?aufnahme)/i;
+function crsEvents(p) {
+  const aus = crsAus(p);
+  const out = [];
+  const seen = new Set();
+  const add = (e, k, src) => {
+    if (!e || !e.t || aus.indexOf(e.id) >= 0) return;
+    const text = String(e.text || "").trim();
+    if (!text) return;
+    const key = crsYmd(e.t) + "|" + text.toLowerCase().replace(/[^a-z0-9äöüß]/g, "").slice(0, 40);
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push({ id: e.id, t: e.t, text, k, src, kept: !!e._src });
+  };
+  crsVerlauf(p).forEach((e) => {
+    if (CRS_AUFN_RE.test(e.text || "") || isOpText(e.text)) return;
+    add(e, e.sys && CRS_SYS_BY[e.sys] ? e.sys : crsClassify(e.text), "verlauf");
+  });
+  SYSTEMS.forEach((s) => crsEntries(p, s.k).forEach((e) => {
+    if (e.ern || e.imc || e.vent) return;
+    if (!(e.hot || e.brief || CRS_KEY_RE.test(e.text || ""))) return;
+    if (isOpText(e.text) || /^\s*Lappenkontrolle/i.test(e.text || "")) return;
+    add(e, s.k === "kreislauf" && /transfus|\bEK\b|blutung/i.test(e.text) ? "haem" : s.k, "sys");
+  }));
+  return out.filter((x) => !(CRS_SKIP[x.k] && CRS_SKIP[x.k].test(x.text))).sort(byT);
+}
+/* IMC-Tagescheck als Verlaufskette (Kost, Mobilisation …) */
+function crsImcSeq(p, key) {
+  const it = IMC_CHECK.find((x) => x.k === key);
+  if (!it) return "";
+  const es = crsEntries(p, it.sys).filter((e) => e.imc === key);
+  const seq = [];
+  es.forEach((e) => {
+    const v = String(e.text).replace(/^[^:]*:\s*/, "");
+    if (!seq.length || last(seq).v !== v) seq.push({ v, t: e.t });
+  });
+  if (!seq.length) return "";
+  return `${it.l}: ${seq.slice(-5).map((x) => `${x.v} (${crsD(x.t)})`).join(" → ")}.`;
+}
+const crsLab = (v) => fmtNum(v);
+function crsLabLine(p, n, unit, opt) {
+  const h = labHist(p, n);
+  if (!h.length) return "";
+  const mx = labHistMax(p, n), mn = labHistMin(p, n), f = h[0], l = h[h.length - 1];
+  if (opt && opt.min) {
+    if (mn.mn >= opt.min) return "";
+    return `${opt.label || n} minimal ${crsLab(mn.mn)}${unit ? " " + unit : ""} (${crsD(mn.d)})${l.t !== mn.t || l.v !== mn.mn ? `, zuletzt ${crsLab(l.v)}${unit ? " " + unit : ""}` : ""}`;
+  }
+  if (opt && opt.max != null && mx.mx < opt.max) return opt.normal ? `${opt.label || n} im Normbereich (zuletzt ${crsLab(l.v)}${unit ? " " + unit : ""})` : "";
+  return `${opt && opt.label || n}${h.length > 2 && f.v !== mx.mx ? ` initial ${crsLab(f.v)},` : ""} maximal ${crsLab(mx.mx)}${unit ? " " + unit : ""} (${crsD(mx.d)})${l.t !== mx.t || l.v !== mx.mx ? `, zuletzt ${crsLab(l.v)}${unit ? " " + unit : ""}` : ""}`;
+}
+function crsErn(p) {
+  const list = [...ernList(p), ...keptOf(p, "sys:abdomen").filter(isErnEntry)].sort(byT);
+  if (!list.length) return [];
+  let entStart = null, entMax = null, prods = [], pnStart = null, pnEnd = null, pnProds = [], oral = null;
+  list.forEach((e) => {
+    const t = String(e.text || "");
+    const items = ernParse(p, t);
+    const ent = items.filter((i) => (ernP(i.prod) || {}).art === "enteral");
+    const pn = items.filter((i) => (ernP(i.prod) || {}).art === "parenteral");
+    if ((ent.length || /zottenpflege|sondenkost|enteral\s+\d/i.test(t)) && !entStart) entStart = { t: e.t, txt: /zottenpflege/i.test(t) ? "Zottenpflege" : "" };
+    ent.forEach((i) => {
+      const P = ernP(i.prod), v = ernNum(i.v);
+      if (prods.indexOf(P.n) < 0) prods.push(P.n);
+      if (v && (!entMax || v > entMax.v)) entMax = { v, t: e.t, n: P.n };
+    });
+    if (pn.length) {
+      if (!pnStart) pnStart = e.t;
+      pnEnd = null;
+      pn.forEach((i) => {
+        const n = ernP(i.prod).n.replace(/\s+zentral$/, "");
+        if (pnProds.indexOf(n) < 0) pnProds.push(n);
+      });
+    } else if (pnStart && !pnEnd && items.length) pnEnd = e.t;
+    if (!oral && /kostaufbau|vollkost|breikost|schluckversuch|trinkt|isst|oral/i.test(t)) oral = e.t;
+  });
+  const L = [];
+  if (entStart) L.push(`Enterale Ernährung ab ${crsD(entStart.t)}${entStart.txt ? ` (${entStart.txt})` : ""}${prods.length ? ` mit ${joinDe(prods)}` : ""}${entMax ? `, Steigerung bis ${fmtN(entMax.v)} ml/h (${crsD(entMax.t)})` : ""}.`);
+  if (pnStart) L.push(`${entStart ? "Ergänzend p" : "P"}arenterale Ernährung${pnProds.length ? ` (${joinDe(pnProds)})` : ""} ${crsRange(pnStart, pnEnd)}.`);
+  if (oral) L.push(`Oraler Kostaufbau ab ${crsD(oral)}.`);
+  const lastE = list[list.length - 1];
+  if (lastE && ernList(p).length) {
+    const reg = ernRegOf(p);
+    L.push(`Aktuell: ${reg.length ? ernRegText(reg) : ernPlain(lastE.text)}.`);
+  }
+  return L;
+}
+function crsCica(p) {
+  const es = crsEntries(p, "niere").filter((x) => CICA_RE.test(x.text) && CICA_ST_RE.test(x.text));
+  const iv = [];
+  let cur = null;
+  es.forEach((e) => {
+    const off = /beendet|gestoppt|pausiert/i.test(e.text);
+    if (!off && !cur) cur = { a: e.t, b: null };
+    if (off && cur) {
+      cur.b = e.t;
+      cur.pause = /pausiert/i.test(e.text);
+      iv.push(cur);
+      cur = null;
+    }
+  });
+  if (cur) iv.push(cur);
+  const m = [];
+  iv.forEach((x) => {
+    const l = m[m.length - 1];
+    if (l && l.b && tMs(x.a) - tMs(l.b) < 24 * H) l.b = x.b;
+    else m.push({ ...x });
+  });
+  return m;
+}
+const konsList = (p) => [...p.konsile || [], ...keptOf(p, "kons")].sort(byT);
+const konsSys = (k) => k.sys || (KONS_FACH.find((f) => f[0] === k.fach) || [])[1] || "sonst";
+function crsBuild(p, opt) {
+  opt = opt || {};
+  const sel = opt.bausteine || [];
+  const S = Object.fromEntries(CRS_SYS.map((s) => [s.k, { ...s, auto: [], ev: [], kons: [] }]));
+  if (hasBurn(p)) S.wunde.h = "Verbrennungswunden / Haut";
+  const meta = {};
+  /* Neuro */
+  const sed = CRS_SED.map((k) => crsDrugText(p, k, false)).filter(Boolean);
+  if (sed.length) S.neuro.auto.push(`Analgosedierung mit ${joinDe(sed.map((x) => x.text))}.`);
+  const adj = CRS_ADJ.map((k) => crsDrugText(p, k, false)).filter(Boolean);
+  if (adj.length) S.neuro.auto.push(`${sed.length ? "Ergänzend " : ""}${joinDe(adj.map((x) => x.text))}.`);
+  meta.sedEnd = sed.length && !sed.some((x) => x.open) ? sed.reduce((m, x) => x.end && (!m || x.end > m) ? x.end : m, null) : null;
+  const neuroE = crsEntries(p, "neuro");
+  const delir = neuroE.filter((e) => /CAM-ICU\s*(positiv|\+)|\bdelir/i.test(e.text) && !/negativ|kein(e[nm]?)?\s+delir|prophyla|screening/i.test(e.text)).map((e) => crsYmd(e.t)).filter((d, i, a) => a.indexOf(d) === i);
+  if (delir.length) {
+    const lastNeg = neuroE.find((e) => /CAM-ICU\s*negativ|kein delir/i.test(e.text) && crsYmd(e.t) > last(delir));
+    S.neuro.auto.push(`Delir (CAM-ICU positiv) ${delir.length > 2 ? crsRange(delir[0], last(delir)) : "am " + joinDe(delir.map((d) => crsD(d)))}${lastNeg ? `, seit ${crsD(lastNeg.t)} CAM-ICU negativ` : ""}.`);
+    meta.delir = true;
+  }
+  const rs = rassOf(p), cam = camOf(p);
+  if (rs || cam) S.neuro.auto.push(`Zuletzt ${[rs ? "RASS " + rs.v : "", cam ? "CAM-ICU " + cam.v : ""].filter(Boolean).join(", ")}.`);
+  const sch = crsImcSeq(p, "schmerz");
+  if (sch) S.neuro.auto.push(sch);
+  /* Pulmo */
+  const V = crsVent(p);
+  if (V) {
+    S.pulmo.auto.push(...V.lines);
+    meta.vent = V;
+  }
+  const pf = labHistMin(p, "p/F");
+  if (pf && pf.mn < 300) S.pulmo.auto.push(`Horovitz-Quotient minimal ${crsLab(pf.mn)} (${crsD(pf.d)}).`);
+  /* Kreislauf */
+  const kat = CRS_KAT.map((k) => crsDrugText(p, k, true)).filter(Boolean);
+  if (kat.length) {
+    const open = kat.some((x) => x.open);
+    const end = open ? null : kat.reduce((m, x) => x.end && (!m || x.end > m) ? x.end : m, null);
+    S.kreislauf.auto.push(`Katecholamintherapie mit ${joinDe(kat.map((x) => x.text))}${open ? "; aktuell weiterhin katecholaminpflichtig" : end ? `; seit ${crsD(end)} katecholaminfrei` : ""}.`);
+    meta.kat = { open, end };
+  } else if (!sel.includes("kate")) S.kreislauf.auto.push("Hämodynamisch stabil ohne Katecholaminbedarf.");
+  const pic = (p.picco || []).slice().sort(byT);
+  if (pic.length) S.kreislauf.auto.push(`Erweitertes hämodynamisches Monitoring mittels PiCCO ${crsRange(pic[0].t, (p.piccoAus || {}).t || (Date.now() - tMs(last(pic).t) > 24 * H ? last(pic).t : null))}.`);
+  const vs = crsImcSeq(p, "vital");
+  if (vs) S.kreislauf.auto.push(vs);
+  /* Niere */
+  if ((p.vorerkrankungen || []).some((v) => DIAL_RE.test(v))) S.niere.auto.push("Vorbestehende Dialysepflicht.");
+  const ci = crsCica(p);
+  if (ci.length) {
+    S.niere.auto.push(`Kontinuierliche Nierenersatztherapie (CVVHDF mit Citratantikoagulation) ${joinDe(ci.map((x) => x.b ? crsRange(x.a, x.b) : `seit ${crsD(x.a)} (laufend)`))}.`);
+    meta.cica = ci;
+  }
+  const furo = crsDrugText(p, "furo", false);
+  if (furo) S.niere.auto.push(`Diuretische Therapie mit ${furo.text}.`);
+  const kr = crsLabLine(p, "Krea", "mg/dl", { label: "Kreatinin", max: 1.3, normal: true });
+  if (kr) S.niere.auto.push(capFirst(kr) + ".");
+  const naMx = labHistMax(p, "Na+"), naMn = labHistMin(p, "Na+");
+  if (naMx && naMx.mx >= 148) S.niere.auto.push(`Hypernatriämie bis ${crsLab(naMx.mx)} mmol/l (${crsD(naMx.d)})${(p.labs || {})["Na+"] ? `, zuletzt ${labLast(p, "Na+")} mmol/l` : ""}.`);
+  if (naMn && naMn.mn <= 132) S.niere.auto.push(`Hyponatriämie bis ${crsLab(naMn.mn)} mmol/l (${crsD(naMn.d)}).`);
+  const kMx = labHistMax(p, "K+");
+  if (kMx && kMx.mx > 5.5) S.niere.auto.push(`Hyperkaliämie bis ${crsLab(kMx.mx)} mmol/l (${crsD(kMx.d)}).`);
+  const d = diuCalc(p);
+  if (!cicaLauft(p) && !d.aus && d.avg6 != null) S.niere.auto.push(`Diurese zuletzt Ø ${r0(d.avg6)} ml/h.`);
+  const au = crsImcSeq(p, "ausch");
+  if (au) S.niere.auto.push(au);
+  /* Abdomen */
+  if (!sel.includes("ernaehrung")) S.abdomen.auto.push(...crsErn(p));
+  const ko = crsImcSeq(p, "kost");
+  if (ko) S.abdomen.auto.push(ko);
+  const stl = last([...getList(p, null, "abdomen"), ...keptOf(p, "sys:abdomen")].filter((e) => STUHL_RE.test(e.text || "")).sort(byT));
+  if (stl) S.abdomen.auto.push(`Stuhlgang zuletzt am ${crsD(stl.t)}.`);
+  const ia = iapSeries(p);
+  if (ia.length && !sel.includes("b_eschar")) {
+    const mx = ia.reduce((m, v) => v.v > m.v ? v : m);
+    if (mx.v >= 12) S.abdomen.auto.push(`Intraabdomineller Druck maximal ${fmtN(mx.v)} mmHg (${crsD(mx.t)}${iahGrad(mx.v) ? ", IAH Grad " + iahGrad(mx.v) : ""}), zuletzt ${fmtN(last(ia).v)} mmHg.`);
+  }
+  const bili = crsLabLine(p, "Bilirubin", "mg/dl", { max: 2 });
+  if (bili) S.abdomen.auto.push(capFirst(bili) + ".");
+  /* Infekt */
+  const inf = infektOf(p);
+  if (!sel.includes("sepsis") && !sel.includes("infekt") && infektHasData(p)) {
+    const foki = inf.foki.map((id) => (IFK_F[id] || FOKUS_BY_ID[id] || {}).name || "").filter(Boolean);
+    const err = inf.erreger.filter((e) => !ifkKolon(e));
+    const kol = inf.erreger.filter((e) => ifkKolon(e));
+    const th = inf.therapie.filter((t) => t.start).slice().sort((a, b) => a.start < b.start ? -1 : 1);
+    if (th.length) S.infekt.auto.push(`${foki.length ? `Bei ${joinDe(foki)} a` : "A"}ntiinfektive Therapie mit ${joinDe(th.map((t) => t.ende ? `${t.name} ${crsRange(t.start, t.ende)} (${abTag(t)} Tage)` : `${t.name} seit ${crsD(t.start)} (Tag ${abTag(t)}${ifkPlanEnde(t) ? `, geplant bis ${ifkPlanEnde(t).split(" (")[0]}` : ""})`))}.`);
+    else if (foki.length) S.infekt.auto.push(`${joinDe(foki)}.`);
+    if (err.length) S.infekt.auto.push(`Mikrobiologisch Nachweis von ${joinDe(err.map((e) => erregerName(e) + (e.resistenz && e.resistenz !== "sensibel" && erregerName(e).indexOf(e.resistenz) < 0 ? " " + e.resistenz : "") + (e.material ? ` (${e.material}${e.datum ? ", " + crsD(e.datum) : ""})` : "")))}.`);
+    if (kol.length) S.infekt.auto.push(`Kolonisation mit ${joinDe(kol.map((e) => erregerName(e) + (e.material ? ` (${e.material})` : "")))}.`);
+    meta.infekt = { foki, th };
+  }
+  const crp = crsLabLine(p, "CRP", "mg/l", { max: 50 }), pct = crsLabLine(p, "PCT", "ng/ml", { max: 0.5 });
+  if (crp || pct) S.infekt.auto.push(capFirst([crp, pct].filter(Boolean).join("; ")) + ".");
+  /* Wunde */
+  const ops = briefOps(p);
+  const wops = ops.filter((o) => !/tracheotom|bronchoskop|\bPEG\b|zvk|shaldon|arterie|\bCT\b|transport/i.test(o.text));
+  if (wops.length) S.wunde.auto.push(`${wops.length === 1 ? "Ein operativer Eingriff" : `Insgesamt ${wops.length} operative Eingriffe`} (siehe oben), zuletzt am ${crsD(last(wops).d)}: ${last(wops).text}.`);
+  meta.ops = ops;
+  const vw = [...vwOf(p), ...keptOf(p, "vw")].sort(byT);
+  if (vw.length && !sel.includes("b_wunde")) {
+    const lv = last(vw);
+    S.wunde.auto.push(`${vw.length > 1 ? `${vw.length} Verbandswechsel` : "Verbandswechsel"}, zuletzt am ${crsD(lv.t)}${lv.ort ? ` (${lv.ort})` : ""}${lv.analgo ? ` unter ${lv.analgo}` : ""}${lv.befund ? `: ${lv.befund}` : ""}${p.vwNext ? `; nächster geplant am ${crsD(p.vwNext)}` : ""}.`);
+  }
+  const lops = lappenOps(p);
+  if (lops.length) {
+    const st = Math.max(...lops);
+    const ch = lappenChecks(p, st);
+    const bad = ch.filter((e) => e.hot);
+    if (ch.length) S.wunde.auto.push(`Lappenkontrollen ab ${crsD(new Date(st).toISOString())} (${ch.length}×)${bad.length ? `, auffällig am ${joinDe(bad.map((e) => crsD(e.t) + " " + fmtT(e.t)))}` : ", durchgehend unauffällig"}.`);
+  }
+  const wl = last(getList(p, null, "wunde").filter((e) => !/^\s*Lappenkontrolle/i.test(e.text) && !e.imc && !HV_NOISE.test(e.text)));
+  if (wl && !sel.includes("b_wunde")) {
+    S.wunde.auto.push(`Aktueller Wundbefund: ${wl.text.replace(/\.$/, "")}.`);
+    meta.usedIds = [wl.id];
+  }
+  ["wunde", "drain"].forEach((k) => {
+    const s = crsImcSeq(p, k);
+    if (s) S.wunde.auto.push(s);
+  });
+  /* Blut / Gerinnung */
+  const tf = [...tfList(p), ...keptOf(p, "tf")].sort(byT);
+  if (tf.length && !sel.includes("transfusion")) S.haem.auto.push(`Transfusion von insgesamt ${joinDe(tfSumme(tf))} (${tf.length > 1 ? `${crsD(tf[0].t)} bis ${crsD(last(tf).t)}` : `am ${crsD(tf[0].t)}`}).`);
+  meta.tf = tf;
+  const hb = crsLabLine(p, "Hb", "g/dl", { min: 8 }), th = crsLabLine(p, "Thrombozyten", "/nl", { min: 100 });
+  if (hb || th) S.haem.auto.push(capFirst([hb, th].filter(Boolean).join("; ")) + ".");
+  if (akOf(p) && !sel.includes("b_antikoag")) S.haem.auto.push(`Thromboseprophylaxe mit ${akBriefText(p)}.`);
+  /* Weiteres */
+  const mo = crsImcSeq(p, "mobi");
+  if (mo) S.sonst.auto.push(mo);
+  /* Ereignisse, Rücksprachen, Ergänzungen */
+  crsEvents(p).filter((e) => (meta.usedIds || []).indexOf(e.id) < 0).forEach((e) => S[e.k] ? S[e.k].ev.push(e) : S.sonst.ev.push(e));
+  konsList(p).filter((k) => crsAus(p).indexOf(k.id) < 0 && konsSys(k) !== "intern").forEach((k) => (S[konsSys(k)] || S.sonst).kons.push({ id: k.id, t: k.t, text: konsText(k), open: k.st !== "erledigt", kept: !!k._src }));
+  const extra = (p.brief || {}).sysTxt || {};
+  CRS_SYS.forEach((s) => {
+    S[s.k].extra = extra[s.k] || "";
+  });
+  CRS_SYS.forEach((s) => {
+    S[s.k].auto = S[s.k].auto.map((t) => String(t).replace(/\.\.(\s|$)/g, ".$1"));
+  });
+  return { sections: CRS_SYS.map((s) => S[s.k]), meta };
+}
+const crsHas = (s) => s.auto.length || s.ev.length || s.kons.length || (s.extra || "").trim() || (s.bst || []).length;
+function crsSectionText(s) {
+  const parts = [...s.auto, ...s.bst || []];
+  if (s.ev.length) parts.push(`${s.auto.length ? "Weitere Ereignisse: " : ""}${s.ev.map((e) => `${crsD(e.t)} ${e.text.replace(/\.$/, "")}`).join("; ")}.`);
+  s.kons.forEach((k) => parts.push(k.text));
+  if ((s.extra || "").trim()) parts.push(s.extra.trim());
+  return parts.join(" ").replace(/\s+/g, " ").replace(/\.\./g, ".").trim();
+}
+/* --- Arztbrief: Verlauf je Organsystem + knappe Epikrise --- */
+const CRS_BST = { b_schock: "kreislauf", b_inhal: "pulmo", b_rauchgas: "pulmo", b_strom: "kreislauf", b_eschar: "wunde", b_wunde: "wunde", b_metab: "abdomen", b_antikoag: "haem", problemlos: "epi", postop: "epi", sepsis: "infekt", infekt: "infekt", kate: "kreislauf", rhythmus: "kreislauf", herzinsuff: "kreislauf", beatmung: "pulmo", ards: "pulmo", niv: "pulmo", tracheo: "pulmo", cica: "niere", elektrolyte: "niere", abdomen: "abdomen", ernaehrung: "abdomen", blutung: "haem", transfusion: "haem", delir: "neuro", entzug: "neuro", neuro: "neuro", palliativ: "epi" };
+function briefOps(p) {
+  const L = [];
+  const aus = crsAus(p);
+  const D = c48Data(p);
+  if (D.esch === "erfolgt") L.push({ d: p.aufnahme, text: `Escharotomie${D.eschOrt ? " " + D.eschOrt : ""} (Schockraum bzw. Aufnahme)` });
+  [...erfolgt(p), ...keptOf(p, "op").filter((e) => e.status === "erfolgt")].filter((e) => aus.indexOf(e.id) < 0).forEach((e) => L.push({ d: e.datum, text: `${e.text}${e.befund ? " — " + e.befund : ""}`, id: e.id }));
+  const near = (a, b) => a && b && Math.abs((dayDiff(a) || 0) - (dayDiff(b) || 0)) <= 1;
+  crsVerlauf(p).filter((e) => isOpText(e.text) && aus.indexOf(e.id) < 0).forEach((e) => {
+    const d = crsYmd(e.t);
+    const w = ((String(e.text).match(OP_RE) || [])[0] || "").toLowerCase().slice(0, 7);
+    if (L.some((x) => near(x.d, d) && w && x.text.toLowerCase().indexOf(w) >= 0)) return;
+    L.push({ d, text: String(e.text).replace(/\.$/, ""), id: e.id });
+  });
+  (p.devices || []).filter((d) => /trachealkan/i.test(d.typ || "") && d.seit).forEach((d) => {
+    if (!L.some((x) => /tracheotom/i.test(x.text) && near(x.d, d.seit))) L.push({ d: d.seit, text: "Tracheotomie" });
+  });
+  return L.sort((a, b) => (a.d || "") < (b.d || "") ? -1 : 1);
+}
+function briefAufnahme(p, f) {
+  const D = c48Data(p);
+  const vtxt = crsVerlauf(p).map((e) => e.text).join(" ");
+  if (hasBurn(p)) {
+    const co = labFirst(p, "COHb"), la = labFirst(p, "Laktat");
+    const bits = [];
+    if (D.intub) bits.push(`bereits intubiert${D.intubT ? " (" + D.intubT + " Uhr)" : ""}`);
+    if (burnOf(p).gegeben && D.gegebenBis) bits.push(`nach präklinisch und im Schockraum ${tsd(numDE(burnOf(p).gegeben))} ml Volumen bis ${D.gegebenBis} Uhr`);
+    if (co || la) bits.push(`initial COHb ${co ? co.v + " %" : "___"}, Laktat ${la ? la.v + " mmol/l" : "___"}`);
+    const herkunft = Object.keys(D).length || /schockraum/i.test(vtxt) ? "aus dem Verbrennungsschockraum übernommen" : /zuverleg|extern|verlegt aus/i.test(vtxt) ? "per Zuverlegung aus ___ übernommen" : "[aus dem Verbrennungsschockraum / per Zuverlegung aus ___] übernommen";
+    return fillBrief(`{Pat} wurde am ${f.AUFNAHME} ${herkunft}${bits.length ? " — " + bits.join(", ") : ""}.${D.begleit ? " Begleitverletzungen: " + D.begleit + "." : ""}${D.tox ? " Toxikologie: " + D.tox + "." : ""}`, f);
+  }
+  const herk = /zuverleg|extern|verlegt aus/i.test(vtxt) ? " per Zuverlegung aus ___" : /aufnahme aus (dem )?op|postoperativ|aus dem OP/i.test(vtxt) ? " postoperativ aus dem OP" : /schockraum/i.test(vtxt) ? " über den Schockraum" : /normalstation/i.test(vtxt) ? " von der Normalstation" : "";
+  return fillBrief(`{Pat} wurde am ${f.AUFNAHME}${herk} wegen ${f.DIAGNOSE} auf unsere ${hasBurn(p) ? "Verbrennungsintensivstation" : "Intensivstation"} aufgenommen.`, f);
+}
+function briefEpikrise(p, f, tpl, C, epiB) {
+  const M = C.meta || {};
+  const s = [];
+  let dx = p.diagnose || "___";
+  if (hasBurn(p)) {
+    const c = burnCalc(p);
+    dx = `${mechNames(p)[0] || "Verbrennung"} mit ${c.vk != null ? fmtN(c.vk) : "___"} % VKOF${burnOf(p).inhal ? " und Inhalationstrauma" : ""}`;
+  }
+  s.push(`${f.Pat} wurde vom ${f.AUFNAHME} bis ${f.HEUTE} (${f.TAGE} Tage) bei ${dx} intensivmedizinisch behandelt.`);
+  const it = [];
+  const ops = M.ops || [];
+  if (ops.length) it.push(ops.length === 1 ? "ein operativer Eingriff" : `${ops.length} operative Eingriffe`);
+  if (M.vent && M.vent.invDays) it.push(`eine invasive Beatmung über ${M.vent.invDays} ${M.vent.invDays === 1 ? "Tag" : "Tage"}${M.vent.trach ? " mit Tracheotomie" : ""}`);
+  if (M.kat) it.push(M.kat.open ? "eine weiterhin laufende Katecholamintherapie" : `eine Katecholamintherapie${M.kat.end ? ` bis zum ${crsD(M.kat.end)}` : ""}`);
+  if (M.cica && M.cica.length) it.push("eine Nierenersatztherapie");
+  if (M.infekt && (M.infekt.th || []).length) it.push(`eine antiinfektive Therapie${M.infekt.foki.length ? ` bei ${joinDe(M.infekt.foki)}` : ""}`);
+  const ek = (M.tf || []).filter((e) => e.prod === "EK").reduce((n, e) => n + (Number(e.n) || 0), 0);
+  if (ek) it.push(`die Transfusion von ${ek} EK`);
+  if (it.length) s.push(`Im Verlauf ${it.length > 1 || /Eingriffe/.test(it[0]) ? "waren" : "war"} ${joinDe(it)} erforderlich.`);
+  const rs = rassOf(p), cam = camOf(p);
+  const wach = rs ? rs.v === "0" ? "wach (RASS 0)" : `RASS ${rs.v}` : "[wach und orientiert / ___]";
+  const del = cam && cam.v === "positiv" ? ", delirant (CAM-ICU positiv)" : "";
+  const kat = katItems(p).map(briefClean);
+  const kr = kat.length ? `unter Katecholamintherapie (${kat.join(", ")})` : "kreislaufstabil ohne Katecholamine";
+  const vn = M.vent && M.vent.now, vp = ventPlain(p);
+  const at = vn === "inv" ? `${M.vent.trach ? "über die Trachealkanüle" : "invasiv"} beatmet${vp ? ` (${vp})` : ""}` : vn === "niv" ? "unter intermittierender NIV" : vn === "hfnc" ? "unter High-Flow-Sauerstofftherapie" : vn === "o2" ? "spontan atmend unter Sauerstoffgabe über Nasenbrille" : vn === "ra" ? "unter Raumluft suffizient spontan atmend" : vn === "spont" ? M.vent.trach ? "über die Trachealkanüle spontan atmend" : "spontan atmend" : "[spontan atmend unter Raumluft / ___]";
+  s.push(`Zum Zeitpunkt der Verlegung ist ${f.pat} ${wach}${del}, ${kr} und ${at}${cicaLauft(p) ? ", unter laufender CiCa" : ""}.`);
+  (epiB || []).forEach((t) => s.push(t));
+  const ex = ((p.brief || {}).epi || "").trim();
+  if (ex) s.push(ex);
+  s.push(`Wir verlegen ${f.patA} in stabilem Zustand ${tpl.ziel} und bedanken uns für die Übernahme.`);
+  return s.join(" ").replace(/\s+/g, " ").trim();
+}
+function buildBriefOrg(p, opt, meds) {
+  const f = briefFields(p, opt.genus);
+  const tpl = BRIEF_TEMPLATES.find((t) => t.k === opt.template) || BRIEF_TEMPLATES[0];
+  const v1 = V1_TPL.indexOf(tpl.k) >= 0;
+  const burn = hasBurn(p);
+  const sel0 = opt.bausteine || [];
+  const sel = sel0.includes("sepsis") ? sel0.filter((k) => k !== "infekt") : sel0;
+  const C = crsBuild(p, { bausteine: sel });
+  const L = [];
+  L.push(`Intensivmedizinischer Verlegungsbericht — Verlegung ${tpl.ziel}`, "", "Sehr geehrte Kolleginnen und Kollegen,", "");
+  L.push(fillBrief(`wir berichten über {patA}, ${f.Anrede} ___, geb. ___, ${opt.genus === "w" ? "die" : "der"} sich vom ${f.AUFNAHME} bis ${f.HEUTE} (${f.TAGE} Tage) auf unserer ${burn || v1 ? "Verbrennungsintensivstation (V1)" : "Intensivstation"} befand.`, f), "");
+  L.push("Diagnosen");
+  let n = 1;
+  if (burn) L.push(`${n++}. ${burnDiagLine(p)}`);
+  if (p.diagnose && !(burn && /verbr|vkof|inhalation/i.test(p.diagnose))) L.push(`${n++}. ${p.diagnose}`);
+  const inf = infektOf(p);
+  if (infektHasData(p)) L.push(`${n++}. ${inf.foki.map((id) => (IFK_F[id] || FOKUS_BY_ID[id] || {}).name || id).join(" / ") || "Erregernachweis"}${inf.erreger.length ? `: ${inf.erreger.map((e) => erregerName(e) + (typeof e === "object" && e.material ? " (" + e.material + ")" : "")).join(", ")}` : ""}`);
+  L.push(`${n++}. Vorerkrankungen: ${f.VE}`, "");
+  const ops = C.meta.ops || [];
+  if (ops.length || burn) {
+    L.push("Operationen und Interventionen");
+    if (ops.length) ops.forEach((o) => L.push(`– ${o.d ? fmtYMD(o.d) + ": " : ""}${o.text}`));
+    else L.push("– ___");
+    L.push("");
+  }
+  L.push("Aufnahme", briefAufnahme(p, f), "");
+  const chosen = BRIEF_ORDER.filter((k) => sel.includes(k)).map((k) => BAUSTEIN_BY_K[k]).filter(Boolean);
+  const epiB = [];
+  chosen.forEach((b) => {
+    const t0 = /^b_/.test(b.k) ? burnBaustein(b.k, p, f) : fillBrief(b.text, f);
+    if (!t0) return;
+    let t = fillBrief(t0, f).replace(/\s+/g, " ").trim();
+    if (b.k === "b_inhal" && C.meta.vent) t = t.replace(/\s*\[Die Extubation erfolgte am ___\. \/ Bei prolongiertem Weaning erfolgte am ___ eine Tracheotomie\.\]/, "");
+    const sk = CRS_BST[b.k] || "sonst";
+    if (sk === "epi") epiB.push(t);
+    else {
+      const s = C.sections.find((x) => x.k === sk);
+      if (s) (s.bst = s.bst || []).push(t);
+    }
+  });
+  L.push("Verlauf nach Organsystemen", "");
+  let any = false;
+  C.sections.forEach((s) => {
+    if (!crsHas(s)) return;
+    any = true;
+    L.push(s.h, crsSectionText(s), "");
+  });
+  if (!any) L.push("— noch keine Verlaufsdaten; Ergänzungen je Organsystem links eintragen —", "");
+  L.push("Epikrise", briefEpikrise(p, f, tpl, C, epiB), "");
+  const dv = devsOf(p);
+  if (dv.length) {
+    L.push("Zugänge und Devices");
+    dv.forEach((x) => L.push(`– ${x.typ}${x.lage ? " " + x.lage : ""}, Liegetag ${devTag(x)} (seit ${fmtYMD(x.seit)})${x.burn ? ", durch verbrannte Haut" : ""}`));
+    L.push("");
+  }
+  L.push("Prozedere und Empfehlungen");
+  const empf = [];
+  const pushE = (e) => {
+    if (e && empf.indexOf(e) < 0) empf.push(e);
+  };
+  if (burn || v1) burnEmpf(p, tpl.k).forEach(pushE);
+  chosen.forEach((b) => (b.empf || []).forEach(pushE));
+  if (!burn && !v1) (tpl.k === "chir" ? ["Wundkontrollen und Mobilisation nach unfall- bzw. neurochirurgischer Maßgabe", "Schmerztherapie nach Hausstandard, Reduktion nach Klinik", "Thromboseprophylaxe bis zur vollständigen Mobilisation"] : ["Laborkontrolle am Folgetag (Blutbild, Retentionswerte, Elektrolyte, CRP)", "Physiotherapie und Mobilisation", "Reevaluation der vorbestehenden Dauermedikation"]).forEach(pushE);
+  (p.konsile || []).filter((k) => k.st !== "erledigt" && konsSys(k) !== "intern").forEach((k) => pushE(`Offene Rücksprache ${k.fach}${k.frage ? `: ${k.frage}` : ""} — Rückmeldung ausstehend, bitte nachverfolgen`));
+  empf.forEach((e) => L.push(`– ${e}`));
+  L.push("", "Medikation bei Verlegung");
+  inf.therapie.filter((t) => !t.ende).forEach((t) => L.push(`– ${t.name} (Tag ${abTag(t)}, seit ${fmtYMD(t.start)}; Ende geplant ${ifkPlanEnde(t) || "___"})`));
+  const a = akOf(p);
+  if (a) L.push(`– ${akBriefText(p).split(", Anti-Xa")[0]}`);
+  const lauf = medsRunning(p).filter((m) => !KAT_RE.test(m.text) && !SED_RE.test(m.text) && !(a && HEP_RE.test(m.text)) && !(doseOf(m.text) && /\/h$/.test(doseOf(m.text).unit)));
+  lauf.forEach((m) => L.push(`– ${m.text} (laut Kurve, bitte prüfen)`));
+  meds.filter((m) => (opt.meds || []).includes(m.k) && !(a && m.k === "enox")).forEach((m) => L.push(`– ${m.txt}`));
+  L.push("– Vorbestehende Dauermedikation: fortführen; pausiert: ___", "", "Für Rückfragen stehen wir gern zur Verfügung.", "", "Mit freundlichen kollegialen Grüßen");
+  return L.join("\n");
+}
+/* Aufbau-Wahl und Vorschau je Organsystem (links in der Briefansicht) */
+function BriefOrgPanel({ p, onUpdate }) {
+  const b = p.brief || {};
+  const aufbau = b.aufbau === "fliess" ? "fliess" : "org";
+  const setB = (fn) => onUpdate((x) => ({ ...x, brief: fn({ ...x.brief || {} }) }));
+  const C = useMemo(() => crsBuild(p, { bausteine: b.bausteine || [] }), [p]);
+  const [open, setOpen] = useState(null);
+  const ausN = (b.aus || []).length;
+  return rce("section", { className: "sec brorg" }, rce("div", { className: "sec-h" }, rce("h2", null, "Aufbau"), rce("span", { className: "hint" }, "Verlauf je Organsystem + knappe Epikrise — inklusive Einträge, die für die Übergabe gelöscht wurden")), rce("div", { className: "seg", style: { display: "flex" } }, rce("button", { type: "button", className: aufbau === "org" ? "on" : "", style: { flex: 1 }, onClick: () => setB((o) => ({ ...o, aufbau: "org" })) }, "nach Organsystemen"), rce("button", { type: "button", className: aufbau === "fliess" ? "on" : "", style: { flex: 1 }, onClick: () => setB((o) => ({ ...o, aufbau: "fliess" })) }, "Fließtext (bisher)")), aufbau === "org" && rce("div", { className: "brorg-list" }, C.sections.map((s) => rce(BrOrgSec, { key: s.k, s, setB, open: open === s.k, onToggle: () => setOpen(open === s.k ? null : s.k) })), rce(BrEpi, { p, setB }), ausN > 0 && rce("button", { type: "button", className: "linkbtn", onClick: () => setB((o) => ({ ...o, aus: [] })) }, `${ausN} ausgeblendete Einträge wieder in den Brief`)));
+}
+function BrOrgSec({ s, setB, open, onToggle }) {
+  const has = crsHas(s);
+  const n = s.auto.length + s.ev.length + s.kons.length;
+  const [txt, setTxt] = useState(s.extra || "");
+  useEffect(() => {
+    setTxt(s.extra || "");
+  }, [s.extra]);
+  const save = () => {
+    if ((txt || "") !== (s.extra || "")) setB((o) => ({ ...o, sysTxt: { ...o.sysTxt || {}, [s.k]: txt } }));
+  };
+  const aus = (id) => setB((o) => ({ ...o, aus: [...o.aus || [], id] }));
+  return rce("div", { className: "brorg-s" + (has ? "" : " leer") + (open ? " open" : "") }, rce("button", { type: "button", className: "brorg-h", onClick: onToggle, "aria-expanded": open }, rce("span", { className: "chev" }, open ? "▾" : "▸"), rce(Ico, { k: s.ico }), rce("b", null, s.h), rce("span", { className: "tag" }, has ? `${n} ${n === 1 ? "Punkt" : "Punkte"}${(s.extra || "").trim() ? " + Ergänzung" : ""}` : "leer — fehlt im Brief")), open && rce("div", { className: "brorg-b" }, s.auto.map((t, i) => rce("div", { key: "a" + i, className: "brorg-auto" }, t)), s.ev.map((e) => rce("div", { key: e.id, className: "brorg-ev" + (e.kept ? " kept" : "") }, rce("span", { className: "d" }, crsD(e.t)), rce("span", { className: "t" }, kw(e.text)), e.kept && rce("span", { className: "tag" }, "aus Übergabe gelöscht"), rce("button", { type: "button", className: "sl2-x", title: "nicht in den Brief", onClick: () => aus(e.id), "aria-label": "aus dem Brief nehmen" }, "×"))), s.kons.map((k) => rce("div", { key: k.id, className: "brorg-ev kons" }, rce("span", { className: "t" }, k.text), rce("button", { type: "button", className: "sl2-x", title: "nicht in den Brief", onClick: () => aus(k.id), "aria-label": "aus dem Brief nehmen" }, "×"))), rce("textarea", { className: "brorg-ta", value: txt, rows: 2, placeholder: `Ergänzung „${s.h}“ für den Brief …`, onChange: (e) => setTxt(e.target.value), onBlur: save })));
+}
+function BrEpi({ p, setB }) {
+  const cur = (p.brief || {}).epi || "";
+  const [txt, setTxt] = useState(cur);
+  useEffect(() => {
+    setTxt(cur);
+  }, [cur]);
+  return rce("div", { className: "brorg-s open epi" }, rce("div", { className: "brorg-h" }, rce(Ico, { k: "brief" }), rce("b", null, "Epikrise"), rce("span", { className: "tag" }, "automatisch knapp — hier ergänzen")), rce("div", { className: "brorg-b" }, rce("textarea", { className: "brorg-ta", value: txt, rows: 2, placeholder: "Ergänzung zur Epikrise …", onChange: (e) => setTxt(e.target.value), onBlur: () => {
+    if (txt !== cur) setB((o) => ({ ...o, epi: txt }));
+  } })));
+}
+/* --- Rücksprachen mit anderen Abteilungen --- */
+const KONS_FACH = [
+  ["Plastische Chirurgie", "wunde", "der Plastischen Chirurgie"],
+  ["Unfallchirurgie", "sonst", "der Unfallchirurgie"],
+  ["Handchirurgie", "wunde", "der Handchirurgie"],
+  ["Allgemein-/Viszeralchirurgie", "abdomen", "der Allgemein- und Viszeralchirurgie"],
+  ["Gefäßchirurgie", "kreislauf", "der Gefäßchirurgie"],
+  ["Thoraxchirurgie", "pulmo", "der Thoraxchirurgie"],
+  ["Neurochirurgie", "neuro", "der Neurochirurgie"],
+  ["MKG-Chirurgie", "wunde", "der MKG-Chirurgie"],
+  ["HNO", "pulmo", "der HNO"],
+  ["Augenheilkunde", "sonst", "der Augenheilkunde"],
+  ["Urologie", "niere", "der Urologie"],
+  ["Gynäkologie", "sonst", "der Gynäkologie"],
+  ["Dermatologie", "wunde", "der Dermatologie"],
+  ["Kardiologie", "kreislauf", "der Kardiologie"],
+  ["Nephrologie", "niere", "der Nephrologie"],
+  ["Gastroenterologie", "abdomen", "der Gastroenterologie"],
+  ["Pneumologie", "pulmo", "der Pneumologie"],
+  ["Hämatologie", "haem", "der Hämatologie"],
+  ["Neurologie", "neuro", "der Neurologie"],
+  ["Psychiatrie", "neuro", "der Psychiatrie"],
+  ["Psychosomatik", "neuro", "der Psychosomatik"],
+  ["Infektiologie / ABS", "infekt", "der Infektiologie (ABS)"],
+  ["Mikrobiologie", "infekt", "der Mikrobiologie"],
+  ["Hygiene", "infekt", "der Krankenhaushygiene"],
+  ["Radiologie", "sonst", "der Radiologie"],
+  ["Transfusionsmedizin", "haem", "der Transfusionsmedizin"],
+  ["Schmerzdienst", "neuro", "dem Schmerzdienst"],
+  ["Apotheke", "sonst", "der Apotheke"],
+  ["Ernährungsteam", "abdomen", "dem Ernährungsteam"],
+  ["Physiotherapie", "sonst", "der Physiotherapie"],
+  ["Logopädie", "pulmo", "der Logopädie"],
+  ["Sozialdienst", "sonst", "dem Sozialdienst"],
+  ["Seelsorge", "sonst", "der Seelsorge"],
+  ["Palliativmedizin", "sonst", "der Palliativmedizin"],
+  ["Oberarzt / Hintergrund", "intern", "dem Hintergrund"]
+];
+const KONS_TOP = ["Plastische Chirurgie", "Unfallchirurgie", "Allgemein-/Viszeralchirurgie", "Nephrologie", "Kardiologie", "Neurologie", "Infektiologie / ABS", "Radiologie"];
+function konsText(k) {
+  const f = KONS_FACH.find((x) => x[0] === k.fach);
+  const wer = f ? `mit ${f[2]}` : k.fach ? `(${k.fach})` : "";
+  return `Rücksprache ${wer} am ${crsD(k.tErg || k.tAnf || k.t)}${k.frage ? ` zur Frage „${k.frage.replace(/[?.]$/, "")}“` : ""}${k.erg ? `: ${k.erg.replace(/\.$/, "")}` : k.st !== "erledigt" ? " — Rückmeldung ausstehend" : ""}.`;
+}
+const konsOffen = (p) => (p.konsile || []).filter((k) => k.st !== "erledigt");
+function konsAge(k) {
+  const t = k.tAnf || k.t, h = (Date.now() - tMs(t)) / H;
+  return h < 1 ? `seit ${Math.max(1, Math.round(h * 60))} min` : h < 24 ? `seit ${Math.round(h)} h` : `seit ${crsD(t)}`;
+}
+function KonsCard({ p, onUpdate, compact }) {
+  const L = (p.konsile || []).slice().sort(byT);
+  const open = L.filter((k) => k.st !== "erledigt");
+  const done = L.filter((k) => k.st === "erledigt").sort((a, b) => (a.tErg || a.t) < (b.tErg || b.t) ? 1 : -1);
+  const [fach, setFach] = useState("");
+  const [frage, setFrage] = useState("");
+  const [erg, setErg] = useState(null);
+  const [alle, setAlle] = useState(false);
+  const set = (fn) => onUpdate((x) => ({ ...x, konsile: fn(x.konsile || []) }));
+  const add = (st) => {
+    const f = fach.trim();
+    if (!f) return;
+    set((l) => [...l, { id: uid(), t: nowISO(), fach: f, frage: frage.trim(), st, tAnf: st === "angefragt" ? nowISO() : null }]);
+    setFach("");
+    setFrage("");
+  };
+  const upd = (id, o) => set((l) => l.map((k) => k.id === id ? { ...k, ...o } : k));
+  const saveErg = () => {
+    const e = erg;
+    if (!e) return;
+    const text = (e.text || "").trim();
+    onUpdate((x) => {
+      const k0 = (x.konsile || []).find((z) => z.id === e.id);
+      let y = { ...x, konsile: (x.konsile || []).map((k) => k.id === e.id ? { ...k, st: "erledigt", erg: text, tErg: nowISO() } : k) };
+      if (e.todo && text) y = { ...y, todos: [...y.todos || [], { id: uid(), t: nowISO(), text: `${k0 ? k0.fach + ": " : ""}${text}`, prio: 2, done: false }] };
+      return y;
+    });
+    setErg(null);
+  };
+  const row = (k) => rce("div", { key: k.id, className: "kons-r st-" + k.st }, rce("div", { className: "kons-l" }, rce("span", { className: "kons-f" }, k.fach), rce("span", { className: "kons-q" }, k.frage || rce("span", { className: "dim" }, "ohne Fragestellung")), rce("span", { className: "kons-st" }, k.st === "angefragt" ? `angefragt ${fmtT(k.tAnf || k.t)} · wartet ${konsAge(k)}` : "noch nicht angefragt")), rce("div", { className: "kons-a" }, k.st === "offen" && rce("button", { type: "button", className: "btn sm", onClick: () => upd(k.id, { st: "angefragt", tAnf: nowISO() }) }, "angefragt"), rce("button", { type: "button", className: "btn sm primary", onClick: () => setErg({ id: k.id, text: "", todo: false }) }, "Ergebnis"), rce("button", { type: "button", className: "sl2-x", onClick: () => {
+    if (window.confirm(`Rücksprache ${k.fach} löschen?`)) set((l) => l.filter((z) => z.id !== k.id));
+  }, "aria-label": "löschen" }, "×")), erg && erg.id === k.id && rce("div", { className: "kons-erg" }, rce("input", { autoFocus: true, value: erg.text, placeholder: "Empfehlung / Ergebnis …", onChange: (e) => setErg({ ...erg, text: e.target.value }), onKeyDown: (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      saveErg();
+    }
+    if (e.key === "Escape") setErg(null);
+  } }), rce("label", { className: "kons-todo" }, rce("input", { type: "checkbox", checked: erg.todo, onChange: (e) => setErg({ ...erg, todo: e.target.checked }) }), " als To-Do"), rce("button", { type: "button", className: "btn sm primary", onClick: saveErg }, "speichern"), rce("button", { type: "button", className: "btn sm ghost", onClick: () => setErg(null) }, "abbrechen")));
+  const doneShown = alle ? done : done.filter((k) => Date.now() - tMs(k.tErg || k.t) < 48 * H);
+  const known = KONS_FACH.some((x) => x[0] === fach);
+  return rce("section", { className: "tvcard kons" + (compact ? " compact" : ""), "data-fold": "kons" }, rce("div", { className: "tvcard-h" }, rce("h2", null, rce(Ico, { k: "kontakt" }), " Rücksprachen"), rce("span", { className: "tag" }, open.length ? `${open.length} offen` : "keine offen", " · andere Abteilungen")), open.map(row), rce("div", { className: "kons-add" }, rce("div", { className: "chips kons-fc" }, KONS_TOP.map((f) => rce("button", { type: "button", key: f, className: "chip sm" + (fach === f ? " on" : ""), onClick: () => setFach(fach === f ? "" : f) }, f)), rce("select", { className: "kons-sel" + (fach && KONS_TOP.indexOf(fach) < 0 ? " on" : ""), value: known && KONS_TOP.indexOf(fach) < 0 ? fach : "", onChange: (e) => {
+    const v = e.target.value;
+    if (v === "__frei") {
+      const t = window.prompt("Abteilung / Ansprechpartner:");
+      if (t && t.trim()) setFach(t.trim());
+    } else setFach(v);
+  }, "aria-label": "weitere Abteilungen" }, rce("option", { value: "" }, fach && !known ? fach : "weitere …"), KONS_FACH.filter((f) => KONS_TOP.indexOf(f[0]) < 0).map((f) => rce("option", { key: f[0], value: f[0] }, f[0])), rce("option", { value: "__frei" }, "eigene Eingabe …"))), fach ? rce("div", { className: "kons-in" }, rce("b", null, fach), rce("input", { value: frage, autoFocus: true, placeholder: "Fragestellung, z. B. OP-Planung Restdefekte?", onChange: (e) => setFrage(e.target.value), onKeyDown: (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      add("angefragt");
+    }
+  } }), rce("button", { type: "button", className: "btn sm primary", onClick: () => add("angefragt") }, "angefragt"), rce("button", { type: "button", className: "btn sm", onClick: () => add("offen") }, "noch anfragen")) : rce("div", { className: "tag kons-hint" }, "Abteilung antippen → Fragestellung → „angefragt“. Das Ergebnis fließt in Übergabe, Verlauf und Arztbrief.")), doneShown.length > 0 && rce("div", { className: "kons-done" }, doneShown.map((k) => rce("div", { key: k.id, className: "kons-d" }, rce("span", { className: "kons-f" }, k.fach), rce("span", { className: "kons-q" }, k.frage ? k.frage + " → " : "", rce("b", null, k.erg || "erledigt")), rce("span", { className: "tag" }, crsD(k.tErg || k.t), " ", fmtT(k.tErg || k.t)), rce("button", { type: "button", className: "sl2-x", onClick: () => set((l) => l.filter((z) => z.id !== k.id)), title: "aus der Liste entfernen — bleibt im Arztbrief", "aria-label": "aus der Liste entfernen" }, "×")))), done.length > doneShown.length && rce("button", { type: "button", className: "linkbtn", onClick: () => setAlle(true) }, `+ ${done.length - doneShown.length} ältere`));
+}
+function KonsDruck({ p, ss }) {
+  const L = p.konsile || [];
+  const open = L.filter((k) => k.st !== "erledigt");
+  const neu = L.filter((k) => k.st === "erledigt" && (ss ? tMs(k.tErg || k.t) >= tMs(ss) - 2 * H : Date.now() - tMs(k.tErg || k.t) < 24 * H));
+  if (!open.length && !neu.length) return null;
+  return rce("div", { className: "pr pkons" }, rce("span", { className: "l" }, rce(Ico, { k: "kontakt" }), "Rücksprache"), rce("span", { className: "v" }, open.map((k, i) => rce("span", { key: k.id, className: "pk-o" }, i ? " · " : "", "☐ ", rce("b", null, k.fach), k.frage ? ": " + k.frage : "", k.st === "angefragt" ? ` (angefragt ${fmtT(k.tAnf || k.t)})` : " (noch anfragen)")), neu.map((k, i) => rce("span", { key: k.id, className: "pk-d" }, open.length || i ? " · " : "", "✓ ", rce("b", null, k.fach), ": ", k.erg || "erledigt"))));
+}
+function KonsAlle({ pats, onOpen }) {
+  const all = [];
+  pats.forEach((p) => konsOffen(p).forEach((k) => all.push({ p, k })));
+  if (!all.length) return null;
+  const by = {};
+  all.forEach((x) => (by[x.k.fach] = by[x.k.fach] || []).push(x));
+  return rce("div", { className: "fgroup konsall" }, rce("div", { className: "fgroup-h" }, rce(Ico, { k: "kontakt" }), rce("b", null, "Offene Rücksprachen"), rce("span", { className: "tag" }, all.length, " · nach Abteilung — ein Anruf für alle Patienten")), Object.keys(by).sort().map((f) => rce("div", { key: f, className: "konsall-g" }, rce("div", { className: "konsall-f" }, f), by[f].map(({ p, k }) => rce("button", { type: "button", key: k.id, className: "konsall-r", onClick: () => {
+    tvGoto("uebersicht");
+    onOpen(p.id);
+  } }, rce("span", { className: "bedtag" }, bedLabel(p)), rce("b", null, p.name || "ohne Namen"), rce("span", { className: "konsall-q" }, k.frage || "—"), rce("span", { className: "tag" }, k.st === "angefragt" ? `angefragt ${fmtT(k.tAnf || k.t)} · ${konsAge(k)}` : "noch anfragen"))))));
+}
+/* --- Schneller Verlaufseintrag (Patientenkopf, Taste V) --- */
+const QV_SYS = [["", ""], ...CRS_SYS.filter((s) => s.k !== "sonst").map((s) => [s.k, s.s]), ["sonst", "allgemein"]];
+function QuickVerlauf({ p, onUpdate }) {
+  const [txt, setTxt] = useState("");
+  const [sys, setSys] = useState("");
+  const [zeit, setZeit] = useState("");
+  const [ok, setOk] = useState(null);
+  const ref = useRef(null);
+  const auto = txt.trim() ? crsClassify(txt) : "";
+  useEffect(() => {
+    const h = (e) => {
+      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.key !== "v" && e.key !== "V") return;
+      const t = e.target, tag = t && t.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || t && t.isContentEditable) return;
+      if (document.querySelector(".modal-bg")) return;
+      e.preventDefault();
+      if (ref.current) {
+        ref.current.focus();
+        try {
+          ref.current.scrollIntoView({ block: "nearest" });
+        } catch (er) {
+        }
+      }
+    };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, []);
+  useEffect(() => {
+    if (!ok) return;
+    const t = setTimeout(() => setOk(null), 5e3);
+    return () => clearTimeout(t);
+  }, [ok]);
+  const save = () => {
+    const v = txt.trim();
+    if (!v) return;
+    let t = nowISO();
+    if (zeit) {
+      const d = new Date(zeit);
+      if (!isNaN(d.getTime()) && d.getTime() <= Date.now() + 6e4) t = d.toISOString();
+    }
+    const e = { id: uid(), t, text: v };
+    if (sys) e.sys = sys;
+    onUpdate((x) => ({ ...x, verlauf: [...x.verlauf || [], e].sort(byT) }));
+    setOk({ text: v, k: sys || crsClassify(v), t });
+    setTxt("");
+    setSys("");
+    setZeit("");
+  };
+  return rce("div", { className: "qv no-print" }, rce("label", { className: "qv-l", htmlFor: "qv-in-" + p.id }, rce(Ico, { k: "verlauf" }), "Verlauf"), rce("input", { ref, id: "qv-in-" + p.id, className: "qv-in", value: txt, placeholder: "Ereignis eintragen, Enter — z. B. Extubation, Rücksprache Nephro … (Taste V)", onChange: (e) => setTxt(e.target.value), onKeyDown: (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      save();
+    }
+    if (e.key === "Escape") e.target.blur();
+  } }), rce("select", { className: "qv-sys", value: sys, onChange: (e) => setSys(e.target.value), title: "Organsystem — ordnet den Eintrag im Arztbrief zu", "aria-label": "Organsystem" }, QV_SYS.map(([k, l]) => rce("option", { key: k, value: k }, k === "" ? auto ? `auto: ${CRS_SYS_BY[auto].s}` : "Organ: auto" : l))), rce("input", { type: "datetime-local", className: "qv-t", value: zeit, onChange: (e) => setZeit(e.target.value), title: "Zeitpunkt — leer = jetzt", "aria-label": "Zeitpunkt" }), rce("button", { type: "button", className: "btn sm primary qv-add", onClick: save, disabled: !txt.trim(), "aria-label": "in den Verlauf" }, "+"), ok && rce("span", { className: "qv-ok", role: "status" }, "✓ ", fmtD(ok.t), " ", fmtT(ok.t), " · ", ok.text, " → ", (CRS_SYS_BY[ok.k] || {}).s || ""));
+}
+/* --- Reiter „Verlauf“: Erkrankungsweg + Verlauf je Organsystem --- */
+function CrsCard({ s, onUpdate }) {
+  const has = crsHas(s);
+  const add = (v) => onUpdate((x) => ({ ...x, verlauf: [...x.verlauf || [], { id: uid(), t: nowISO(), text: v, sys: s.k }].sort(byT) }));
+  return rce("div", { className: "crs-c" + (has ? "" : " leer") }, rce("div", { className: "crs-h" }, rce(Ico, { k: s.ico }), rce("b", null, s.h)), s.auto.map((t, i) => rce("div", { key: i, className: "crs-auto" }, kw(t))), s.ev.length > 0 && rce("div", { className: "crs-evs" }, s.ev.map((e) => rce("div", { key: e.id, className: "crs-ev" + (e.kept ? " kept" : ""), title: e.kept ? "aus der Übergabe gelöscht — bleibt für den Arztbrief" : void 0 }, rce("span", { className: "d" }, crsD(e.t)), rce("span", null, kw(e.text))))), s.kons.map((k) => rce("div", { key: k.id, className: "crs-ev kons" + (k.open ? " open" : "") }, rce(Ico, { k: "kontakt" }), " ", k.text)), (s.extra || "").trim() && rce("div", { className: "crs-ev extra" }, rce("span", { className: "tag" }, "Ergänzung Brief: "), s.extra), !has && rce("div", { className: "dim crs-empty" }, "noch nichts erfasst"), rce(QIn, { ph: `+ Ereignis ${s.s} …`, onSave: add }));
+}
+function VerlaufTab({ p, onUpdate, verlaufFold, onBrief }) {
+  const C = useMemo(() => crsBuild(p, {}), [p]);
+  const keptN = (p.kept || []).length;
+  return rce("div", { className: "tvstack crs-tab" }, rce(FoldOpenCtx.Provider, { value: true }, verlaufFold), rce("section", { className: "tvcard crs" }, rce("div", { className: "tvcard-h" }, rce("h2", null, "Verlauf je Organsystem"), rce("span", { className: "tag" }, "automatisch aus Beatmung, Medikation, Labor, Eingriffen und Rücksprachen — so steht es im Arztbrief"), rce("span", { className: "grow" }), onBrief && rce("button", { type: "button", className: "btn sm blue", onClick: onBrief }, "Arztbrief")), rce("div", { className: "crs-grid" }, C.sections.map((s) => rce(CrsCard, { key: s.k, s, onUpdate }))), rce("div", { className: "tag crs-foot" }, keptN > 0 ? `Grau kursiv = aus der Übergabe gelöscht, bleibt für den Arztbrief erhalten (${keptN} Einträge). ` : "", "Ereignisse ohne Organ werden nach Stichworten zugeordnet; im Arztbrief lässt sich jeder Punkt ausblenden.")));
+}
+/* --- IMC-Modus (ersetzt „schlank“): Post-OP, Lappen, wenig Intensivtherapie --- */
+const IMC_CHECK = [
+  { k: "vital", l: "Vitalparameter", sys: "kreislauf", o: ["stabil", "RR-Spitzen", "hypoton", "tachykard", "Fieber"] },
+  { k: "schmerz", l: "Schmerz", sys: "neuro", o: ["NAS ≤ 3", "NAS 4–6", "NAS ≥ 7"] },
+  { k: "mobi", l: "Mobilisation", sys: "neuro", o: ["Bettruhe", "Bettkante", "Stuhl", "Gehen mit Hilfe", "selbstständig"] },
+  { k: "atmung", l: "Atmung", sys: "pulmo", o: ["Raumluft", "O2 Nasenbrille", "HFNC", "Atemtherapie"] },
+  { k: "kost", l: "Kost", sys: "abdomen", o: ["nüchtern", "Tee/Wasser", "Kostaufbau", "Vollkost", "über Sonde"] },
+  { k: "ausch", l: "Ausscheidung", sys: "niere", o: ["DK", "Spontanurin", "Stuhlgang +", "kein Stuhl"] },
+  { k: "drain", l: "Drainagen", sys: "wunde", o: ["keine", "fördern wenig", "fördern viel", "gezogen"] },
+  { k: "wunde", l: "Wunde/Verband", sys: "wunde", o: ["trocken", "durchgeblutet", "VW erfolgt", "Infektzeichen"] }
+];
+const IMC_BAD = /RR-Spitzen|hypoton|tachykard|Fieber|NAS 4|NAS ≥ 7|fördern viel|durchgeblutet|Infektzeichen|kein Stuhl|HFNC/;
+const IMC_LABS = ["Hb", "Leukos", "CRP", "Krea", "K+", "Na+", "Thrombozyten", "Glukose"];
+const VERLEG_ZIELE = ["Normalstation Plastische Chirurgie", "andere Normalstation", "extern / Rückverlegung", "Reha"];
+const VERLEG_ST = [["faehig", "verlegungsfähig"], ["bett", "Bett angefragt"], ["zusage", "Bett zugesagt"], ["brief", "Arztbrief fertig"], ["ueb", "Übergabe telefonisch"]];
+const imcVal = (e) => e ? String(e.text).replace(/^[^:]*:\s*/, "") : "";
+const imcLast = (p, it) => last(getList(p, null, it.sys).filter((e) => e.imc === it.k).slice().sort(byT));
+const imcToday = (p, it) => {
+  const e = imcLast(p, it);
+  return e && ymdOf(new Date(e.t)) === todayYMD() ? e : null;
+};
+function imcSet(x, it, v) {
+  const sy = x.systeme || {}, s = sy[it.sys] || { flag: "ok", entries: [] };
+  return { ...x, systeme: { ...sy, [it.sys]: { ...s, entries: [...s.entries || [], { id: uid(), t: nowISO(), text: `${it.l}: ${v}`, imc: it.k }] } } };
+}
+function imcPod(p) {
+  const o = last(erfolgt(p));
+  if (!o || !o.datum) return null;
+  const d = -dayDiff(o.datum);
+  return d >= 0 ? { d, o } : null;
+}
+const verlegOn = (p, k) => k === "brief" ? statusDone(p, "brief") : !!((p.verlegung || {}).st || {})[k];
+function ImcCheck({ p, onUpdate }) {
+  const set = (it, v) => onUpdate((x) => {
+    const td = imcToday(x, it);
+    if (td && imcVal(td) === v) return x;
+    return imcSet(x, it, v);
+  });
+  const n = IMC_CHECK.filter((it) => imcToday(p, it)).length;
+  return rce("section", { className: "tvcard imc-check" }, rce("div", { className: "tvcard-h" }, rce("h2", null, rce(Ico, { k: "check48" }), " Tagescheck"), rce("span", { className: "tag" }, n, " / ", IMC_CHECK.length, " heute · antippen = mit Uhrzeit dokumentiert, fließt in Druck und Arztbrief")), IMC_CHECK.map((it) => {
+    const td = imcToday(p, it), la = td || imcLast(p, it), cur = td ? imcVal(td) : null;
+    return rce("div", { key: it.k, className: "imc-row" + (td ? IMC_BAD.test(cur) ? " bad" : " ok" : "") }, rce("span", { className: "imc-l" }, it.l), rce("span", { className: "imc-o" }, it.o.map((o) => rce("button", { type: "button", key: o, className: "chip sm" + (cur === o ? " on" : "") + (IMC_BAD.test(o) ? " warnc" : ""), "aria-pressed": cur === o, onClick: () => set(it, o) }, o))), rce("span", { className: "imc-t" }, td ? fmtT(td.t) : la ? `zuletzt ${crsD(la.t)}: ${imcVal(la)}` : "—"));
+  }));
+}
+function ImcCheckMini({ p }) {
+  return rce("div", { className: "imc-mini" }, IMC_CHECK.filter((it) => it.k !== "atmung" && it.k !== "drain").map((it) => {
+    const td = imcToday(p, it), v = imcVal(td);
+    return rce("span", { key: it.k, className: "imc-m" + (td ? IMC_BAD.test(v) ? " bad" : " ok" : "") }, it.l, ": ", v || "—");
+  }));
+}
+function ImcLage({ p, ss }) {
+  const pod = imcPod(p), nx = nextEingriff(p);
+  const kat = medGroup(p, KAT_RE);
+  const ab = infektOf(p).therapie.filter((t) => !t.ende);
+  const dv = devsOf(p);
+  const ve = last(ventEntries(p));
+  const F = fokusDedupe(p, fokusAuto(p, ss)).slice(0, 5), he = hotEntries(p);
+  const ml0 = medsLine(p);
+  const ml = [...ml0.man, ...ml0.auto].filter((t) => !KAT_RE.test(t));
+  const row = (l, v, cls) => v ? rce("div", { className: "sl2-r" + (cls ? " " + cls : "") }, rce("span", { className: "lb" }, l), rce("span", { className: "v" }, v)) : null;
+  return rce("section", { className: "tvcard imc-lage" }, rce("div", { className: "tvcard-h" }, rce("h2", null, "Lage"), rce("span", { className: "tag" }, "automatisch aus den vorhandenen Daten")), (he.length > 0 || F.length > 0) && rce("div", { className: "sl2-fokus" }, he.map((x) => rce("span", { key: x.e.id, className: "sl2-f lvl-e" }, "! ", x.e.text)), F.map((f, i) => rce("span", { key: i, className: "sl2-f lvl-" + f.lvl }, f.text))), row("OP", pod ? `POD ${pod.d} · ${pod.o.text}${pod.o.befund ? " — " + pod.o.befund : ""}` : ""), row("geplant", nx ? eingriffKurz(nx) : ""), kat.length > 0 && row("Kreislauf", rce(React.Fragment, null, kat.map((m) => m.text).join(" · "), rce("b", { className: "imc-warn" }, " — Katecholamine: ITS-Ansicht?")), "warn"), row("Atmung", ve ? ve.vent ? ventText(ve.vent) : ve.text : ""), row("Medikation", ml.length ? ml.map((t, i) => rce(React.Fragment, { key: i }, i ? " · " : "", kwMed(t))) : ""), row("Antiinfektiva", ab.map((t) => t.name + (abTag(t) ? " Tag " + abTag(t) : "")).join(" · ")), row("Antikoag.", akOf(p) ? akLine(p) : ""), row("Zugänge", dv.length ? dv.map((d, i) => rce(React.Fragment, { key: d.id }, i ? " · " : "", devFlag(d) ? rce("b", null, devText(d)) : devText(d))) : ""));
+}
+function ImcVerlegung({ p, onUpdate, onBrief }) {
+  const v = p.verlegung || {}, st = v.st || {};
+  const set = (o) => onUpdate((x) => ({ ...x, verlegung: { ...x.verlegung || {}, ...o } }));
+  const tog = (k) => {
+    if (k === "brief") onUpdate((x) => ({ ...x, status: { ...x.status || {}, brief: !(x.status || {}).brief } }));
+    else onUpdate((x) => {
+      const vv = x.verlegung || {}, s0 = vv.st || {};
+      return { ...x, verlegung: { ...vv, st: { ...s0, [k]: s0[k] ? null : nowISO() } } };
+    });
+  };
+  const n = VERLEG_ST.filter(([k]) => verlegOn(p, k)).length;
+  return rce("section", { className: "tvcard imc-verl" }, rce("div", { className: "tvcard-h" }, rce("h2", null, rce(Ico, { k: "plane" }), " Verlegung"), rce("span", { className: "tag" }, n, " / ", VERLEG_ST.length, " erledigt")), rce("div", { className: "chips imc-ziel" }, VERLEG_ZIELE.map((z) => rce("button", { type: "button", key: z, className: "chip sm" + (v.ziel === z ? " on" : ""), onClick: () => set({ ziel: v.ziel === z ? "" : z }) }, z))), rce("label", { className: "imc-datum" }, rce("span", { className: "lb" }, "geplant am"), rce("input", { type: "date", value: v.datum || "", onChange: (e) => set({ datum: e.target.value }) }), v.datum && rce("span", { className: "tag" }, tagLabel(v.datum))), rce("div", { className: "imc-verl-st" }, VERLEG_ST.map(([k, l]) => rce("button", { type: "button", key: k, className: "tvstw-b" + (verlegOn(p, k) ? " on" : ""), onClick: () => tog(k), "aria-pressed": verlegOn(p, k) }, rce("span", { className: "tvbox", "aria-hidden": "true" }, verlegOn(p, k) ? "✓" : ""), l, k !== "brief" && st[k] ? rce("small", null, " ", fmtT(st[k])) : null))), onBrief && rce("button", { type: "button", className: "btn sm blue", onClick: onBrief }, rce(Ico, { k: "brief" }), " Arztbrief schreiben"));
+}
+function ImcPatient({ p, shiftStart, onBack, onEdit, onUpdate, onC48, onWord, onBrief }) {
+  const onUpdRaw = onUpdate;
+  onUpdate = (fn) => onUpdRaw((x) => postUpdate(x, typeof fn === "function" ? fn(x) : fn));
+  const ss = shiftStart, pod = imcPod(p);
+  const meta = [itsTag(p) ? `Tag ${itsTag(p)}` : "", pod ? `POD ${pod.d}` : "", hasBurn(p) ? burnTagText(p) : "", p.info || "", patGewicht(p) ? patGewicht(p) + " kg" : ""].filter(Boolean).join(" · ");
+  return rce(PatCtx.Provider, { value: { p, ss, onUpdate } }, rce("div", { className: "imcview" }, rce("div", { className: "slimhead imchead" }, rce("button", { type: "button", className: "iconbtn", onClick: onBack, "aria-label": "Zurück" }, "‹"), rce("span", { className: "bedtag" }, bedLabel(p)), rce("h1", null, p.name || "ohne Namen"), rce("span", { className: "imcbadge" }, "IMC"), rce(CicaBadge, { p }), rce("span", { className: "grow" }), rce("button", { type: "button", className: "btn sm ghost", onClick: slimVoll, title: "alle Patienten wieder in der ITS-Ansicht" }, "ITS-Ansicht"), rce("button", { type: "button", className: "btn sm ghost", onClick: onEdit }, "Stammdaten"), onBrief && rce("button", { type: "button", className: "btn sm blue", onClick: onBrief }, "Arztbrief")), rce("div", { className: "slimmeta" }, meta), rce("div", { className: "diag-row" }, rce("span", { className: "lb", style: { paddingTop: 12 } }, "Diagnose"), rce(DiagInput, { value: p.diagnose || "", onChange: (val) => onUpdate((x) => ({ ...x, diagnose: val })) })), rce(QuickVerlauf, { p, onUpdate }), c48InWindow(p) && rce("div", { className: "row", style: { gap: 8, margin: "4px 0" } }, rce("button", { type: "button", className: "btn sm", onClick: onC48 }, rce(Ico, { k: "check48" }), " Checkliste 48 h")), rce("div", { className: "imc-grid" }, rce("div", { className: "imc-col" }, rce(FoldOpenCtx.Provider, { value: true }, rce(LappenPanel, { p, onUpdate })), rce(ImcCheck, { p, onUpdate }), rce(SlimUeb, { p, onUpdate }), rce(SlimTodo2, { p, onUpdate })), rce("div", { className: "imc-col" }, rce(ImcLage, { p, ss }), rce("section", { className: "tvcard imc-labs" }, rce("div", { className: "tvcard-h" }, rce("h2", null, rce(Ico, { k: "labor" }), " Labor"), rce("span", { className: "tag" }, "Wert eintragen, Enter")), rce("div", { className: "sllabs" }, IMC_LABS.map((n) => rce(SlimLabTile, { key: n, p, n, onUpdate })))), rce(KonsCard, { p, onUpdate, compact: true }), rce(ImcVerlegung, { p, onUpdate, onBrief }), rce("section", { className: "tvcard imc-verlauf" }, rce("div", { className: "tvcard-h" }, rce("h2", null, rce(Ico, { k: "verlauf" }), " Verlauf")), rce(VerlaufPrint, { p, compact: true })))), rce(WisSop, { p, onWord })));
+}
+function ImcListe({ pats, shiftStart, onOpen, onUpd }) {
+  const mine = pats.filter((p) => p.mine).sort(sortPat), others = pats.filter((p) => !p.mine).sort(sortPat);
+  return rce("div", null, rce("div", { className: "viewhead" }, rce("h1", null, "Meine Schicht"), rce("span", { className: "sub" }, "IMC · ", mine.length, " Patienten · Tagescheck, Lappen, Rücksprachen, Verlegung")), mine.length === 0 && rce("div", { className: "empty" }, "Keine eigenen Patienten — im Zimmerplan „Mein Patient“ setzen."), rce("div", { className: "slimgrid imc-cards" }, mine.map((p) => {
+    const u = onUpd ? (fn) => onUpd(p.id, fn) : null;
+    const pod = imcPod(p);
+    const lst = lappenStart(p), lk = lst ? lappenKette(p, lst) : null;
+    const ko = konsOffen(p), v = p.verlegung || {};
+    return rce("div", { key: p.id, className: "slimcard sl2c imc-card" }, rce("button", { type: "button", className: "slimcard-h", onClick: () => onOpen(p.id) }, rce("span", { className: "bedtag" }, bedLabel(p)), rce("b", null, p.name || "ohne Namen"), rce("span", { className: "tag" }, [itsTag(p) ? "Tag " + itsTag(p) : "", pod ? "POD " + pod.d : ""].filter(Boolean).join(" · "))), rce("div", { className: "slimdiag" }, p.diagnose || rce("span", { className: "dim" }, "keine Diagnose")), lk && rce("div", { className: "imc-lap" + (lk.overdue ? " over" : "") }, rce(Ico, { k: "lappen" }), " Lappen: ", lk.overdue ? `Kontrolle überfällig seit ${lapHM(lk.next)}` : `nächste Kontrolle ${lapHM(lk.next)}`), rce(ImcCheckMini, { p }), ko.length > 0 && rce("div", { className: "imc-kons" }, rce(Ico, { k: "kontakt" }), " ", ko.map((k) => `${k.fach}${k.st === "angefragt" ? " (angefragt)" : " (anfragen)"}`).join(" · ")), (v.ziel || v.datum) && rce("div", { className: "imc-vl" }, rce(Ico, { k: "plane" }), " ", [v.ziel, v.datum ? tagLabel(v.datum) : "", verlegOn(p, "zusage") ? "Bett zugesagt" : verlegOn(p, "bett") ? "Bett angefragt" : ""].filter(Boolean).join(" · ")), u && rce(SlimUeb, { p, onUpdate: u, kurz: true }), u && rce(SlimTodo2, { p, onUpdate: u }));
+  })), others.length > 0 && rce("div", { className: "olist" }, rce("div", { className: "ohead" }, "Weitere Patienten der Station (", others.length, ")"), others.map((p) => rce("button", { type: "button", key: p.id, className: "orow", onClick: () => onOpen(p.id) }, rce("span", { className: "bedtag" }, bedLabel(p)), rce("b", null, p.name || "ohne Namen"), rce("span", { className: "tag" }, p.diagnose || "")))));
+}
+function ImcPrintDoc({ state, pats, mode, withOthers }) {
+  const ss = state.shiftStart;
+  const mine = pats.filter((p) => p.mine), others = pats.filter((p) => !p.mine);
+  const title = (mode === "both" ? "Schicht & Übergabe" : mode === "uebergabe" ? "Übergabe" : "Schichtliste") + " — IMC";
+  const meta = mode === "uebergabe" || mode === "both" && ss ? `${fmtLong(nowISO())} · Schicht ${ss ? fmtT(ss) : "?"}–${fmtT(nowISO())}` : `${fmtLong(nowISO())} · Stand ${fmtT(nowISO())}`;
+  const pr = (ico, l, v, cls) => rce("div", { className: "pr" + (cls ? " " + cls : "") }, rce("span", { className: "l" }, rce(Ico, { k: ico }), l), rce("span", { className: "v" }, v));
+  return rce("div", { className: "paper slimpaper imcpaper" }, rce("div", { className: "ph" }, rce("h1", null, title), rce("span", { className: "meta" }, meta)), state.shiftNote && rce("div", { className: "pnote" }, state.shiftNote), mine.length === 0 && rce("div", { className: "pempty" }, "Keine eigenen Patienten markiert."), mine.map((p) => {
+    const pod = imcPod(p), nx = nextEingriff(p);
+    const todos = (p.todos || []).filter((t) => !t.done).sort(sortTodos);
+    const leer = Math.max(2, 5 - todos.length);
+    const ml0 = medsLine(p), ml = [...ml0.man, ...ml0.auto];
+    const ab = infektOf(p).therapie.filter((t) => !t.ende);
+    const ck = IMC_CHECK.map((it) => [it, imcLast(p, it)]).filter(([, e]) => e);
+    const v = p.verlegung || {};
+    const vst = VERLEG_ST.filter(([k]) => verlegOn(p, k)).map(([, l]) => l);
+    const dv = devsOf(p);
+    return rce("div", { key: p.id, className: "pp spp" }, rce("div", { className: "pph" }, rce("span", { className: "pbed" }, bedLabel(p)), rce("b", { className: "pname" }, p.name || "ohne Namen"), rce("span", { className: "pmeta" }, [itsTag(p) ? "Tag " + itsTag(p) : "", pod ? "POD " + pod.d : "", patGewicht(p) ? patGewicht(p) + " kg" : ""].filter(Boolean).join(" · "))), rce("div", { className: "pdx" }, p.diagnose || "—"), rce(SlimPrUeb, { p, ss }), pr("verlauf", "Verlauf", rce(VerlaufPrint, { p: druckP(p) })), (pod || nx) && pr("op", "OP", [pod ? `POD ${pod.d} · ${pod.o.text}` : "", nx ? `geplant: ${eingriffKurz(nx)}` : ""].filter(Boolean).join(" · ")), ck.length > 0 && pr("check48", "Tagescheck", ck.map(([it, e], i) => {
+      const val = imcVal(e), heute = ymdOf(new Date(e.t)) === todayYMD();
+      return rce("span", { key: it.k, className: heute ? "" : "pmut" }, i ? " · " : "", it.l, ": ", IMC_BAD.test(val) ? rce("b", null, val) : val, heute ? "" : ` (${crsD(e.t)})`);
+    })), pr("labor", "Labor", rce("span", { className: "plabs slabs" }, IMC_LABS.map((n) => {
+      const l = (p.labs || {})[n];
+      const vals = l ? (l.vals || []).slice(-2) : [];
+      const sig = l ? labCmp(n, l.vals).sig : null;
+      const tr = l ? labTrend(l.vals, n) : "";
+      return rce("span", { key: n, className: "pl1" + (sig ? " sig" : "") + labRefCls(n, l ? l.vals : []) }, sig && rce("span", { className: "psig" }, "⚠"), rce("span", { className: "pln" }, n), " ", vals.length ? vals.map((x, i) => rce("span", { key: x.id, className: i === vals.length - 1 ? "lcur" : "lold" }, i > 0 && rce("span", { className: "sp" }, "›"), x.v)) : "—", tr ? rce("span", { className: "tr" }, " ", tr) : null);
+    }))), ml.length > 0 && pr("meds", "Medis", ml.map((t, i) => rce(React.Fragment, { key: i }, i ? " · " : "", kwMed(t))), "pmeds"), ab.length > 0 && pr("infekt", "Antiinfekt.", ab.map((t) => `${t.name}${abTag(t) ? " Tag " + abTag(t) : ""}`).join(" · ")), akOf(p) && pr("antikoag", "Antikoag.", kwMed(akLine(p)), "pak"), dv.length > 0 && pr("devices", "Zugänge", dv.map((d, i) => rce(React.Fragment, { key: d.id }, i ? " · " : "", devFlag(d) ? rce("b", null, devText(d)) : devText(d)))), rce(KonsDruck, { p, ss }), (v.ziel || v.datum || vst.length > 0) && pr("plane", "Verlegung", [v.ziel, v.datum ? `geplant ${tagLabel(v.datum)} (${fmtYMD(v.datum)})` : "", ...vst].filter(Boolean).join(" · ")), rce("div", { className: "stodobox" }, rce("div", { className: "sth" }, "To-Do"), todos.map((t) => rce("div", { key: t.id, className: "stl" }, "☐ ", t.prio === 1 ? "‼ " : "", t.text)), Array.from({ length: leer }, (_, i) => rce("div", { key: "e" + i, className: "stl empty" }, "☐"))), rce(TkPrintSlots, { p, ss }));
+  }), withOthers && others.length > 0 && rce(React.Fragment, null, rce("div", { className: "psec" }, "Weitere Patienten der Station"), rce("table", { className: "ptab" }, rce("thead", null, rce("tr", null, rce("th", null, "Zi"), rce("th", null, "Name"), rce("th", null, "Diagnose"), rce("th", null, "OP / Tag"))), rce("tbody", null, others.map((p) => {
+    const pod = imcPod(p);
+    return rce("tr", { key: p.id }, rce("td", null, bedLabel(p)), rce("td", null, p.name || "—"), rce("td", null, p.diagnose || "—"), rce("td", null, pod ? `POD ${pod.d}` : itsTag(p) ? `Tag ${itsTag(p)}` : "—"));
+  })))), rce("div", { className: "pfoot" }, rce("span", null, "IMC-Modus · Tagescheck: fett = auffällig, grau mit Datum = nicht von heute · Verlauf: schwarz = Aufnahme und letzte 48 h, grau = älter, blauer Rahmen = OP · ⚠ relevanter Labortrend · ☐ offen, ✓ erledigt"), rce("div", { className: "pabk" }, "Abkürzungen: IMC Intermediate Care · POD postoperativer Tag · NAS numerische Analogskala (Schmerz) · RR Blutdruck · O2 Sauerstoff · HFNC High-Flow-Nasenkanüle · DK Dauerkatheter · VW Verbandswechsel · Hb Hämoglobin · Leukos Leukozyten · CRP C-reaktives Protein · Krea Kreatinin · K+ Kalium · Na+ Natrium · ZVK zentraler Venenkatheter · PVK periphere Venenverweilkanüle · NMH niedermolekulares Heparin · AB Antibiotika")));
+}
+/* --- Ernährung: Fresubin Hepa (Fresenius Kabi, Sondennahrung: 1,3 kcal/ml, 4 g Protein, 4,7 g Fett, 17,4 g KH je 100 ml, 44 % BCAA) --- */
+const HEPA_RE = /leberzirrhose|leberversagen|leberinsuffizienz|hepatische enzephalopathie|\bACLF\b|child[- ]?(pugh[- ]?)?[BC]\b/i;
+function ernVorschlaege(p, items, B, Z) {
+  const V = ernVorschlaegeOrig(p, items, B, Z);
+  const txt = `${p.diagnose || ""} ${(p.vorerkrankungen || []).join(" ")}`;
+  if (HEPA_RE.test(txt) && !items.some((i) => i.prod === "hepa")) {
+    const ent = items.find((i) => (ernP(i.prod) || {}).art === "enteral" && ernNum(i.v));
+    const rate = B.kcal ? Math.round(B.kcal / (1.3 * 24)) : ent ? ernNum(ent.v) : 0;
+    V.push({ lvl: "i", t: `Leberinsuffizienz: Fresubin Hepa erwägen (1,3 kcal/ml, 4 g Protein/100 ml, 44 % verzweigtkettige Aminosäuren)${rate ? ` — für 100 % kcal ${rate} ml/h` : ""}${ent ? `, ${ernP(ent.prod).n} dann entfernen` : ""}`, set: { prod: "hepa", v: String(rate || "") } });
+  }
+  return V;
+}
+/* --- Demo: lange Liegezeit mit Verlauf (Zi 3), IMC-Beispiele (Zi 6, Zi 7) --- */
+function burnDemoState() {
+  const s = burnDemoStateBase();
+  const dAgo = (days, h = 8, m = 0) => {
+    const d = new Date();
+    d.setDate(d.getDate() - days);
+    d.setHours(h, m, 0, 0);
+    return d.toISOString();
+  };
+  const hAgo = (h) => new Date(Date.now() - h * H).toISOString();
+  const ymdAgo = (days) => {
+    const d = new Date();
+    d.setDate(d.getDate() - days);
+    return ymdOf(d);
+  };
+  const E = (t, text, x = {}) => ({ id: uid(), t, text, ...x });
+  const V = (t, v) => E(t, ventText(v, null), { vent: v });
+  const K = (e, src, delDays) => ({ ...e, _src: src, _del: dAgo(delDays, 7) });
+  const addTo = (p, k, list) => {
+    const sy = p.systeme || {}, cur = sy[k] || { flag: "ok", entries: [] };
+    return { ...p, systeme: { ...sy, [k]: { ...cur, entries: [...cur.entries || [], ...list].sort(byT) } } };
+  };
+  const tsOf = (days) => tMs(dAgo(days, 12));
+  const pats = { ...s.patients };
+  Object.entries(pats).forEach(([id, p0]) => {
+    let p = p0;
+    if (p.zimmer === 3) {
+      p = addTo(p, "pulmo", [V(dAgo(23, 5), { mode: "bipap", pinsp: 26, peep: 10, fio: 0.6 }), V(dAgo(21, 9), { mode: "bipap", pinsp: 24, peep: 8, fio: 0.45 }), V(dAgo(16, 9), { mode: "asb", peep: 8, asb: 14, fio: 0.4 })]);
+      p = addTo(p, "abdomen", [E(dAgo(22, 10), "Zottenpflege 10 ml/h", { ern: true }), E(dAgo(20, 10), "Fresubin HPenergy 40 ml/h", { ern: true }), E(dAgo(18, 10), "Fresubin HPenergy 60 ml/h + Olimel 5,7 % zentral 40 ml/h", { ern: true }), E(dAgo(15, 10), "Fresubin HPenergy 75 ml/h", { ern: true })]);
+      p = addTo(p, "kreislauf", [E(dAgo(18, 14), "katecholaminfrei")]);
+      p = {
+        ...p,
+        verlauf: [...p.verlauf || [], E(dAgo(18, 15), "Bronchoskopie: Sekretabsaugung, Bronchialtoilette", { sys: "pulmo" }), E(dAgo(14, 7), "Septischer Schock bei VAP — Eskalation auf Meropenem", { sys: "infekt" })].sort(byT),
+        meds: [{ id: uid(), t: dAgo(23, 4), text: "Noradrenalin 0,08 µg/kg/min", tc: dAgo(19, 9), hist: [{ t: dAgo(23, 4), text: "Noradrenalin 0,15 µg/kg/min" }, { t: dAgo(22, 8), text: "Noradrenalin 0,32 µg/kg/min" }], dmax: { v: 0.32, unit: "µg/kg/min", t: dAgo(22, 8) }, ende: dAgo(18, 14) }, { id: uid(), t: dAgo(23, 4), text: "Propofol 2 mg/kg/h", ende: dAgo(12, 9) }, { id: uid(), t: dAgo(23, 4), text: "Sufentanil 0,4 µg/kg/h", ende: dAgo(11, 16) }, ...p.meds || []],
+        kept: [K(E(dAgo(22, 11), "Bronchoskopie: Ruß bis Segmentebene, Lavage"), "verlauf", 20), K(E(dAgo(12, 9), "Delir (CAM-ICU +), Dexmedetomidin begonnen"), "sys:neuro", 10), K(E(dAgo(9, 9), "CAM-ICU negativ"), "sys:neuro", 6), K(E(dAgo(7, 10), "Rö-Thorax: Infiltrat re. Unterfeld"), "verlauf", 5), K({ id: uid(), t: dAgo(14, 9), prod: "EK", n: 2, ind: "Hb < 7" }, "tf", 10)],
+        labArch: { CRP: [[ymdAgo(20), 150, 210, 190, tsOf(20)], [ymdAgo(14), 240, 286, 260, tsOf(14)], [ymdAgo(8), 118, 140, 120, tsOf(8)]], PCT: [[ymdAgo(14), 2.6, 4.1, 3.8, tsOf(14)], [ymdAgo(8), 0.9, 1.2, 0.9, tsOf(8)]], Krea: [[ymdAgo(23), 1, 1, 1, tsOf(23)], [ymdAgo(5), 2.4, 3.1, 3.1, tsOf(5)], [ymdAgo(3), 3.2, 3.9, 3.6, tsOf(3)]], Hb: [[ymdAgo(14), 6.8, 7.6, 7.6, tsOf(14)]], "p/F": [[ymdAgo(22), 132, 180, 170, tsOf(22)], [ymdAgo(14), 160, 210, 210, tsOf(14)]], "Na+": [[ymdAgo(5), 148, 151, 149, tsOf(5)]] },
+        konsile: [{ id: uid(), t: hAgo(31), fach: "Nephrologie", frage: "Nierenersatztherapie bei AKI KDIGO 3?", st: "erledigt", tAnf: hAgo(31), erg: "CiCa beginnen, Entzug zunächst 0–50 ml/h, Reevaluation nach 72 h", tErg: hAgo(30.5) }, { id: uid(), t: hAgo(3), fach: "Plastische Chirurgie", frage: "Restdefekte Gesäß — OP-Planung?", st: "angefragt", tAnf: hAgo(3) }, { id: uid(), t: hAgo(1), fach: "Sozialdienst", frage: "Frühreha-Antrag, Angehörige", st: "offen" }]
+      };
+    }
+    if (p.zimmer === 6) {
+      p = addTo(p, "kreislauf", [E(hAgo(3), "Vitalparameter: stabil", { imc: "vital" })]);
+      p = addTo(p, "neuro", [E(hAgo(3.2), "Schmerz: NAS ≤ 3", { imc: "schmerz" }), E(hAgo(5), "Mobilisation: Bettruhe", { imc: "mobi" })]);
+      p = addTo(p, "abdomen", [E(hAgo(4), "Kost: Vollkost", { imc: "kost" })]);
+      p = addTo(p, "wunde", [E(hAgo(4.5), "Drainagen: fördern wenig", { imc: "drain" })]);
+      p = { ...p, konsile: [{ id: uid(), t: hAgo(2), fach: "Plastische Chirurgie", frage: "Mobilisationsfreigabe, Heparin-Dauer?", st: "angefragt", tAnf: hAgo(2) }], verlegung: { ziel: "Normalstation Plastische Chirurgie", datum: ymdAgo(-2), st: {} } };
+    }
+    if (p.zimmer === 7) {
+      p = addTo(p, "neuro", [E(hAgo(2), "Schmerz: NAS 4–6", { imc: "schmerz" }), E(hAgo(2.5), "Mobilisation: Gehen mit Hilfe", { imc: "mobi" })]);
+      p = addTo(p, "abdomen", [E(hAgo(3), "Kost: Vollkost", { imc: "kost" })]);
+      p = { ...p, verlegung: { ziel: "Normalstation Plastische Chirurgie", datum: ymdAgo(-1), st: { faehig: hAgo(1), bett: hAgo(0.5) } } };
+    }
+    pats[id] = p;
+  });
+  return { ...s, patients: pats };
 }
 
   ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App, null));
