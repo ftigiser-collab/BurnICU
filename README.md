@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.22.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.22.2 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,11 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.22.2
+
+- **Katecholamine bei IMC-Patienten**: erste Zeile im Tagescheck — „keine“, Noradrenalin in µg/kg/min eintragen (ml/h wird nach Gewicht und Perfusor dazugerechnet), „= unverändert“, „beendet“ und „+ anderes“ (z. B. Adrenalin). Zeigt, ob in dieser Schicht schon abgefragt, und warnt bei kritischem NA-Anstieg.
+- Katecholamine stehen in der IMC-Lage (ohne Hinweis „ITS-Ansicht?“), auf der IMC-Karte in Meine Schicht und im Druck als eigene Zeile (nicht mehr doppelt unter Medis).
 
 ## Neu in 3.22.1
 
