@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.22.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.22.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,14 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.22.1
+
+- **IMC pro Patient statt für die ganze App**: Der Schalter oben rechts ist weg. Im Patientenkopf „→ IMC“ stellt nur diesen Patienten auf die IMC-Ansicht um, „→ ITS“ wieder zurück; bei Aufnahme und in den Stammdaten unter „Ansicht“ (ITS / IMC) wählbar.
+- IMC-Patienten tragen ein **IMC-Kennzeichen** im Zimmerplan und in der Bettenleiste; die IMC-Ansicht hat jetzt ebenfalls die Bettenleiste, man springt direkt zwischen ITS- und IMC-Patienten.
+- **Meine Schicht** gemischt: ITS-Patienten wie gewohnt, darunter „Patienten in IMC-Ansicht“ als IMC-Karten. **Druck** gemischt: IMC-Patienten im IMC-Zuschnitt (Tagescheck, OP/POD, Rücksprachen, Verlegung) mit eigener Legende und Abkürzungen.
+- Erinnerungen, die nur fehlende Doku anmahnen (Diurese, PiCCO, Stuhlgang, Pflichtwerte), entfallen nur noch für IMC-Patienten.
+- Demo: Zi 6 und 7 sind IMC-Patienten.
 
 ## Neu in 3.22.0
 
