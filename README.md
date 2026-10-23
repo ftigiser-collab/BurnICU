@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.22.2 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.23.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,13 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.23.0
+
+- **Verbrennungs-Specials erst ab 20 % VKOF**: Schockphase und Volumen nach SOP (Rule of 10, Reevaluation, Ringer-Azetat-Hinweise), Checkliste 48 h, Metabolisches Bündel, Diureseziel 0,3 ml/kg/h, burn-spezifische Erinnerungen, Fokus- und Rundgang-Punkte, SOP-Vorschläge, Ernährung mit 1,5 g/kg Protein und Fibrinogen in der Bestandsaufnahme greifen nur noch ab 20 % VKOF. Darunter wird der Patient wie ein normaler Intensiv- bzw. IMC-Patient geführt; die Karte „Verbrennung“ bleibt für die Daten (VKOF, Unfallzeit, IHT, Strom) und sagt, warum keine Specials laufen. Fehlt die VKOF, gelten die Specials nur bei Vorab-Aufnahmen.
+- **PiCCO muss aktiviert werden**: ohne Aktivierung keine Eingabe, keine Hinweise, kein Schicht-To-Do; Knopf „PiCCO aktivieren“ unter Kreislauf bzw. Devices & Orga. Patienten mit bereits erfassten Messungen gelten als aktiviert. Das Schicht-To-Do „PiCCO-Messung“ gilt jetzt für jeden aktivierten Patienten (bei Verbrennung ab 48 h).
+- „nicht intubiert“ wird nicht mehr als Intubation gewertet (Verlauf, Beatmungsphasen im Arztbrief).
+- Neu: **Alltag-Version** unter /BurnICU/tablet/ (ersetzt den Tablet-Test, siehe tablet/README.md). Sie nutzt dieselben Daten wie diese App.
 
 ## Neu in 3.22.2
 
