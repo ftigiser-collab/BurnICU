@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.23.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.23.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,15 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.23.1
+
+- **Wechsel ITS → IMC ohne Informationsverlust**: Die IMC-Ansicht zeigt jetzt alles, was in der ITS-Ansicht erfasst wurde.
+  - Neue Karte **Infektio** mit Fokus, Erreger (Material, Resistenz) und laufenden Antiinfektiva, „beenden“ und der vollständigen Infektionskarte zum Aufklappen.
+  - Neuer Bereich **„Alle Intensiv-Daten“** unten: alle Organe (Status, letzter Eintrag) und Therapien (Diurese, Bilanz, Transfusion, Verbrennung, Ernährung, Medikation, Antikoagulation) wie in der ITS-Ansicht, antippen zum Ansehen und Bearbeiten; dazu alle Laborwerte, Zugänge & Devices, geplante Eingriffe, Organisation & Aufklärung, Notiz und Verlauf bearbeiten. Im Kopf steht, welche Daten vorhanden sind.
+  - Kopfzeile mit VKOF und Vorerkrankungen; IMC-Karte in Meine Schicht mit Erregern und laufenden Antiinfektiva.
+- **IMC-Druck**: Beatmungs- und Infektioverlauf (Fokus, Erreger mit Material und Resistenz, Antiinfektiva mit Zeiträumen, aktuellstes fett) statt nur laufender Antiinfektiva; dazu — nur wenn vorhanden — Organe (letzter Eintrag + Neues aus der Schicht, Baustelle umrandet), Diurese, Bilanz, Transfusion, Ernährung, PiCCO, CiCa, weitere Laborwerte der letzten 48 h (Labor+), offene Orga-Punkte, Vertretung/Aufklärung und Notiz. VE und VKOF im Kopf. Legende ergänzt.
+- Gilt genauso für die einfache Maske der Alltag-Version.
 
 ## Neu in 3.23.0
 

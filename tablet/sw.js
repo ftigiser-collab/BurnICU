@@ -1,6 +1,6 @@
 /* BurnICU Alltag — eigener Service Worker für den Unterordner /tablet/.
    Eigener Cache-Präfix, damit sich Original und Spin-off nicht gegenseitig aufräumen. */
-const VERSION = 'bicu-tablet-v3.23.0-a1';
+const VERSION = 'bicu-tablet-v3.23.1-a1';
 const PREFIX = 'bicu-tablet-';
 const CORE = [
   './',
