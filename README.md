@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.24.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.25.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,21 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.25.0
+
+- **Schockphase auf der Übersicht** (≥ 20 % VKOF, h 0–48 nach Unfall), ganz oben unter den Pflichtwerten:
+  - Kopf: Stunde nach Unfall, Unfallzeit, h 8, Ende h 48; ab > 40 % VKOF der **ABSI** mit Überlebenswahrscheinlichkeit (fehlen Alter/Geschlecht, steht das da).
+  - **Eine klare Anweisung** nach SOP-Reevaluation: „Laufrate erhöhen 450 → 540 ml/h (+20 %)“, „senken (−10 %)“, „halten — nächste Reevaluation um …“ oder „Stundendiurese eintragen“, mit Knopf „übernehmen“; darunter die fünf Ziele (Diurese, HI, ScvO2, Laktat, Rekap) als ✓/✗/?.
+  - Kacheln: Diurese letzte Stunde (direkt eintragen), Laufrate (direkt ändern), **Volumen seit Unfall** (Ist gegen Rule of 10 × Stunden ab Stunde 0) und Grenzen (ml/kg/% VKOF, Ivy-Index).
+  - **Präklinik + Schockraum**: Menge und Uhrzeit „bis“ eintragen; die App vergleicht mit dem Soll ab Unfall. Defizit > 20 % (mind. 500 ml) und Diurese unter Ziel → Vorschlag einer höheren Laufrate für die nächsten Stunden (bis h 8, sonst 4 h; max. 2 × Rule of 10), Diurese im Ziel → nicht nachschieben. Übertherapie → Laufrate nicht über Rule of 10, −10 % (Fluid Creep); bei Übertherapie und trotzdem Oligurie → abdominelles Kompartmentsyndrom, HI, Blutung, Myoglobin prüfen statt steigern.
+  - Fehlt die Unfallzeit, fragt die Karte danach. Die Karte erscheint auch in der IMC-Ansicht bzw. einfachen Maske.
+- **ABSI ab > 40 % VKOF** zusätzlich in der Kopfzeile des Drucks, in der Zusammenfassung „Verbrennung“ und auf der Checkliste 48 h.
+- **CK nach SOP Crush**: Myoglobin-Peak < 24 h (> 4.000 ng/ml), CK-Peak 24–36 h (> 5.000 U/l → SOP Crush); serielle Kontrolle alle 6 h, endet erst, wenn CK nach h 24 fällt.
+- **FFP nur nach Gerinnungssituation**, nicht mandatorisch (Checkliste, To-Do, Erinnerung, Volumenhinweise, Wissen).
+- **RASS/BPS/CAM-ICU** erscheinen nicht mehr als automatisches To-Do.
+- **ACS** überall ausgeschrieben als „abdominelles Kompartmentsyndrom“ (keine Verwechslung mit akutem Koronarsyndrom).
+- Abkürzungen: ABSI Abbreviated Burn Severity Index · VKOF verbrannte Körperoberfläche · SR Schockraum · HI Herzindex · ScvO2 zentralvenöse O2-Sättigung · Rekap Rekapillarisierungszeit · CK Kreatinkinase · FFP Fresh Frozen Plasma · RASS Richmond Agitation-Sedation Scale · BPS Behavioral Pain Scale · CAM-ICU Confusion Assessment Method for the ICU · ZVD zentraler Venendruck · VCI Vena cava inferior · SOP Standardvorgehen
 
 ## Neu in 3.24.0
 
