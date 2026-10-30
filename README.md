@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.23.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.24.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,17 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.24.0
+
+- **Checkliste 48 h → To-Dos** (Verbrennung ≥ 20 % VKOF, erste 48 h nach Unfall): Die offenen Punkte erscheinen zeitlich passend als To-Do, gesammelt unter „Checkliste 48 h“ — bei Ankunft (Rule of 10, Atemweg, Escharotomie, Aufnahmelabor, DK/Magensonde, ggf. ZVK + PiCCO, Strom-Monitoring, Heparin p.i. bei Ruß), ab h 1–6 (Analgosedierung, Bronchoskopie nur bei Intubierten, enteral, VKOF nachmessen, FFP), ab h 8–12 (Natrium/Albumin-Ziel, Ivy-Index, Laborkontrolle, Enoxaparin, OP-Plan) und ab h 24 (Rate senken, Ernährung, Verbandswechsel, Zugänge durch Brandhaut). Was schon erledigt oder nicht zutreffend ist (Rate läuft, Ernährung läuft, Antikoagulation angesetzt, nicht intubiert …), erscheint nicht. Abhaken im To-Do hakt in der Checkliste ab und umgekehrt. Fehlt die Unfallzeit, kommen nur die Ankunfts-Punkte plus „Unfallzeit eintragen“.
+- **Inhalations-Intoxikation** (vorher „Rauchgas“): CO und Cyanid getrennt — Exposition (beide), CO erkennen/handeln, Cyanid erkennen/handeln, dazu Inhalationstrauma.
+  - **CO-Verdacht** (COHb ≥ 10 % bzw. angekreuzt erhöht, SpO2 normal trotz Klinik, Exposition + Symptome ohne COHb-Wert) → To-Dos: 100 % O2 für 6 h (SOP), COHb bestimmen bzw. nach 6 h kontrollieren (Eingabe direkt im To-Do), EKG + Troponin, bei Bewusstseinsstörung HBO erwägen.
+  - **Cyanid-Verdacht** (Exposition + Bewusstseinsstörung, Kreislaufinstabilität oder Laktat > 10 mmol/l) → To-Dos: vorher Blut, Hydroxocobalamin 5 g i.v. über 15 min (keine Nitrite/4-DMAP); danach Laktat/Kreislauf nach 1–2 h (2. Dosis 5 g, max. 10 g) und Labor/Dialyse wegen Rotfärbung informieren.
+  - **ScvO2 ist kein alleiniges Kriterium** mehr für den Cyanid-Verdacht, nur unterstützend.
+- **Strom: CK seriell** — CK-Peak erst nach 5–12 h; eigenes wiederkehrendes To-Do „CK/Myoglobin alle 6 h bis fallend“ mit Werteingabe, bisherigem Maximum und Hinweis SOP Crush ab CK-Peak > 4.000 U/l. Gilt für alle Stromunfälle in den ersten 48 h, unabhängig von der VKOF. In der Checkliste unter h 8–24.
+- Checkliste: Aufnahmelabor mit Ca2+ und Phosphat (Ca2+ auch als BGA-Feld), FFP ab h 6 und Albumin in h 0–8 nur erwägen (auch in Erinnerung und Volumenhinweis), Bronchoskopie nur bei Intubierten. Druck weiterhin eine Seite.
+- Abkürzungen: VKOF verbrannte Körperoberfläche · CO Kohlenmonoxid · COHb Carboxyhämoglobin · ScvO2 zentralvenöse O2-Sättigung · HBO hyperbare Oxygenierung · 4-DMAP 4-Dimethylaminophenol · CK Kreatinkinase · Ca2+ ionisiertes Kalzium · FFP Fresh Frozen Plasma · IHT Inhalationstrauma · AIS Abbreviated Injury Score · SOP Standardvorgehen · U/l Units pro Liter
 
 ## Neu in 3.23.1
 
