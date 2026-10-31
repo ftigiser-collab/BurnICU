@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.25.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.26.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -14,6 +14,16 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
    `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
+
+## Neu in 3.26.0
+
+- **24-h-Ablaufplan zum Ausdrucken** (Verbrennung > 30 % VKOF, erste 48 h): Knopf „24-h-Plan drucken“ in der Schockphase-Karte oder Drucken → „Verbrennung 24 h“ (Patienten wählbar, ab jetzt oder ab Unfall). Eine A4-Seite je Patient:
+  - Kopf mit Unfallzeit, VKOF, Gewicht, IHT/Strom, ABSI; Kästen Rule of 10, Laufrate jetzt, Diureseziel, Volumen seit Unfall (Ist/Soll), Grenzen (Ivy-Index, 6 ml/kg/% VKOF); Hinweis „Jetzt …“ und ggf. Defizit/Übertherapie.
+  - **Schritt-Tabelle** von 0,5 × bis 2 × Rule of 10: Rate suchen, +20 % bzw. −10 % ablesen; Rule of 10 umrandet, aktuelle Rate gelb, über 2 × Rule of 10 grau (Eskalation).
+  - **Stundentabelle (24 Zeilen)**: Diurese ml, ml/kg/h, Ziel ✓, HI, ScvO2, Laktat, Rekap, Entscheidung ↑ = ↓, Laufrate neu, Soll kumulativ ab Unfall (vorberechnet), Ist kumulativ, IAP alle 4 h, Kürzel. Vergangene Stunden sind aus den eingetragenen Werten vorbefüllt (grau). Linie bei h 8, h 24, h 48.
+  - **Must-dos mit Uhrzeit** zum Abhaken: offene Punkte der Checkliste 48 h im Zeitfenster, CO/Cyanid-Schritte bei Verdacht, CK/Myoglobin-Zeiten bei Strom; Legende der Abkürzungen.
+- **(i) statt grauer Erklärtexte**: Hinweise in den Bereichsköpfen und rund 70 erklärende Zeilen (SOP-Herkunft, Bedienhinweise, Quellen) stehen nur noch hinter einem kleinen (i) — antippen zeigt den Text, antippen daneben schließt ihn. Statusmeldungen und Warnungen bleiben sichtbar.
+- Abkürzungen: VKOF verbrannte Körperoberfläche · IHT Inhalationstrauma · ABSI Abbreviated Burn Severity Index · HI Herzindex · ScvO2 zentralvenöse O2-Sättigung · Rekap Rekapillarisierungszeit · IAP intraabdomineller Druck · CK Kreatinkinase · CO Kohlenmonoxid · SOP Standardvorgehen
 
 ## Neu in 3.25.0
 
