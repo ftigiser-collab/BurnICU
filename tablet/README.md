@@ -2,14 +2,15 @@
 
 Adresse: https://ftigiser-collab.github.io/BurnICU/tablet/
 
-Alltagstaugliche Version der BurnICU-App (vorher „Tablet-Test“). Gleicher Stand wie BurnICU 3.26.0, nutzt **dieselben Daten** (gleicher Browserspeicher auf derselben Adresse) — was hier eingetragen wird, steht auch in der Original-App und umgekehrt. Eigener Offline-Speicher und eigenes Update.
+Alltagstaugliche Version der BurnICU-App (vorher „Tablet-Test“). Gleicher Stand wie BurnICU 3.27.0, nutzt **dieselben Daten** (gleicher Browserspeicher auf derselben Adresse) — was hier eingetragen wird, steht auch in der Original-App und umgekehrt. Eigener Offline-Speicher und eigenes Update.
 
-## Unterschiede zur Original-App (3.26.0)
+## Unterschiede zur Original-App (3.27.0)
 
 - **Einfache Maske für alle Patienten**, „→ Intensivpatient“ im Kopf schaltet nur diesen Patienten auf die ausführliche Intensiv-Maske mit allen Reitern; „→ einfache Maske“ zurück. Auch bei Aufnahme und in den Stammdaten wählbar (Maske: einfach / Intensiv). Intensivpatienten tragen „ITS“ im Zimmerplan und in der Bettenleiste. Hinweis „Intensivpflichtig?“ bei ≥ 20 % VKOF, invasiver Beatmung, Katecholaminen, CiCa oder aktivem PiCCO.
 - **Einfache Maske**: In dieser Schicht | Weiteres Procedere | Besonderheiten, Status heute (Atmung Raumluft/O2 l/min/HFNC/NIV, Katecholamine, Vitalparameter, Schmerz, Mobilisation, Kost, Ausscheidung, Drainagen, Wunde), To-Do, Übergabe, Medikation, Labor, Infektio (mit vollständiger Infektionskarte zum Aufklappen), Rücksprachen, gesamte Geschichte, Verlegung, Lappenkontrolle.
 - **Spalten „In dieser Schicht“ und „Weiteres Procedere“** in beiden Masken und auf dem Druck. Die Schicht-Spalte füllt sich automatisch (Verlauf, Organe, neue/geänderte/beendete Medikamente, Antiinfektiva, Eingriffe, Transfusionen, Rücksprachen, Zugänge); Procedere wird eingetragen, dazu automatisch geplante Eingriffe, Verlegung und geplantes AB-Ende.
 - **Auf jedem Druck außer Blanko**: Krankheits- und OP-Verlauf, Beatmungsverlauf (wann und wie: invasiv mit Modus, NIV, HFNC, O2, Raumluft, Tracheotomie) und Infektioverlauf (Fokus, Erreger, Antiinfektiva mit Zeiträumen) — das Aktuellste fett, OPs blau umrandet. Gilt für Schicht & Übergabe, Infektio / Mini-Visite (Verlauf und Beatmung), To-Do-Liste und Checkliste 48 h.
+- Wie in der Original-App 3.27.0: Live-Abgleich mit BurnStart (../start/) und anderen Fenstern, Menüeintrag „BurnStart“, Link „BurnStart ↗“ in der Schockphase-Karte.
 - Wie in der Original-App 3.26.0: 24-h-Ablaufplan zum Ausdrucken bei Verbrennung > 30 % VKOF (Schritt-Tabelle, Stundentabelle für Diurese und Laufrate, Must-dos mit Uhrzeit); Erklärtexte nur noch hinter (i).
 - Wie in der Original-App 3.25.0: Schockphase-Karte auf der Übersicht (Diurese, Laufrate, Volumen ab Unfall mit Defizit/Übertherapie, ABSI ab > 40 % VKOF), CK nach SOP Crush, FFP nur nach Gerinnung, kein RASS-To-Do, abdominelles Kompartmentsyndrom ausgeschrieben.
 - Wie in der Original-App 3.24.0: Checkliste 48 h erscheint zeitlich passend als To-Do (≥ 20 % VKOF), Inhalations-Intoxikation mit CO und Cyanid getrennt und Schritten als To-Do, CK seriell bei Strom (siehe README der Original-App).
