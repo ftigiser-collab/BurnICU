@@ -1,6 +1,6 @@
 # BurnICU — V1 Schicht- und Übergabeliste
 
-Version 3.27.0 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
+Version 3.27.1 · Offline-fähige Web-App (PWA) für die Verbrennungs-Intensivstation V1.
 Adresse: https://ftigiser-collab.github.io/BurnICU/
 
 Daten bleiben ausschließlich lokal auf dem Gerät (Browserspeicher). Arbeitsdokument, keine Patientenakte — Aliasnamen verwenden.
@@ -11,15 +11,19 @@ Die Dateien sind kein Installationspaket — installiert wird die App erst von d
 
 1. github.com → Repo **BurnICU** öffnen (am Handy ggf. „Desktop-Website“ in Chrome aktivieren).
 2. „Add file“ → „Upload files“ → diese Dateien auswählen:
-   `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md` und den Ordner `start/`
+   `index.html`, `sw.js`, `version.json`, `manifest.webmanifest`, `v1-alt.html`, `README.md`
    Gleichnamige Dateien werden ersetzt. Der Ordner `icons/` bleibt unverändert, er ist schon im Repo.
 3. „Commit changes“. Nach 1–2 Minuten ist die neue Version unter der Adresse oben online (Settings → Pages: Branch `main`, `/ (root)`).
 
+## Neu in 3.27.1
+
+- Die neue App heißt **LUminate** und liegt im eigenen Repo **LUminate**: https://ftigiser-collab.github.io/LUminate/ (der Ordner `start/` entfällt). Gleiche Domain → weiterhin derselbe Speicher wie BurnICU.
+- Menü ⋯ → „LUminate“ und „LUminate ↗“ in der Schockphase-Karte zeigen auf die neue Adresse.
+
 ## Neu in 3.27.0
 
-- **BurnStart** — neue eigene App unter https://ftigiser-collab.github.io/BurnICU/start/ (Ordner `start/`, siehe start/README.md): Verbrennung ≥ 20 % VKOF von der Aufnahme bis Tag 5 — Checkliste mit Kontext (Pathophysiologie, Studien, SOP nur auf Klick) und Volumentherapie mit Stundentabelle, Nachtragen für Spätankömmlinge und Anweisung nach SOP. Nutzt **denselben Speicher** wie BurnICU: Patienten, Checkliste 48 h, Diurese, Laufraten, Labor, IAP, PiCCO-HI und Transfusionen gelten in beiden Apps.
-- **Live-Abgleich:** BurnICU übernimmt Änderungen aus BurnStart oder einem zweiten BurnICU-Fenster sofort (ohne Neuladen) und überschreibt sie nicht mehr.
-- Menü ⋯ → „BurnStart“ öffnet die neue App; in der Schockphase-Karte öffnet „BurnStart ↗“ direkt das Volumenprotokoll des Patienten.
+- **LUminate** (Verbrennung ≥ 20 % VKOF, Aufnahme bis Tag 5): Checkliste mit Kontext (Pathophysiologie, Studien, SOP nur auf Klick) und Volumentherapie mit Stundentabelle, Nachtragen für Spätankömmlinge und Anweisung nach SOP. Nutzt **denselben Speicher** wie BurnICU: Patienten, Checkliste 48 h, Diurese, Laufraten, Labor, IAP, PiCCO-HI und Transfusionen gelten in beiden Apps.
+- **Live-Abgleich:** BurnICU übernimmt Änderungen aus LUminate oder einem zweiten BurnICU-Fenster sofort (ohne Neuladen) und überschreibt sie nicht mehr.
 
 ## Neu in 3.26.0
 
